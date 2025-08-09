@@ -1,4 +1,3 @@
-using Unity.Burst.CompilerServices;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -55,7 +54,9 @@ public class PlayerMovement : MonoBehaviour
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
 
         // Move player
-        float moveX =  constantSpeed + (moveSpeed * horizontalInput);
+        //float moveX =  constantSpeed + (moveSpeed * horizontalInput);
+        float moveX =  moveSpeed * horizontalInput;
+
         rb.linearVelocity = new Vector2(moveX, rb.linearVelocity.y);
 
         // Jump
