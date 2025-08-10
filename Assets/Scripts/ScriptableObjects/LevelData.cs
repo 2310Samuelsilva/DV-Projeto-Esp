@@ -6,5 +6,8 @@ public class LevelData : ScriptableObject {
     public GameObject[] chunkPrefabs;
     public float baseScrollSpeed;
     public float gravity = 9.81f;
+
+
+    public float speedIncreaseDistanceThreshold;
     public float speedIncreaseRate;
 }

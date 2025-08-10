@@ -9,19 +9,19 @@ public class LevelManager : MonoBehaviour
     [Header("Scene References")]
     public Transform playerSpawnPoint;        // Where player starts
 
+    private float nextSpeedIncreaseDistance;
+
      
     [SerializeField] private GameObject worldManagerPrefab;
     
     private GameObject playerInstance;
     private WorldManager worldManager;
 
-    private float distanceTravelled = 0f;
-    private Vector3 lastPlayerPosition;
 
     void Start()
     {
         playerSpawnPoint = GameObject.Find("PlayerSpawnPoint").transform;
-
+        nextSpeedIncreaseDistance = levelData.speedIncreaseDistanceThreshold;
         //worldManager
         LoadLevel();
     }
@@ -39,6 +39,8 @@ public class LevelManager : MonoBehaviour
 
         // Spawn player
         playerInstance = Instantiate(transportData.prefab, playerSpawnPoint.position, Quaternion.identity);
+        PlayerController playerController = playerInstance.GetComponent<PlayerController>();
+        playerController.Initialize(transportData);
        
         // Spawn world manager
         GameObject wm = Instantiate(worldManagerPrefab, Vector3.zero, Quaternion.identity);
@@ -49,26 +51,29 @@ public class LevelManager : MonoBehaviour
 
     void Update()
     {
-        //TrackDistance();
-        //HandleSpeedIncrease();
+
+        
+        TrackDistance();
+        HandleSpeedIncrease();
     }
 
     private void TrackDistance()
     {
-        if (playerInstance != null)
-        {
-            distanceTravelled += (playerInstance.transform.position.x - lastPlayerPosition.x);
-            lastPlayerPosition = playerInstance.transform.position;
-        }
+
+
+        UIGameplayManager.Instance.UpdateDistanceUI(GetDistanceTravelled().ToString("F0"));
     }
 
-    private void HandleSpeedIncrease()
+   private void HandleSpeedIncrease()
+{
+    if (worldManager == null) return;
+
+    if (GetDistanceTravelled() >= nextSpeedIncreaseDistance)
     {
-        if (worldManager != null)
-        {
-            worldManager.SetScrollSpeed(levelData.speedIncreaseRate * Time.deltaTime);
-        }
+        worldManager.IncreaseScrollSpeed();
+        nextSpeedIncreaseDistance += levelData.speedIncreaseDistanceThreshold;
     }
+}
 
     public float GetDistanceTravelled()
     {

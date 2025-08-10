@@ -39,9 +39,9 @@ public class WorldManager : MonoBehaviour
         terrainLoader.MoveChunks(scrollSpeed);
     }
 
-    public void SetScrollSpeed(float newSpeed)
+    public void IncreaseScrollSpeed()
     {
-        scrollSpeed = newSpeed;
+        scrollSpeed += levelData.speedIncreaseRate * Time.deltaTime;
     }
     
     public float DistanceTravelled() { return distanceTraveled; }

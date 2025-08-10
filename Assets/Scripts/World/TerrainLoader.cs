@@ -5,16 +5,22 @@ public class TerrainLoader : MonoBehaviour
 {
     [SerializeField] private GameObject[] chunkPrefabs;  // Assign in inspector
     [SerializeField] private int chunksOnScreen = 5;
-    [SerializeField] private float chunkGap = 0.5f;
+    [SerializeField] private float chunkGap = 0f;
     [SerializeField] private float chunkYPosition = -2f;
-
+    private Camera mainCamera;
     private LevelData levelData;
 
     public Transform[] activeChunks;
     public Dictionary<ChunkData, float> chunkWidths = new Dictionary<ChunkData, float>();
 
+    private void Start()
+    {
+        mainCamera = Camera.main;
+    }
+
     public void Initialize(LevelData levelData)
     {
+
         Debug.Log("TerrainLoader: Initialize");
         this.levelData = levelData;
         this.chunkPrefabs = levelData.chunkPrefabs;
@@ -30,8 +36,10 @@ public class TerrainLoader : MonoBehaviour
         float spawnX = 0f;
 
         for (int i = 0; i < chunksOnScreen; i++)
-        {
-            GameObject prefab = chunkPrefabs[0]; // Start with first prefab or randomize if you want
+        {   
+
+            int randomIndex = Random.Range(0, chunkPrefabs.Length);
+            GameObject prefab = chunkPrefabs[randomIndex];
             float width = chunkWidths[GetChunkData(prefab)];
 
             GameObject chunk = Instantiate(prefab, new Vector3(spawnX, chunkYPosition, 0f), Quaternion.identity, transform);
@@ -54,12 +62,11 @@ public class TerrainLoader : MonoBehaviour
 
         foreach (var prefab in chunkPrefabs)
         {   
-            Debug.Log("TerrainLoader: prefab: " + prefab);
             float width = GetChunkWidth(prefab);
             ChunkData chunkData = GetChunkData(prefab);
             chunkWidths[chunkData] = width;
         }
-        Debug.Log("TerrainLoader: chunkWidths: " + chunkWidths);
+
     }
 
     private ChunkData GetChunkData(GameObject chunk)
@@ -85,13 +92,17 @@ public class TerrainLoader : MonoBehaviour
             chunk.position += Vector3.left * scrollSpeed * Time.deltaTime;
         }
 
+
+
         // Check if leftmost chunk went off-screen (fully past the left side)
         Transform leftmost = activeChunks[0];
         float leftmostWidth = chunkWidths[GetChunkData(leftmost.gameObject)];
-        if (leftmost.position.x + leftmostWidth < 0f)
+
+        float cameraLeftEdge = mainCamera.transform.position.x - (mainCamera.orthographicSize * mainCamera.aspect);
+
+        if (leftmost.position.x + leftmostWidth / 2f < cameraLeftEdge)
         {
-            Debug.Log("Leftmost chunk went off-screen, witdth: " + leftmost.position.x);
-            Debug.Log("Leftmost chunk went off-screen: " + leftmostWidth);
+
             ShiftChunks();
             LoadNewChunk();
 

@@ -15,5 +15,7 @@ MonoBehaviour:
   transportName: Foot
   prefab: {fileID: 3410917964373414578, guid: 8ace9216a3e9e4b40a3af2284ba16b86, type: 3}
   speedMultiplier: 0
-  jumpForce: 0
+  jumpForce: 10
+  fallMultiplier: 2
+  lowJumpMultiplier: 2
   handling: 0
