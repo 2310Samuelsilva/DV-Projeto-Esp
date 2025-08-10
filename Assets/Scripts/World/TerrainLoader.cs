@@ -3,15 +3,19 @@ using UnityEngine;
 
 public class TerrainLoader : MonoBehaviour
 {
-    [SerializeField] private GameObject[] chunkPrefabs;  // Assign in inspector
+    [SerializeField] private GameObject[] chunkPrefabs;  // Assign in inspector or via LevelData
     [SerializeField] private int chunksOnScreen = 5;
     [SerializeField] private float chunkGap = 0f;
     [SerializeField] private float chunkYPosition = -2f;
+
     private Camera mainCamera;
     private LevelData levelData;
 
-    public Transform[] activeChunks;
-    public Dictionary<ChunkData, float> chunkWidths = new Dictionary<ChunkData, float>();
+    private List<Transform> activeChunks = new List<Transform>();
+    private Dictionary<ChunkData, float> chunkWidths = new Dictionary<ChunkData, float>();
+
+    // Track where the next chunk should be spawned on the X axis
+    private float nextChunkSpawnX = 0f;
 
     private void Start()
     {
@@ -20,8 +24,6 @@ public class TerrainLoader : MonoBehaviour
 
     public void Initialize(LevelData levelData)
     {
-
-        Debug.Log("TerrainLoader: Initialize");
         this.levelData = levelData;
         this.chunkPrefabs = levelData.chunkPrefabs;
 
@@ -31,104 +33,121 @@ public class TerrainLoader : MonoBehaviour
 
     public void InitializeChunks()
     {
-        Reset();
-        activeChunks = new Transform[chunksOnScreen];
-        float spawnX = 0f;
+        ClearExistingChunks();
+
+        activeChunks.Clear();
+        nextChunkSpawnX = 0f;
 
         for (int i = 0; i < chunksOnScreen; i++)
-        {   
-
-            int randomIndex = Random.Range(0, chunkPrefabs.Length);
-            GameObject prefab = chunkPrefabs[randomIndex];
-            float width = chunkWidths[GetChunkData(prefab)];
-
-            GameObject chunk = Instantiate(prefab, new Vector3(spawnX, chunkYPosition, 0f), Quaternion.identity, transform);
-            activeChunks[i] = chunk.transform;
-
-            spawnX += width + chunkGap;
+        {
+            SpawnChunkAtNextPosition();
         }
     }
 
-    private void Reset()
+    private void ClearExistingChunks()
     {
-        this.activeChunks = null;
+        foreach (var chunk in activeChunks)
+        {
+            if (chunk != null)
+            {
+                Destroy(chunk.gameObject);
+            }
+        }
+        activeChunks.Clear();
     }
-
 
     private void CacheChunkWidths()
     {
-        Debug.Log("TerrainLoader: CacheChunkWidths");
         chunkWidths.Clear();
 
         foreach (var prefab in chunkPrefabs)
-        {   
-            float width = GetChunkWidth(prefab);
+        {
+            var holder = prefab.GetComponent<ChunkDataHolder>();
+            if (holder == null)
+            {
+                Debug.LogWarning($"ChunkDataHolder missing on prefab: {prefab.name}");
+                continue;
+            }
             ChunkData chunkData = GetChunkData(prefab);
-            chunkWidths[chunkData] = width;
+            if (chunkData == null)
+            {
+                Debug.LogWarning($"ChunkData null on prefab: {prefab.name}");
+                continue;
+            }
+
+            float width = chunkData.width;;
+            if (!chunkWidths.ContainsKey(chunkData))
+                chunkWidths.Add(chunkData, width);
+        }
+    }
+
+    private ChunkData GetChunkData(GameObject obj)
+    {
+        var holder = obj.GetComponent<ChunkDataHolder>();
+        if (holder == null)
+        {
+            Debug.LogWarning("ChunkDataHolder missing on prefab " + obj.name);
+            return null;
+        }
+        return holder.ChunkData;
+    }
+
+    private void SpawnChunkAtNextPosition()
+    {
+        if (chunkPrefabs == null || chunkPrefabs.Length == 0)
+        {
+            Debug.LogWarning("No chunk prefabs assigned!");
+            return;
         }
 
-    }
+        int randomIndex = Random.Range(0, chunkPrefabs.Length);
+        GameObject prefab = chunkPrefabs[randomIndex];
 
-    private ChunkData GetChunkData(GameObject chunk)
-    {
-        return chunk.GetComponent<ChunkDataHolder>().chunkData;
-    }
 
-    private float GetChunkWidth(GameObject prefab)
-    {
-        ChunkDataHolder chunkDataHolder = prefab.GetComponent<ChunkDataHolder>();
-        if (chunkDataHolder != null)
-            return chunkDataHolder.GetChunkWidth();
 
-        Debug.LogWarning("ChunkDataHolder missing on prefab: " + prefab.name);
-        return 10f; 
+
+        ChunkData chunkData = GetChunkData(prefab);
+        if (chunkData == null || !chunkWidths.ContainsKey(chunkData))
+        {
+            Debug.LogWarning("Invalid chunk data or width, skipping chunk spawn.");
+            return;
+        }
+
+        float width = chunkWidths[chunkData];
+        Vector3 spawnPos = new Vector3(nextChunkSpawnX + width / 2f, chunkYPosition, 0f);
+
+        GameObject newChunk = Instantiate(prefab, spawnPos, Quaternion.identity, transform);
+        activeChunks.Add(newChunk.transform);
+
+        nextChunkSpawnX += width + chunkGap;
     }
 
     public void MoveChunks(float scrollSpeed)
     {
-        // Move all chunks left
+        if (activeChunks.Count == 0) return;
+
         foreach (var chunk in activeChunks)
         {
             chunk.position += Vector3.left * scrollSpeed * Time.deltaTime;
         }
 
-
-
-        // Check if leftmost chunk went off-screen (fully past the left side)
+        // Check if leftmost chunk went off-screen
         Transform leftmost = activeChunks[0];
-        float leftmostWidth = chunkWidths[GetChunkData(leftmost.gameObject)];
+        ChunkData leftmostData = GetChunkData(leftmost.gameObject);
+        if (leftmostData == null || !chunkWidths.ContainsKey(leftmostData)) return;
 
+        float leftmostWidth = chunkWidths[leftmostData];
         float cameraLeftEdge = mainCamera.transform.position.x - (mainCamera.orthographicSize * mainCamera.aspect);
 
-        if (leftmost.position.x + leftmostWidth / 2f < cameraLeftEdge)
+        // The chunk is fully offscreen if its right edge is left of camera left edge
+        if (leftmost.position.x + (leftmostWidth / 2f) < cameraLeftEdge)
         {
-
-            ShiftChunks();
-            LoadNewChunk();
-
-            // Destroy the old leftmost chunk
+            // Remove leftmost chunk and destroy it
+            activeChunks.RemoveAt(0);
             Destroy(leftmost.gameObject);
-        }
-    }
 
-    private void ShiftChunks()
-    {
-        // Shift all chunks left in the array
-        for (int i = 0; i < activeChunks.Length - 1; i++)
-        {
-            activeChunks[i] = activeChunks[i + 1];
+            // Spawn new chunk at right
+            SpawnChunkAtNextPosition();
         }
-    }
-    
-    /*
-    * Instantiates a new chunk at the position right of the last active chunk,
-    * using a random prefab from the available chunkPrefabs. Updates the last
-    * element of the activeChunks array to reference the newly instantiated chunk.
-    */
-    private void LoadNewChunk()
-    {
-        int randomIndex = Random.Range(0, chunkPrefabs.Length);
-        GameObject newChunk = Instantiate(chunkPrefabs[randomIndex], activeChunks[activeChunks.Length - 1].position + Vector3.right * chunkWidths[GetChunkData(chunkPrefabs[randomIndex])], Quaternion.identity);
-        activeChunks[activeChunks.Length - 1] = newChunk.transform;
     }
 }

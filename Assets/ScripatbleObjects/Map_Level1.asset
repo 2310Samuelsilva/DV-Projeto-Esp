@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelName: 
   chunkPrefabs:
-  - {fileID: 3768489865426279272, guid: fbd22dadbcdec4935a962a053e36a93f, type: 3}
-  - {fileID: 3768489865426279272, guid: 2e3af6833dd39432aa194a48a55ab66d, type: 3}
+  - {fileID: 4594004451751856546, guid: 8d9353fa59caa4c54b7ae0d037aa86a4, type: 3}
+  - {fileID: 4594004451751856546, guid: 9e8b852a946de42379a31b92e199c058, type: 3}
   baseScrollSpeed: 4
   gravity: -9.81
   speedIncreaseDistanceThreshold: 10
