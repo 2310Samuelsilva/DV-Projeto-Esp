@@ -10,7 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a7e4f591cd57c495f80e08c576f974ca, type: 3}
-  m_Name: ChunkData_SnowWave1
+  m_Name: ChunkData1
   m_EditorClassIdentifier: 
-  width: 0
-  difficulty: 1
+  resolution: 21
+  width: -14.7
+  baseHeight: 0
+  amplitude: 6.05
+  noiseScale: -1.69
+  seed: 0

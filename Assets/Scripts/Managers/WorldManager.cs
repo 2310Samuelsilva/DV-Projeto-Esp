@@ -1,48 +1,55 @@
-
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
+[ExecuteAlways]
 public class WorldManager : MonoBehaviour
 {
-
     [SerializeField] private GameObject terrainLoaderPrefab;
-    private  LevelData levelData;  // Assigned by LevelManager
+    private LevelData levelData;
 
     [SerializeField] private float scrollSpeed;
     private float distanceTraveled;
 
     private TerrainLoader terrainLoader;
 
-
-
     public void Initialize(LevelData levelData)
     {
-        Debug.Log("WorldManager: Initialize");
         this.levelData = levelData;
-        GameObject tl = Instantiate(terrainLoaderPrefab, Vector3.zero, Quaternion.identity);
+
+        if (terrainLoader != null)
+        {
+            if (Application.isPlaying)
+                Destroy(terrainLoader.gameObject);
+            else
+                DestroyImmediate(terrainLoader.gameObject);
+        }
+
+        GameObject tl = Instantiate(terrainLoaderPrefab, Vector3.zero, Quaternion.identity, transform);
         terrainLoader = tl.GetComponent<TerrainLoader>();
         terrainLoader.Initialize(levelData);
         Reset();
     }
 
-    void Reset()
+    private void Reset()
     {
         distanceTraveled = 0f;
-        scrollSpeed = levelData.baseScrollSpeed;
-        terrainLoader.InitializeChunks();
+        scrollSpeed = levelData != null ? levelData.baseScrollSpeed : 0f;
+        if (terrainLoader != null)
+            terrainLoader.InitializeChunks();
     }
 
-    void Update()
+    private void Update()
     {
-        Debug.Log("WorldManager: Update. ScrollSpeed: " + scrollSpeed);
-        distanceTraveled += scrollSpeed * Time.deltaTime;
-        terrainLoader.MoveChunks(scrollSpeed);
+        if (Application.isPlaying && terrainLoader != null)
+        {
+            distanceTraveled += scrollSpeed * Time.deltaTime;
+            terrainLoader.MoveChunks(scrollSpeed);
+        }
     }
 
     public void IncreaseScrollSpeed()
     {
         scrollSpeed += levelData.speedIncreaseRate * Time.deltaTime;
     }
-    
-    public float DistanceTravelled() { return distanceTraveled; }
+
+    public float DistanceTravelled() => distanceTraveled;
 }

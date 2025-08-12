@@ -107,7 +107,7 @@ public class PlayerController : MonoBehaviour
         if (rb.linearVelocity.y < 0)
         {
             // Falling
-            rb.linearVelocity += (fallMultiplier - 1) * Physics2D.gravity.y * Time.fixedDeltaTime * Vector2.up;
+            rb.linearVelocity += (fallMultiplier - 1) * Time.fixedDeltaTime * Vector2.up;
         }
         else if (rb.linearVelocity.y > 0 && !Input.GetButton("Jump"))
         {

@@ -10,13 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 603f90a8871e94bc58dc6b3bbff63c2d, type: 3}
-  m_Name: Map_Level1
+  m_Name: LevelData
   m_EditorClassIdentifier: 
   levelName: 
-  chunkPrefabs:
-  - {fileID: 4594004451751856546, guid: 8d9353fa59caa4c54b7ae0d037aa86a4, type: 3}
-  - {fileID: 4594004451751856546, guid: 9e8b852a946de42379a31b92e199c058, type: 3}
-  baseScrollSpeed: 4
-  gravity: -9.81
-  speedIncreaseDistanceThreshold: 10
-  speedIncreaseRate: 2
+  baseScrollSpeed: 0
+  gravity: 9.81
+  chunkSettings: {fileID: 11400000, guid: add03a18e736941e78ac8c8890305d27, type: 2}
+  proceduralChunkPrefab: {fileID: 4520960633213358903, guid: 84d22dfc80ee742d487172a7fe63c751, type: 3}
+  speedIncreaseDistanceThreshold: 0
+  speedIncreaseRate: 0
