@@ -161,7 +161,6 @@ public class ProceduralChunk : MonoBehaviour
 
         // Convert Vector2[] points to Vector2[] for EdgeCollider2D (same type)
         // Just assign directly since points is already Vector2[]
-        Debug.Log("UpdateCollider");
         edgeCollider.points = points;
     }
 

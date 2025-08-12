@@ -10,5 +10,17 @@ public class ChunkSettings : ScriptableObject
     public float amplitude = 2f;    // Height variation
     public float noiseScale = 0.2f; // Controls noise frequency
     public int seed = 0;            // Random seed
+
+    #if UNITY_EDITOR
+    private void OnValidate()
+    {
+        // Find all LevelManagers in the scene and refresh them
+        var managers = FindObjectsByType<WorldManager>(FindObjectsSortMode.None);
+        foreach (var manager in managers)
+        {
+            manager.Reset();
+        }
+    }
+#endif
     
 }

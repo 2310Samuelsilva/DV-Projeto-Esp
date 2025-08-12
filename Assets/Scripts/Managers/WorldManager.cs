@@ -1,15 +1,31 @@
+using UnityEditor;
 using UnityEngine;
 
 [ExecuteAlways]
 public class WorldManager : MonoBehaviour
 {
     [SerializeField] private GameObject terrainLoaderPrefab;
-    private LevelData levelData;
+    [SerializeField] private LevelData levelData;
 
     [SerializeField] private float scrollSpeed;
     private float distanceTraveled;
 
-    private TerrainLoader terrainLoader;
+    [SerializeField] private TerrainLoader terrainLoader;
+
+#if UNITY_EDITOR
+    private void OnValidate()
+    {
+        if (Application.isPlaying || levelData == null) return;
+
+        // Delay so Unity is not in the middle of rendering
+        EditorApplication.delayCall += () =>
+        {
+            if (this == null) return; // Object might be gone
+            Initialize(levelData);
+        };
+
+    }
+#endif
 
     public void Initialize(LevelData levelData)
     {
@@ -26,10 +42,13 @@ public class WorldManager : MonoBehaviour
         GameObject tl = Instantiate(terrainLoaderPrefab, Vector3.zero, Quaternion.identity, transform);
         terrainLoader = tl.GetComponent<TerrainLoader>();
         terrainLoader.Initialize(levelData);
+
         Reset();
+        
+
     }
 
-    private void Reset()
+    public void Reset()
     {
         distanceTraveled = 0f;
         scrollSpeed = levelData != null ? levelData.baseScrollSpeed : 0f;

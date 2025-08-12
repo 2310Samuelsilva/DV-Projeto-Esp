@@ -25,7 +25,7 @@ public class TerrainLoader : MonoBehaviour
         this.chunkSettings = levelData.chunkSettings;
         this.proceduralChunkPrefab = levelData.proceduralChunkPrefab;
 
-        InitializeChunks();
+        //InitializeChunks();
     }
 
     public void InitializeChunks()
@@ -33,6 +33,7 @@ public class TerrainLoader : MonoBehaviour
         ClearExistingChunks();
 
         activeChunks.Clear();
+        Debug.Log("activeChunksAmount: " + activeChunksAmount);
         nextChunkSpawnX = 0f;
 
         for (int i = 0; i < activeChunksAmount; i++)
@@ -43,6 +44,7 @@ public class TerrainLoader : MonoBehaviour
 
     private void ClearExistingChunks()
     {
+        Debug.Log("ClearExistingChunks activeChunks.Count: " + activeChunks.Count);
         foreach (var chunk in activeChunks)
         {
             if (chunk != null)
@@ -50,10 +52,17 @@ public class TerrainLoader : MonoBehaviour
                 if (Application.isPlaying)
                     Destroy(chunk.gameObject);
                 else
+                    Debug.Log("Desroying chunk: " + chunk);
+                UnityEditor.EditorApplication.delayCall += () =>
+                {
+                    if (chunk == null) return;
                     DestroyImmediate(chunk.gameObject);
+                };
+                    
             }
         }
         activeChunks.Clear();
+        
     }
 
     private void SpawnChunkAtNextPosition()
@@ -65,8 +74,8 @@ public class TerrainLoader : MonoBehaviour
         }
 
         float width = chunkSettings.width;
-        Vector3 spawnPos = new Vector3(nextChunkSpawnX + width / 2f, chunkYPosition, 0f);
-
+        Vector3 spawnPos = new Vector3(nextChunkSpawnX , chunkYPosition, 0f);
+        Debug.Log("spawnPos: " + spawnPos);
         GameObject chunk = Instantiate(proceduralChunkPrefab, spawnPos, Quaternion.identity, transform);
         ProceduralChunk proceduralChunk = chunk.GetComponent<ProceduralChunk>();
         proceduralChunk.Initialize(chunkSettings);

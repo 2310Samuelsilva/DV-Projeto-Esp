@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[ExecuteAlways] // So it runs in the editor
 public class LevelManager : MonoBehaviour
 {
     [Header("Level Configuration")]
@@ -15,13 +14,25 @@ public class LevelManager : MonoBehaviour
     private GameObject playerInstance;
     private WorldManager worldManager;
 
-    private void OnValidate()
-    {
-        if (!Application.isPlaying)
-        {
-            PreviewLevel();
-        }
-    }
+    // Track the last data used for preview so we only refresh when needed
+    private LevelData lastPreviewData;
+
+//     private void OnValidate()
+//     {
+// #if UNITY_EDITOR
+//         if (!Application.isPlaying && levelData != null && transportData != null)
+//         {
+//             // Delete all children of this component
+//             foreach (Transform child in transform)
+//             {
+//                 if (Application.isPlaying)
+//                     Destroy(child.gameObject);
+//                 else
+//                     DestroyImmediate(child.gameObject);
+//             }
+//         }
+// #endif
+//     }
 
     private void Start()
     {
@@ -31,17 +42,18 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    private void PreviewLevel()
-    {
-        ClearPreview();
-        if (levelData == null) return;
+    // public void PreviewLevel()
+    // {
+    //     ClearPreview();
 
-        // Spawn world manager for preview
-        GameObject wm = Instantiate(worldManagerPrefab, Vector3.zero, Quaternion.identity, transform);
-        wm.name = "[Preview] WorldManager";
-        worldManager = wm.GetComponent<WorldManager>();
-        worldManager.Initialize(levelData);
-    }
+    //     if (levelData == null) return;
+
+    //     // Spawn world manager for preview
+    //     GameObject wm = Instantiate(worldManagerPrefab, Vector3.zero, Quaternion.identity, transform);
+    //     wm.name = "[Preview] WorldManager";
+    //     worldManager = wm.GetComponent<WorldManager>();
+    //     worldManager.Initialize(levelData);
+    // }
 
     private void LoadLevel()
     {
@@ -62,13 +74,11 @@ public class LevelManager : MonoBehaviour
 
     private void ClearPreview()
     {
-        var previews = GetComponentsInChildren<WorldManager>(true);
-        foreach (var p in previews)
+        var worldManagers = GetComponentsInChildren<WorldManager>(true);
+        foreach (var wm in worldManagers)
         {
-            if (Application.isPlaying)
-                Destroy(p.gameObject);
-            else
-                DestroyImmediate(p.gameObject);
+            DestroyImmediate(wm.gameObject);
         }
+        worldManager = null; // Clear reference
     }
 }

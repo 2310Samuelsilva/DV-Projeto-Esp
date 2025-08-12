@@ -1,7 +1,8 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "LevelData", menuName = "Game/Level Data")]
-public class LevelData : ScriptableObject {
+public class LevelData : ScriptableObject
+{
     public string levelName;
     public float baseScrollSpeed;
     public float gravity = 9.81f;
@@ -12,3 +13,4 @@ public class LevelData : ScriptableObject {
     public float speedIncreaseDistanceThreshold;
     public float speedIncreaseRate;
 }
+
