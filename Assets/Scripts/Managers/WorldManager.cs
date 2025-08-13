@@ -31,6 +31,7 @@ public class WorldManager : MonoBehaviour
     {
         this.levelData = levelData;
 
+        // For editopr map vizualization
         if (terrainLoader != null)
         {
             if (Application.isPlaying)
@@ -39,13 +40,17 @@ public class WorldManager : MonoBehaviour
                 DestroyImmediate(terrainLoader.gameObject);
         }
 
-        GameObject tl = Instantiate(terrainLoaderPrefab, Vector3.zero, Quaternion.identity, transform);
+        // Place self position on camera left edge
+        float cameraLeftEdge = Camera.main.transform.position.x - (Camera.main.orthographicSize * Camera.main.aspect);
+        transform.position = new Vector3(cameraLeftEdge, 0, 0);
+
+        GameObject tl = Instantiate(terrainLoaderPrefab, transform.position, Quaternion.identity, transform);
         terrainLoader = tl.GetComponent<TerrainLoader>();
         terrainLoader.Initialize(levelData);
 
         Reset();
-        
 
+        Debug.Log("WorldManager initialized");
     }
 
     public void Reset()
@@ -57,9 +62,11 @@ public class WorldManager : MonoBehaviour
     }
 
     private void Update()
-    {
-        if (Application.isPlaying && terrainLoader != null)
+    {   
+
+        if (Application.isPlaying)
         {
+            Debug.Log("Moving chunks, speed: " + scrollSpeed);
             distanceTraveled += scrollSpeed * Time.deltaTime;
             terrainLoader.MoveChunks(scrollSpeed);
         }

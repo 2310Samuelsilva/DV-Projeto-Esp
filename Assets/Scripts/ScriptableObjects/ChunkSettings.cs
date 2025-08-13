@@ -11,6 +11,7 @@ public class ChunkSettings : ScriptableObject
     public float noiseScale = 0.2f; // Controls noise frequency
     public int seed = 0;            // Random seed
 
+
     #if UNITY_EDITOR
     private void OnValidate()
     {

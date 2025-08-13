@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7e4f591cd57c495f80e08c576f974ca, type: 3}
   m_Name: ChunkData1
   m_EditorClassIdentifier: 
-  resolution: 30
-  width: 10
+  resolution: 42
+  width: 12.62
   baseHeight: 0
   amplitude: 5
   noiseScale: 0.2

@@ -12,6 +12,7 @@ public class ProceduralChunk : MonoBehaviour
     private float noiseScale; // Controls noise frequency
     private int seed;
     private int offset;
+    private float startingBaseHeight;
 
     [Header("Mesh Settings")]
     public float bottomY; // Y position of the bottom of the terrain
@@ -26,10 +27,12 @@ public class ProceduralChunk : MonoBehaviour
        
     }
 
-    public void Initialize(ChunkSettings chunkSettings){
+    public void Initialize(ChunkSettings chunkSettings, float startingBaseHeight)
+    {
         this.resolution = chunkSettings.resolution;
         this.width = chunkSettings.width;
-        this.baseHeight = chunkSettings.baseHeight;
+        this.baseHeight = chunkSettings.baseHeight; // Use starting height passed in
+        this.startingBaseHeight = startingBaseHeight; // Use starting height passed in
         this.amplitude = chunkSettings.amplitude;
         this.noiseScale = chunkSettings.noiseScale;
         this.seed = chunkSettings.seed;
@@ -65,7 +68,18 @@ public class ProceduralChunk : MonoBehaviour
         {
             float t = i / (float)resolution;
             float x = t * width;
-            float y = baseHeight + (Mathf.PerlinNoise(x * noiseScale + offset, 0f) - 0.5f) * 2f * amplitude;
+
+            float y;
+            if (i == 0)
+            {
+                // Left edge uses the baseHeight exactly for smooth connection
+                y = startingBaseHeight;
+            }
+            else
+            {
+                y = baseHeight + (Mathf.PerlinNoise(x * noiseScale + offset, 0f) - 0.5f) * 2f * amplitude;
+            }
+
             points[i] = new Vector2(x, y);
         }
 
@@ -93,7 +107,15 @@ public class ProceduralChunk : MonoBehaviour
         }
     }
 
-#if UNITY_EDITOR
+    public float GetRightEdgeHeight()
+    {
+        if (points == null || points.Length == 0)
+            return baseHeight;
+
+        return points[points.Length - 1].y;
+    }
+
+
     private void Update()
     {
         if (!Application.isPlaying)
@@ -103,7 +125,7 @@ public class ProceduralChunk : MonoBehaviour
             GenerateMesh();
         }
     }
-#endif
+
     private void GenerateMesh()
     {
         Mesh mesh = new Mesh();

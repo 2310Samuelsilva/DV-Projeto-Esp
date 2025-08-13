@@ -15,24 +15,6 @@ public class LevelManager : MonoBehaviour
     private WorldManager worldManager;
 
     // Track the last data used for preview so we only refresh when needed
-    private LevelData lastPreviewData;
-
-//     private void OnValidate()
-//     {
-// #if UNITY_EDITOR
-//         if (!Application.isPlaying && levelData != null && transportData != null)
-//         {
-//             // Delete all children of this component
-//             foreach (Transform child in transform)
-//             {
-//                 if (Application.isPlaying)
-//                     Destroy(child.gameObject);
-//                 else
-//                     DestroyImmediate(child.gameObject);
-//             }
-//         }
-// #endif
-//     }
 
     private void Start()
     {
@@ -70,15 +52,5 @@ public class LevelManager : MonoBehaviour
         GameObject wm = Instantiate(worldManagerPrefab, Vector3.zero, Quaternion.identity);
         worldManager = wm.GetComponent<WorldManager>();
         worldManager.Initialize(levelData);
-    }
-
-    private void ClearPreview()
-    {
-        var worldManagers = GetComponentsInChildren<WorldManager>(true);
-        foreach (var wm in worldManagers)
-        {
-            DestroyImmediate(wm.gameObject);
-        }
-        worldManager = null; // Clear reference
     }
 }

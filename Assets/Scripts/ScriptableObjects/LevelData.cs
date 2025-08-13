@@ -8,6 +8,7 @@ public class LevelData : ScriptableObject
     public float gravity = 9.81f;
 
     public ChunkSettings chunkSettings;
+    public int activeChunksAmount;
     public GameObject proceduralChunkPrefab;
 
     public float speedIncreaseDistanceThreshold;
