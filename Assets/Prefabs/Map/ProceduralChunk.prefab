@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5717694119067902623}
   - component: {fileID: 36931470424268520}
   - component: {fileID: 167618077928460303}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ProceduralChunk
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -111,7 +111,7 @@ EdgeCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 0d901f50d45fc4ad595a665c41168940, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

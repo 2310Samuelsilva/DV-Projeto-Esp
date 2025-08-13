@@ -62,7 +62,7 @@ public class WorldManager : MonoBehaviour
     }
 
     private void Update()
-    {   
+    {
 
         if (Application.isPlaying)
         {
@@ -78,4 +78,5 @@ public class WorldManager : MonoBehaviour
     }
 
     public float DistanceTravelled() => distanceTraveled;
+    public float ScrollSpeed() => scrollSpeed;
 }

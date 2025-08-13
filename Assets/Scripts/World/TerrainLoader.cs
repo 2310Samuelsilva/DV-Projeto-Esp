@@ -72,22 +72,34 @@ public class TerrainLoader : MonoBehaviour
             Debug.LogWarning("Invalid chunk settings or prefab, skipping chunk spawn.");
             return;
         }
-        
-        float width = chunkSettings.width;
-        Vector3 spawnPos = new Vector3(nextChunkSpawnX , chunkYPosition, 0f);
+
+        Vector3 spawnPos;
+
+        if (activeChunks.Count == 0)
+        {
+            // First chunk — align to camera’s left edge
+            float cameraLeftEdge = mainCamera.transform.position.x - (mainCamera.orthographicSize * mainCamera.aspect);
+            spawnPos = new Vector3(cameraLeftEdge, chunkYPosition, 0f);
+        }
+        else
+        {
+            // Position right after the last chunk
+            ProceduralChunk lastChunk = activeChunks[activeChunks.Count - 1];
+            spawnPos = new Vector3(
+                lastChunk.transform.position.x + lastChunk.GetWidth() + chunkGap,
+                chunkYPosition,
+                0f
+            );
+        }
 
         GameObject chunk = Instantiate(proceduralChunkPrefab, spawnPos, Quaternion.identity, transform);
         ProceduralChunk proceduralChunk = chunk.GetComponent<ProceduralChunk>();
-        
-        // Initialize chunk with chunkSettings and the last edge height
+
+        // Initialize chunk with chunkSettings and last height for smoothness
         proceduralChunk.Initialize(chunkSettings, lastRightEdgeHeight);
 
         activeChunks.Add(proceduralChunk);
-
-        // Update lastRightEdgeHeight to the new chunk's right edge height
         lastRightEdgeHeight = proceduralChunk.GetRightEdgeHeight();
-
-        nextChunkSpawnX += width + chunkGap;
     }
 
     public void MoveChunks(float scrollSpeed)

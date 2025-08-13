@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: LevelData
   m_EditorClassIdentifier: 
   levelName: 
-  baseScrollSpeed: 2
+  baseScrollSpeed: 5
   gravity: 9.81
   chunkSettings: {fileID: 11400000, guid: add03a18e736941e78ac8c8890305d27, type: 2}
   activeChunksAmount: 2

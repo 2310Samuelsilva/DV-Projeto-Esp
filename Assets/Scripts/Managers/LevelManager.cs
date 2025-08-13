@@ -14,8 +14,10 @@ public class LevelManager : MonoBehaviour
     private GameObject playerInstance;
     private WorldManager worldManager;
 
-    // Track the last data used for preview so we only refresh when needed
+    [SerializeField] private Avalanche avalanche;
 
+
+    // Track the last data used for preview so we only refresh when needed
     private void Start()
     {
         if (Application.isPlaying)
@@ -23,19 +25,6 @@ public class LevelManager : MonoBehaviour
             LoadLevel();
         }
     }
-
-    // public void PreviewLevel()
-    // {
-    //     ClearPreview();
-
-    //     if (levelData == null) return;
-
-    //     // Spawn world manager for preview
-    //     GameObject wm = Instantiate(worldManagerPrefab, Vector3.zero, Quaternion.identity, transform);
-    //     wm.name = "[Preview] WorldManager";
-    //     worldManager = wm.GetComponent<WorldManager>();
-    //     worldManager.Initialize(levelData);
-    // }
 
     private void LoadLevel()
     {
@@ -52,5 +41,12 @@ public class LevelManager : MonoBehaviour
         GameObject wm = Instantiate(worldManagerPrefab, Vector3.zero, Quaternion.identity);
         worldManager = wm.GetComponent<WorldManager>();
         worldManager.Initialize(levelData);
+    }
+
+    public void Update()
+    {
+        string distance = worldManager.DistanceTravelled().ToString("F0") + "m";
+        UIGameplayManager.Instance.UpdateDistanceUI(distance);
+        avalanche.UpdateAvalanche(worldManager.ScrollSpeed());
     }
 }

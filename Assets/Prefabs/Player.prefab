@@ -117,7 +117,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 1
 --- !u!61 &4943116898053127528
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -176,17 +176,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4031d1b99c5154610a8630069cef1259, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
-  jumpForce: 5
-  constantSpeed: 2
   groundCheck: {fileID: 5315643639792220386}
-  groundCheckRadius: 0.23
+  groundCheckRadius: 0.53
   groundLayer:
     serializedVersion: 2
     m_Bits: 512
-  fallMultiplier: 2.5
-  lowJumpMultiplier: 2
-  spawnPoint: {x: 0, y: 0}
   fallThresholdY: -10
 --- !u!1 &3913618370875033648
 GameObject:
@@ -213,7 +207,7 @@ Transform:
   m_GameObject: {fileID: 3913618370875033648}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.34, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
