@@ -12,10 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6469e01bf345a4e49bca434f471a8b3b, type: 3}
   m_Name: PlayerFoot
   m_EditorClassIdentifier: 
-  transportName: Foot
   prefab: {fileID: 3410917964373414578, guid: 8ace9216a3e9e4b40a3af2284ba16b86, type: 3}
-  speedMultiplier: 0
+  transportName: Foot
+  level: 10
+  levelUpThreshold: 0
+  moveSpeed: 5
+  maxRotationVelocity: 100
+  rotationAcceleration: 2500
   jumpForce: 10
   fallMultiplier: 2
+  rotationDamp: 5
   lowJumpMultiplier: 2
-  handling: 0
+  moveSpeedPerLevel: 0.1
+  rotationVelocityPerLevel: 0.1
+  rotationAccelerationPerLevel: 0.1
+  jumpForcePerLevel: 0.05

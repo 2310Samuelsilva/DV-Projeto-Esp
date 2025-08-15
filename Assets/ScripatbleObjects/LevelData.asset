@@ -13,10 +13,15 @@ MonoBehaviour:
   m_Name: LevelData
   m_EditorClassIdentifier: 
   levelName: 
-  baseScrollSpeed: 5
-  gravity: 9.81
+  baseScrollSpeed: 8
+  gravity: 3
   chunkSettings: {fileID: 11400000, guid: add03a18e736941e78ac8c8890305d27, type: 2}
+  seed: 0
   activeChunksAmount: 2
   proceduralChunkPrefab: {fileID: 4520960633213358903, guid: 84d22dfc80ee742d487172a7fe63c751, type: 3}
-  speedIncreaseDistanceThreshold: 0
-  speedIncreaseRate: 0
+  avalanchePrefab: {fileID: 632106669967204208, guid: 77d20f6ff5f2e401e9f014a3e8122f9a, type: 3}
+  avalancheSpawnX: -20
+  avalancheSpeed: 1.5
+  fallThresholdY: -10
+  speedIncreaseDistanceThreshold: 50
+  speedIncreaseRate: 4

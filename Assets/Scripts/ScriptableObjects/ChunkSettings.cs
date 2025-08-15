@@ -4,7 +4,7 @@ using UnityEngine;
 public class ChunkSettings : ScriptableObject
 {
     [Header("Terrain Settings")]
-    public int resolution = 20;     // Number of segments
+    public int resolution = 20;     // Number of points
     public float width = 10f;       // Total width in world units
     public float baseHeight = 0f;   // Baseline Y
     public float amplitude = 2f;    // Height variation
@@ -12,7 +12,9 @@ public class ChunkSettings : ScriptableObject
     public int seed = 0;            // Random seed
 
 
-    #if UNITY_EDITOR
+
+// Enable preview in unity editor
+#if UNITY_EDITOR
     private void OnValidate()
     {
         // Find all LevelManagers in the scene and refresh them
@@ -22,6 +24,6 @@ public class ChunkSettings : ScriptableObject
             manager.Reset();
         }
     }
-#endif
+    #endif
     
 }

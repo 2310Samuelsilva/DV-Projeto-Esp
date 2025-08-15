@@ -4,19 +4,19 @@ using UnityEngine;
 [ExecuteAlways]
 public class TerrainLoader : MonoBehaviour
 {
+    [Header("Chunk Settings")]
     [SerializeField] private float chunkGap = 0f;
     [SerializeField] private float chunkYPosition = 0f;
+    [SerializeField] private LevelData levelData;
+    [SerializeField] private ChunkSettings chunkSettings;
 
     private Camera mainCamera;
-    [SerializeField] private LevelData levelData;
-
     private List<ProceduralChunk> activeChunks = new List<ProceduralChunk>();
-    [SerializeField] private ChunkSettings chunkSettings;
     private GameObject proceduralChunkPrefab;
 
-    private float nextChunkSpawnX = 0f;
-    float lastRightEdgeHeight = 0f;
-    
+    private float lastRightEdgeHeight = 0f;
+    private int nextChunkIndex = 0; // Added chunk index
+
     public void Initialize(LevelData levelData)
     {
         if (levelData == null) return;
@@ -24,22 +24,22 @@ public class TerrainLoader : MonoBehaviour
         mainCamera = Camera.main;
         this.chunkSettings = levelData.chunkSettings;
         this.proceduralChunkPrefab = levelData.proceduralChunkPrefab;
-
-        //InitializeChunks();
+        nextChunkIndex = 0; // reset index on initialize
     }
 
     public void InitializeChunks()
     {
         ClearExistingChunks();
 
-        activeChunks.Clear();
-
-        float cameraLeftEdge = mainCamera.transform.position.x - (mainCamera.orthographicSize * mainCamera.aspect);
-        nextChunkSpawnX = cameraLeftEdge;
         for (int i = 0; i < levelData.activeChunksAmount; i++)
         {
             SpawnChunkAtNextPosition();
         }
+    }
+
+    private float GetCameraLeftEdge()
+    {
+        return mainCamera.transform.position.x - (mainCamera.orthographicSize * mainCamera.aspect);
     }
 
     private void ClearExistingChunks()
@@ -52,17 +52,17 @@ public class TerrainLoader : MonoBehaviour
                 if (Application.isPlaying)
                     Destroy(chunk.gameObject);
                 else
-                    Debug.Log("Desroying chunk: " + chunk);
-                UnityEditor.EditorApplication.delayCall += () =>
-                {
-                    if (chunk == null) return;
-                    DestroyImmediate(chunk.gameObject);
-                };
-                    
+                    UnityEditor.EditorApplication.delayCall += () =>
+                    {
+                        if (chunk == null) return;
+                        DestroyImmediate(chunk.gameObject);
+                    };
             }
         }
+
         activeChunks.Clear();
-        
+        lastRightEdgeHeight = 0f;
+        nextChunkIndex = 0; // reset index when clearing
     }
 
     private void SpawnChunkAtNextPosition()
@@ -73,50 +73,59 @@ public class TerrainLoader : MonoBehaviour
             return;
         }
 
-        Vector3 spawnPos;
+        Vector3 spawnPosition;
 
+        // First chunk — align to camera’s left edge
         if (activeChunks.Count == 0)
         {
-            // First chunk — align to camera’s left edge
-            float cameraLeftEdge = mainCamera.transform.position.x - (mainCamera.orthographicSize * mainCamera.aspect);
-            spawnPos = new Vector3(cameraLeftEdge, chunkYPosition, 0f);
+            float cameraLeftEdge = GetCameraLeftEdge();
+            spawnPosition = new Vector3(cameraLeftEdge, chunkYPosition, 0f);
         }
         else
         {
             // Position right after the last chunk
             ProceduralChunk lastChunk = activeChunks[activeChunks.Count - 1];
-            spawnPos = new Vector3(
+            spawnPosition = new Vector3(
                 lastChunk.transform.position.x + lastChunk.GetWidth() + chunkGap,
                 chunkYPosition,
                 0f
             );
         }
 
-        GameObject chunk = Instantiate(proceduralChunkPrefab, spawnPos, Quaternion.identity, transform);
+        GameObject chunk = Instantiate(proceduralChunkPrefab, spawnPosition, Quaternion.identity, transform);
         ProceduralChunk proceduralChunk = chunk.GetComponent<ProceduralChunk>();
 
         // Initialize chunk with chunkSettings and last height for smoothness
-        proceduralChunk.Initialize(chunkSettings, lastRightEdgeHeight);
+        proceduralChunk.Initialize(chunkSettings, lastRightEdgeHeight, levelData.seed, nextChunkIndex);
 
         activeChunks.Add(proceduralChunk);
         lastRightEdgeHeight = proceduralChunk.GetRightEdgeHeight();
+
+        nextChunkIndex++; // increment index for the next chunk
     }
 
     public void MoveChunks(float scrollSpeed)
     {
         if (activeChunks.Count == 0) return;
 
+        // Move all chunks
         foreach (var chunk in activeChunks)
         {
             chunk.transform.position += scrollSpeed * Time.deltaTime * Vector3.left;
         }
 
+        // Check if chunk is offscreen
+        HandleOffscreenChunks();
+    }
+
+    private void HandleOffscreenChunks()
+    {
         ProceduralChunk leftmost = activeChunks[0];
         if (leftmost == null) return;
 
-        float cameraLeftEdge = mainCamera.transform.position.x - (mainCamera.orthographicSize * mainCamera.aspect);
+        float cameraLeftEdge = GetCameraLeftEdge();
 
-        if (leftmost.transform.position.x + (leftmost.GetWidth()) < cameraLeftEdge)
+        if (leftmost.transform.position.x + leftmost.GetWidth() < cameraLeftEdge)
         {
             activeChunks.RemoveAt(0);
             Destroy(leftmost.gameObject);

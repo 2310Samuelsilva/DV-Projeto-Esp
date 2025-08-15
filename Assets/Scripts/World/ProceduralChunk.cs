@@ -5,20 +5,15 @@ using UnityEngine;
 public class ProceduralChunk : MonoBehaviour
 {
     [Header("Terrain Settings")]
-    private int resolution;     // Number of segments
-    private float width;       // Total width in world units
-    private float baseHeight;   // Baseline Y
-    private float amplitude;    // Height variation
-    private float noiseScale; // Controls noise frequency
-    private int seed;
-    private int offset;
+    [SerializeField] private ChunkSettings chunkSettings; // ScriptableObject holding chunk info
     private float startingBaseHeight;
+    private int seed;
+    private int chunkIndex;
 
     [Header("Mesh Settings")]
     public float bottomY; // Y position of the bottom of the terrain
     private Vector2[] points; // Terrain points (Ground)
-    // private float offset; // offset / seed
-    private MeshFilter meshFilter;
+    private MeshFilter meshFilter; // Vizual
     private EdgeCollider2D edgeCollider;
     
 
@@ -27,20 +22,19 @@ public class ProceduralChunk : MonoBehaviour
        
     }
 
-    public void Initialize(ChunkSettings chunkSettings, float startingBaseHeight)
+    public void Initialize(ChunkSettings chunkSettings, float startingBaseHeight, int seed, int chunkIndex)
     {
-        this.resolution = chunkSettings.resolution;
-        this.width = chunkSettings.width;
-        this.baseHeight = chunkSettings.baseHeight; // Use starting height passed in
-        this.startingBaseHeight = startingBaseHeight; // Use starting height passed in
-        this.amplitude = chunkSettings.amplitude;
-        this.noiseScale = chunkSettings.noiseScale;
-        this.seed = chunkSettings.seed;
+
+        this.chunkSettings = chunkSettings;
+        this.chunkIndex = chunkIndex;
+        this.seed = seed;
+        
+        this.startingBaseHeight = startingBaseHeight;
 
         if (Camera.main != null)
             bottomY = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, 0)).y;
         else
-            bottomY = -5f; // Default fallback for editor preview
+            bottomY = -5f; // Default fallback
 
         meshFilter = GetComponent<MeshFilter>();
         edgeCollider = GetComponent<EdgeCollider2D>();
@@ -57,27 +51,30 @@ public class ProceduralChunk : MonoBehaviour
     // Generates terrain points using Perlin noise
     private void GeneratePoints()
     {
-        if (resolution < 1)
-            resolution = 1;
+        if (chunkSettings.resolution < 1)
+            chunkSettings.resolution = 1;
 
-        points = new Vector2[resolution + 1];
-        System.Random rng = new System.Random(seed);
-        offset = rng.Next(-10000, 10000);
+        // Sum +1 to include the last edge
+        points = new Vector2[chunkSettings.resolution + 1];
+        float offset = chunkIndex * seed;
 
-        for (int i = 0; i <= resolution; i++)
+
+        // Generate each point
+        for (int i = 0; i <= chunkSettings.resolution; i++)
         {
-            float t = i / (float)resolution;
-            float x = t * width;
+            float t = i / (float)chunkSettings.resolution;
+            float x = t * chunkSettings.width; // X position
 
             float y;
             if (i == 0)
             {
-                // Left edge uses the baseHeight exactly for smooth connection
+                // First edge uses the baseHeight exactly for smooth connection to last chunk
                 y = startingBaseHeight;
             }
             else
             {
-                y = baseHeight + (Mathf.PerlinNoise(x * noiseScale + offset, 0f) - 0.5f) * 2f * amplitude;
+                // - 0.5f) * 2f -> Convert from [0,1] to [-1,1] range
+                y = chunkSettings.baseHeight + (Mathf.PerlinNoise(x * chunkSettings.noiseScale + offset, 0f) - 0.5f) * 2f * chunkSettings.amplitude;
             }
 
             points[i] = new Vector2(x, y);
@@ -110,22 +107,12 @@ public class ProceduralChunk : MonoBehaviour
     public float GetRightEdgeHeight()
     {
         if (points == null || points.Length == 0)
-            return baseHeight;
+            return chunkSettings.baseHeight;
 
         return points[points.Length - 1].y;
     }
 
-
-    private void Update()
-    {
-        if (!Application.isPlaying)
-        {
-            meshFilter = GetComponent<MeshFilter>();
-            GeneratePoints();
-            GenerateMesh();
-        }
-    }
-
+    // Generates the mesh
     private void GenerateMesh()
     {
         Mesh mesh = new Mesh();
@@ -133,10 +120,12 @@ public class ProceduralChunk : MonoBehaviour
 
         if (points == null || points.Length == 0) { return; }
 
-        int vertCount = points.Length * 2;
+
+        int vertCount = points.Length * 2; // Top and bottom
         Vector3[] vertices = new Vector3[vertCount];
-        int[] triangles = new int[(points.Length - 1) * 6];
-        Vector2[] uvs = new Vector2[vertCount];
+
+        int[] triangles = new int[(points.Length - 1) * 6]; // 2 triangles per segment (quad)
+        Vector2[] uvs = new Vector2[vertCount]; // Mesh texture
 
         for (int i = 0; i < points.Length; i++)
         {
@@ -181,8 +170,7 @@ public class ProceduralChunk : MonoBehaviour
        if (edgeCollider == null || points == null || points.Length == 0)
         return;
 
-        // Convert Vector2[] points to Vector2[] for EdgeCollider2D (same type)
-        // Just assign directly since points is already Vector2[]
+        // Assign points to the collider
         edgeCollider.points = points;
     }
 
@@ -192,5 +180,5 @@ public class ProceduralChunk : MonoBehaviour
     }
 
     //------------ Getter and Setter ------------
-    public float GetWidth() { return width; }
+    public float GetWidth() { return chunkSettings.width; }
 }

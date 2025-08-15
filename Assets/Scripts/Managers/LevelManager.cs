@@ -2,24 +2,37 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
+
+    public static LevelManager Instance { get; private set; }
+
     [Header("Level Configuration")]
-    public LevelData levelData;
-    public TransportData transportData;
+    [SerializeField] LevelData levelData;
+    [SerializeField] PlayerTransportData transportData;
 
     [Header("Scene References")]
-    public Transform playerSpawnPoint;
+    [SerializeField] private Vector3 playerSpawnPoint;
 
     [SerializeField] private GameObject worldManagerPrefab;
 
     private GameObject playerInstance;
     private WorldManager worldManager;
 
-    [SerializeField] private Avalanche avalanche;
 
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+    }
 
     // Track the last data used for preview so we only refresh when needed
     private void Start()
     {
+        playerSpawnPoint = Vector3.zero;
         if (Application.isPlaying)
         {
             LoadLevel();
@@ -34,19 +47,38 @@ public class LevelManager : MonoBehaviour
             return;
         }
 
-        playerInstance = Instantiate(transportData.prefab, playerSpawnPoint.position, Quaternion.identity);
+        playerInstance = Instantiate(transportData.prefab, playerSpawnPoint, Quaternion.identity);
         PlayerController playerController = playerInstance.GetComponent<PlayerController>();
         playerController.Initialize(transportData);
 
         GameObject wm = Instantiate(worldManagerPrefab, Vector3.zero, Quaternion.identity);
         worldManager = wm.GetComponent<WorldManager>();
-        worldManager.Initialize(levelData);
+        worldManager.Initialize(levelData, playerController);
+
+
     }
 
+
+    // Game Update logic
     public void Update()
     {
+        // Update UI
         string distance = worldManager.DistanceTravelled().ToString("F0") + "m";
         UIGameplayManager.Instance.UpdateDistanceUI(distance);
-        avalanche.UpdateAvalanche(worldManager.ScrollSpeed());
+    }
+
+    public void EndLevel()
+    {
+        Debug.Log("EndLevel");
+        Respawn();
+        worldManager.Reset();
+
+    }
+    
+    private void Respawn()
+    {
+        playerInstance.transform.position = Vector3.zero;
+        playerInstance.GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
+        Debug.Log("Player respawned.");
     }
 }
