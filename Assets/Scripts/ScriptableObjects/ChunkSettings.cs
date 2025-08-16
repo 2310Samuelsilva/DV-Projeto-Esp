@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ChunkData", menuName = "Level/ChunkData")]
+[CreateAssetMenu(fileName = "ChunkData", menuName = "Level/ChunkSettings")]
 public class ChunkSettings : ScriptableObject
 {
     [Header("Terrain Settings")]
@@ -10,6 +10,17 @@ public class ChunkSettings : ScriptableObject
     public float amplitude = 2f;    // Height variation
     public float noiseScale = 0.2f; // Controls noise frequency
     public int seed = 0;            // Random seed
+
+
+    [Header("Obstacle Settings")]
+    public ObstacleSettings[] obstaclePool;
+
+    [Range(0, 1)]
+    public float obstacleSpawnChance = 0.5f;
+
+    
+    public int obstacleFrequency = 5; // In Chunk points
+    
 
 
 

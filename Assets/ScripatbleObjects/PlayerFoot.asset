@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 3410917964373414578, guid: 8ace9216a3e9e4b40a3af2284ba16b86, type: 3}
   transportName: Foot
-  level: 10
+  level: 3
   levelUpThreshold: 0
   moveSpeed: 5
   maxRotationVelocity: 100

@@ -56,7 +56,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   rotationKillCheck: {fileID: 1861119355356344893}
-  rotationKillCheckRadius: 0.59
+  rotationKillCheckRadius: 0.18
   fallThresholdY: -10
 --- !u!212 &1340460818946390688
 SpriteRenderer:
@@ -242,7 +242,7 @@ Transform:
   m_GameObject: {fileID: 8742692255551561691}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.26, z: 0}
+  m_LocalPosition: {x: 0, y: 0.65, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

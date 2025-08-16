@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35dd88b6534ff42768d16f5dc47232b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chunkPrefabs: []
-  chunksOnScreen: 5
   chunkGap: 0
-  chunkYPosition: -2
+  chunkYPosition: -4
+  levelData: {fileID: 0}
+  chunkSettings: {fileID: 0}

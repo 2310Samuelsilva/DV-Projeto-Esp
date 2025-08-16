@@ -12,9 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7e4f591cd57c495f80e08c576f974ca, type: 3}
   m_Name: ChunkData1
   m_EditorClassIdentifier: 
-  resolution: 100
-  width: 50
+  resolution: 150
+  width: 100
   baseHeight: 0
-  amplitude: 4.44
-  noiseScale: 0.05
+  amplitude: 9.64
+  noiseScale: 0.06
   seed: 0
+  obstaclePool:
+  - {fileID: 11400000, guid: 6aadbb4204d254821970af6aeb722080, type: 2}
+  obstacleSpawnChance: 0.5
+  obstacleFrequency: 20

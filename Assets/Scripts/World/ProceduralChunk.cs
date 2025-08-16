@@ -15,11 +15,14 @@ public class ProceduralChunk : MonoBehaviour
     private Vector2[] points; // Terrain points (Ground)
     private MeshFilter meshFilter; // Vizual
     private EdgeCollider2D edgeCollider;
-    
+
+
+
+
 
     private void Start()
     {
-       
+
     }
 
     public void Initialize(ChunkSettings chunkSettings, float startingBaseHeight, int seed, int chunkIndex)
@@ -28,7 +31,7 @@ public class ProceduralChunk : MonoBehaviour
         this.chunkSettings = chunkSettings;
         this.chunkIndex = chunkIndex;
         this.seed = seed;
-        
+
         this.startingBaseHeight = startingBaseHeight;
 
         if (Camera.main != null)
@@ -38,14 +41,15 @@ public class ProceduralChunk : MonoBehaviour
 
         meshFilter = GetComponent<MeshFilter>();
         edgeCollider = GetComponent<EdgeCollider2D>();
-        
+
         GeneratePoints();
         GenerateMesh();
+        PlaceObstacles();
     }
 
     private void OnValidate()
     {
-           
+
     }
 
     // Generates terrain points using Perlin noise
@@ -167,8 +171,8 @@ public class ProceduralChunk : MonoBehaviour
 
     private void UpdateCollider()
     {
-       if (edgeCollider == null || points == null || points.Length == 0)
-        return;
+        if (edgeCollider == null || points == null || points.Length == 0)
+            return;
 
         // Assign points to the collider
         edgeCollider.points = points;
@@ -179,6 +183,52 @@ public class ProceduralChunk : MonoBehaviour
         VisualizePoints();
     }
 
+    private ObstacleSettings GetRandomObstacle()
+    {
+        int randomIndex = Random.Range(0, chunkSettings.obstaclePool.Length);
+        return chunkSettings.obstaclePool[randomIndex];
+    }
+
+    private void PlaceObstacles()
+    {
+        if (points == null || points.Length == 0)
+            return;
+
+
+        for (int i = 0; i < points.Length - 1; i += chunkSettings.obstacleFrequency) // -1 so we don’t overflow
+        {
+            if (Random.value <= chunkSettings.obstacleSpawnChance)
+            {
+
+                // Get world position
+                Vector3 pointWorldPos = transform.TransformPoint(points[i]);
+
+                // Instantiate prefab
+                GameObject obstacle = Instantiate(
+                    GetRandomObstacle().obstaclePrefab,
+                    pointWorldPos,
+                    Quaternion.identity,
+                    transform
+                );
+
+                // Adjust height so it aligns with terrain, use Renderer to always use the visible mesh height 
+                Renderer renderer = obstacle.GetComponentInChildren<Renderer>();
+                if (renderer != null)
+                {
+                    float halfHeight = renderer.bounds.size.y / 2f;
+                    pointWorldPos.y += halfHeight;
+                    obstacle.transform.position = pointWorldPos;
+                }
+
+                // Rotate to terrain slope so it sits nicely on terrain
+                Vector2 direction = points[i + 1] - points[i];
+                float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                obstacle.transform.rotation = Quaternion.Euler(0f, 0f, angle);
+            }
+        }
+
+
+    }
     //------------ Getter and Setter ------------
     public float GetWidth() { return chunkSettings.width; }
 }

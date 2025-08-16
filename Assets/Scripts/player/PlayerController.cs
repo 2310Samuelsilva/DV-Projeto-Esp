@@ -58,6 +58,10 @@ public class PlayerController : MonoBehaviour
 
     public float MoveSpeed() => playerTransportData.GetMoveSpeed();
 
+
+    public void PlayerLost() {
+        LevelManager.Instance.EndLevel();
+    }
     // -------------------- Unity Methods --------------------
 
     private void Start()
@@ -76,6 +80,14 @@ public class PlayerController : MonoBehaviour
     {
         CheckGrounded();
         ApplyMovementPhysics();
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Obstacle")
+        {
+            PlayerLost();
+        }
     }
 
     // -------------------- Gizmos --------------------
@@ -161,7 +173,8 @@ public class PlayerController : MonoBehaviour
         // Check top half of circle
         if (Physics2D.OverlapCircle(rotationKillCheck.position, rotationKillCheckRadius, groundLayer))
         {
-            LevelManager.Instance.EndLevel();
+            Debug.Log("Rotation kill");
+            PlayerLost();
         }
     }
 
