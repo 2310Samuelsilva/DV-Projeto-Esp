@@ -50,7 +50,7 @@ public class PlayerController : MonoBehaviour
     public void Initialize(PlayerTransportData playerTransportData)
     {
         this.playerTransportData = playerTransportData;
-        Debug.Log($"Initialized player: {playerTransportData.transportName}" + $" Level: {playerTransportData.level}");
+        Debug.Log($"Initialized player: {playerTransportData.GetName()}" + $" Level: {playerTransportData.GetLevel()}");
         Debug.Log($"moveSpeed: {playerTransportData.GetMoveSpeed()}");
         rotationVelocity = 0f;
         

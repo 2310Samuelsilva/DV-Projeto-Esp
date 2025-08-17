@@ -15,7 +15,7 @@ MonoBehaviour:
   resolution: 150
   width: 100
   baseHeight: 0
-  amplitude: 9.64
+  amplitude: 6.79
   noiseScale: 0.06
   seed: 0
   obstaclePool:

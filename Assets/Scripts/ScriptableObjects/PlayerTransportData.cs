@@ -4,10 +4,14 @@ using UnityEngine;
 public class PlayerTransportData : ScriptableObject 
 {
     [Header("Transport Metadata")]
-    public GameObject prefab;
-    public string transportName;
-    public int level = 1;             // Current level
-    public int levelUpThreshold = 100;
+    [SerializeField] private GameObject prefab;
+    [SerializeField] private string transportName;
+    [SerializeField] private int level = 1;             
+    [SerializeField] private int levelUpThreshold = 100;
+    [SerializeField] private bool isUnlocked = false;
+    [SerializeField] private bool isSelected = false;
+    [SerializeField] private int basePrice = 200;
+    [SerializeField] private int pricePerLevel = 100;
 
     [Header("Transport Stats (Base)")]
     [SerializeField] private float moveSpeed = 5f;
@@ -19,19 +23,36 @@ public class PlayerTransportData : ScriptableObject
     [SerializeField] private float lowJumpMultiplier = 2f;
 
     [Header("Upgrade Scaling (per level)")]
-    [Range(0f, 1f)] public float moveSpeedPerLevel = 0.05f;
-    [Range(0f, 1f)] public float rotationVelocityPerLevel = 0.05f;
-    [Range(0f, 1f)] public float rotationAccelerationPerLevel = 0.05f;
-    [Range(0f, 1f)] public float jumpForcePerLevel = 0.05f;
+    [Range(0f, 1f)] [SerializeField] private float moveSpeedPerLevel = 0.05f;
+    [Range(0f, 1f)] [SerializeField] private float rotationVelocityPerLevel = 0.05f;
+    [Range(0f, 1f)] [SerializeField] private float rotationAccelerationPerLevel = 0.05f;
+    [Range(0f, 1f)] [SerializeField] private float jumpForcePerLevel = 0.05f;
 
-    // --- Public properties ---
+    // --- Metadata Getters ---
+    public string GetName() => transportName;
+    public GameObject GetPrefab() => prefab;
+
+    public int GetLevel() => level;
+    public void IncreaseLevel() => level++;
+
+    public bool IsUnlocked() => isUnlocked;
+    public void Unlock() => isUnlocked = true;
+
+    public bool IsSelected() => isSelected;
+    public void SetSelected(bool selected) => isSelected = selected;
+
+    public int GetBasePrice() => basePrice;
+    public int GetPricePerLevel() => pricePerLevel;
+    public int GetUpgradePrice() => basePrice + (level * pricePerLevel);
+
+    // --- Static multipliers ---
     public float GetRotationDamp() => rotationDamp;
     public float GetLowJumpMultiplier() => lowJumpMultiplier;
     public float GetFallMultiplier() => fallMultiplier;
 
-    // --- Calculated properties ---
-    public float GetMoveSpeed() => moveSpeed * (1f + moveSpeedPerLevel * (level));
-    public float GetMaxRotationVelocity() => maxRotationVelocity * (1f + rotationVelocityPerLevel * (level));
-    public float GetRotationAcceleration() => rotationAcceleration * (1f + rotationAccelerationPerLevel * (level));
-    public float GetJumpForce() => jumpForce * (1f + jumpForcePerLevel * (level));
+    // --- Stats with Level scaling ---
+    public float GetMoveSpeed() => moveSpeed * (1f + moveSpeedPerLevel * level);
+    public float GetMaxRotationVelocity() => maxRotationVelocity * (1f + rotationVelocityPerLevel * level);
+    public float GetRotationAcceleration() => rotationAcceleration * (1f + rotationAccelerationPerLevel * level);
+    public float GetJumpForce() => jumpForce * (1f + jumpForcePerLevel * level);
 }

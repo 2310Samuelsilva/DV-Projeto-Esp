@@ -227,6 +227,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87b048af1e00044899d5f7a92e98e1cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  transportPanelPrefab: {fileID: 0}
+  transportListContainer: {fileID: 0}
+  playerTransportDatabases: {fileID: 0}
 --- !u!1 &5231011893015860982
 GameObject:
   m_ObjectHideFlags: 0
@@ -311,7 +314,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 883137639909943237}
-  - component: {fileID: 9109136941909989880}
+  - component: {fileID: 7017355798195927844}
   m_Layer: 0
   m_Name: ----UIShop----
   m_TagString: Untagged
@@ -336,7 +339,7 @@ Transform:
   - {fileID: 342484010844006297}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9109136941909989880
+--- !u!114 &7017355798195927844
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -345,9 +348,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 7987515909353545117}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f52c89b8f16d47f7a5e4512305198a9, type: 3}
+  m_Script: {fileID: 11500000, guid: 87b048af1e00044899d5f7a92e98e1cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  transportPanelPrefab: {fileID: 3319003964750568878, guid: 9425a95745571452086ba803ae271e6a, type: 3}
+  transportListContainer: {fileID: 2482174405090531258}
+  playerTransportDatabases: {fileID: 11400000, guid: f3f5c314915b44498926fb556a111fca, type: 2}
 --- !u!1 &8202462613530494470
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,6 +7,7 @@ public class LevelManager : MonoBehaviour
 
     [Header("Level Configuration")]
     [SerializeField] LevelData levelData;
+    [SerializeField] PlayerData playerData;
     [SerializeField] PlayerTransportData transportData;
 
     [Header("Scene References")]
@@ -47,7 +48,7 @@ public class LevelManager : MonoBehaviour
             return;
         }
 
-        playerInstance = Instantiate(transportData.prefab, playerSpawnPoint, Quaternion.identity);
+        playerInstance = Instantiate(transportData.GetPrefab(), playerSpawnPoint, Quaternion.identity);
         PlayerController playerController = playerInstance.GetComponent<PlayerController>();
         playerController.Initialize(transportData);
 
@@ -74,11 +75,21 @@ public class LevelManager : MonoBehaviour
         worldManager.Reset();
 
     }
-    
+
     private void Respawn()
     {
         playerInstance.transform.position = Vector3.zero;
         playerInstance.GetComponent<Rigidbody2D>().linearVelocity = Vector2.zero;
         Debug.Log("Player respawned.");
+    }
+
+    public LevelData GetLevelData()
+    {
+        return levelData;
+    }
+
+    public PlayerData GetPlayerData()
+    {
+        return playerData;
     }
 }
