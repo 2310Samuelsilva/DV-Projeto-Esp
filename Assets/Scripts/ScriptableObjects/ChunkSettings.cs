@@ -28,7 +28,7 @@ public class ChunkSettings : ScriptableObject
 #if UNITY_EDITOR
     private void OnValidate()
     {
-        // Find all LevelManagers in the scene and refresh them
+        // Find all WorldManagers in the scene and refresh them
         var managers = FindObjectsByType<WorldManager>(FindObjectsSortMode.None);
         foreach (var manager in managers)
         {

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "TransportData", menuName = "Game/Transport Data")]
+[CreateAssetMenu(fileName = "PlayerData", menuName = "Game/Player Data")]
 public class PlayerData : ScriptableObject
 {
     public PlayerTransportData selectedTransport;

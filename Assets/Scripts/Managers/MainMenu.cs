@@ -3,9 +3,18 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuUI : MonoBehaviour
 {
+
+    private void Start()
+    {
+        if (GameManager.Instance != null)
+            Debug.Log("GameManager is alive!");
+        else
+            Debug.LogWarning("GameManager missing!");
+    }
+
     public void PlayGame()
     {
-        //GameManager.Instance.LoadLevel(0); // Load first level
+        GameManager.Instance.LoadSelectedLevel();
     }
 
     public void QuitGame()

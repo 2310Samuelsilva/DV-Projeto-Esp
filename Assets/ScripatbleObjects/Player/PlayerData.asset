@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7e4f591cd57c495f80e08c576f974ca, type: 3}
-  m_Name: ChunkData_BasicGround
+  m_Script: {fileID: 11500000, guid: d577b39ad92f64bc3b8722e047cf0447, type: 3}
+  m_Name: PlayerData
   m_EditorClassIdentifier: 
-  width: 0
-  difficulty: 1
+  selectedTransport: {fileID: 11400000, guid: 04a119263e1514a71ad069beae24f5ce, type: 2}
+  totalBalance: 500

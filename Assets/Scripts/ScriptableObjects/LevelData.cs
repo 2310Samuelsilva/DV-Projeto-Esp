@@ -1,9 +1,25 @@
+using JetBrains.Annotations;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "LevelData", menuName = "Game/Level Data")]
 public class LevelData : ScriptableObject
 {
+
+    [Header("Level Settings")]
     public string levelName;
+    public string sceneName;
+    public int levelNumber;
+    public bool isUnlocked;
+    public bool isCompleted;
+    
+    [Header("Level achievements")]
+    public int scoreToUnlock;
+    public int scoreToComplete;
+    public int scoreToWin;
+    public int bestScore;
+
+
+    [Header("Level Environment")]
     public float baseScrollSpeed;
     public float gravity = 9.81f;
 

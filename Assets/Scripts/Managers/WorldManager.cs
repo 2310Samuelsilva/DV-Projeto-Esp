@@ -39,6 +39,7 @@ public class WorldManager : MonoBehaviour
         this.playerController = playerController;
         this.avalanchePrefab = levelData.avalanchePrefab;
 
+
         // For editopr map vizualization
         if (terrainLoader != null)
         {
@@ -51,6 +52,7 @@ public class WorldManager : MonoBehaviour
         // Place self position on camera left edge
         float cameraLeftEdge = Camera.main.transform.position.x - (Camera.main.orthographicSize * Camera.main.aspect);
         transform.position = new Vector3(cameraLeftEdge, 0, 0);
+
 
         GameObject tl = Instantiate(terrainLoaderPrefab, transform.position, Quaternion.identity, transform);
         terrainLoader = tl.GetComponent<TerrainLoader>();
@@ -84,6 +86,7 @@ public class WorldManager : MonoBehaviour
             Debug.LogError("WorldManager: Missing PlayerController or LevelData!");
             return;
         }
+
 
         avalancheController.Reset();
         scrollSpeed = CalculateScrollSpeed();

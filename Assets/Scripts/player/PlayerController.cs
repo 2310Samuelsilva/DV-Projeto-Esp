@@ -58,7 +58,6 @@ public class PlayerController : MonoBehaviour
 
     public float MoveSpeed() => playerTransportData.GetMoveSpeed();
 
-
     public void PlayerLost() {
         LevelManager.Instance.EndLevel();
     }

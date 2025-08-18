@@ -1,13 +1,16 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System;
 
 public class SceneLoader : MonoBehaviour
 {
     public static SceneLoader Instance { get; private set; }
 
+    // Event so GameManager can wait until scene load finishes
+    public event Action OnSceneLoaded;
+
     private void Awake()
     {
-        // Singleton pattern
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -16,6 +19,16 @@ public class SceneLoader : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+
+        // Subscribe to Unity's scene load event
+        SceneManager.sceneLoaded += HandleSceneLoaded;
+    }
+
+
+    // Evoke the event once the scene is loaded
+    private void HandleSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        OnSceneLoaded?.Invoke();
     }
 
     public void LoadSceneByName(string sceneName)

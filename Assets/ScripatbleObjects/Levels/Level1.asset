@@ -10,9 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 603f90a8871e94bc58dc6b3bbff63c2d, type: 3}
-  m_Name: LevelData
+  m_Name: Level1
   m_EditorClassIdentifier: 
-  levelName: 
+  levelName: Level 1
+  sceneName: scene_level1
+  levelNumber: 1
+  isUnlocked: 1
+  isCompleted: 0
+  scoreToUnlock: 500
+  scoreToComplete: 1000
+  scoreToWin: 1200
+  bestScore: 0
   baseScrollSpeed: 8
   gravity: 3
   chunkSettings: {fileID: 11400000, guid: add03a18e736941e78ac8c8890305d27, type: 2}

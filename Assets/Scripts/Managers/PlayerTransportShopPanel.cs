@@ -19,7 +19,7 @@ public class PlayerTransportShopPanel : MonoBehaviour
     public void Setup(PlayerTransportData playerTransportData)
     {
         this.playerTransportData = playerTransportData;
-        this.playerData = LevelManager.Instance.GetPlayerData();
+        this.playerData = GameManager.Instance.GetPlayerData();
 
         // Clear previous listeners
         buttonAction.onClick.RemoveAllListeners();
