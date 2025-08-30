@@ -11,13 +11,6 @@ public class PlayerController : MonoBehaviour
     [Header("Transport Data")]
     [SerializeField] private PlayerTransportData playerTransportData;
 
-
-    // Movement stats (loaded from transportData)
-    // private float speed;
-    // private float jumpForce;
-    // private float handling;
-    // private float lowJumpMultiplier;
-    // private float fallMultiplier;
     [Header("Ground Check")]
     [SerializeField] private Transform groundCheck;
     [SerializeField] private float groundCheckRadius = 0.2f;
@@ -29,84 +22,72 @@ public class PlayerController : MonoBehaviour
 
     [Header("Respawn Settings")]
     [SerializeField] private float fallThresholdY = -10f;
-    private Vector2 spawnPoint;
 
     // Components
     private Rigidbody2D rb;
+    private Animator animator;
 
     // State
     private bool isGrounded;
     private bool doJump;
     private float horizontalInput;
-
     private float rotationVelocity;
 
-
     // -------------------- Public Methods --------------------
-
-    /// <summary>
-    /// Initializes player movement stats from the given TransportData.
-    /// </summary>
     public void Initialize(PlayerTransportData playerTransportData)
     {
         this.playerTransportData = playerTransportData;
-        Debug.Log($"Initialized player: {playerTransportData.GetName()}" + $" Level: {playerTransportData.GetLevel()}");
-        Debug.Log($"moveSpeed: {playerTransportData.GetMoveSpeed()}");
         rotationVelocity = 0f;
-        
+
+        Debug.Log($"Initialized player: {playerTransportData.GetName()} Level: {playerTransportData.GetLevel()}");
     }
 
     public float MoveSpeed() => playerTransportData.GetMoveSpeed();
 
-    public void PlayerLost() {
-        LevelManager.Instance.EndLevel();
-    }
-    // -------------------- Unity Methods --------------------
+    public void PlayerLost() => LevelManager.Instance.EndLevel();
 
+    // -------------------- Unity Methods --------------------
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
     private void Update()
     {
-
+        CheckGrounded();
         HandleInput();
         CheckRotationKill();
+        UpdateAnimator();
     }
 
     private void FixedUpdate()
     {
-        CheckGrounded();
         ApplyMovementPhysics();
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (collision.gameObject.tag == "Obstacle")
+        if (other.CompareTag("Obstacle"))
         {
-            PlayerLost();
+            Debug.Log("Hit obstacle! Decreasing scroll speed...");
+            LevelManager.Instance.ObstacleHit();
         }
     }
-
-    // -------------------- Gizmos --------------------
-    private void OnDrawGizmos()
+    
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (groundCheck != null)
+        if (collision.gameObject.CompareTag("Obstacle"))
         {
-            Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
-
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(rotationKillCheck.position, rotationKillCheckRadius);
+            Debug.Log("Player hit obstacle.");
+            LevelManager.Instance.ObstacleHit();
         }
+
     }
 
     // -------------------- Movement Logic --------------------
-
     private void HandleInput()
     {
-
         horizontalInput = Input.GetAxis("Horizontal");
         if (Input.GetButtonDown("Jump"))
             doJump = true;
@@ -120,22 +101,13 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-         // Rotate with input
         float targetRotationVelocity = -horizontalInput * playerTransportData.GetRotationAcceleration();
-
-        // Accelerate toward target rotation velocity
         rotationVelocity = Mathf.MoveTowards(rotationVelocity, targetRotationVelocity, playerTransportData.GetRotationAcceleration() * Time.deltaTime);
 
-        // Apply damping if no input
         if (Mathf.Approximately(horizontalInput, 0f))
-        {
             rotationVelocity = Mathf.Lerp(rotationVelocity, 0f, playerTransportData.GetRotationDamp() * Time.deltaTime);
-        }
 
-        // Clamp rotation speed
         rotationVelocity = Mathf.Clamp(rotationVelocity, -playerTransportData.GetMaxRotationVelocity(), playerTransportData.GetMaxRotationVelocity());
-
-        // Apply rotation
         transform.Rotate(0f, 0f, rotationVelocity * Time.deltaTime);
     }
 
@@ -152,28 +124,19 @@ public class PlayerController : MonoBehaviour
         HandleHorizontal();
         HandleJump();
 
-        // Jump / Fall Physics
         if (rb.linearVelocity.y < 0)
-        {
-            // Falling
-            rb.linearVelocity += (playerTransportData.GetFallMultiplier() - 1) * Time.fixedDeltaTime * Vector2.up;
-        }
-        // Jumping but not pressing jump -> Jump low
+            rb.linearVelocity += Vector2.up * Physics2D.gravity.y * (playerTransportData.GetFallMultiplier() - 1) * Time.fixedDeltaTime;
         else if (rb.linearVelocity.y > 0 && !Input.GetButton("Jump"))
-        {
-            // Short hop
-            rb.linearVelocity += (playerTransportData.GetLowJumpMultiplier() - 1) * Physics2D.gravity.y * Time.fixedDeltaTime * Vector2.up;
-        }
+            rb.linearVelocity += Vector2.up * Physics2D.gravity.y * (playerTransportData.GetLowJumpMultiplier() - 1) * Time.fixedDeltaTime * Vector2.up;
     }
 
     // -------------------- Checks --------------------
     private void CheckRotationKill()
     {
-        // Check top half of circle
         if (Physics2D.OverlapCircle(rotationKillCheck.position, rotationKillCheckRadius, groundLayer))
         {
             Debug.Log("Rotation kill");
-            PlayerLost();
+            //PlayerLost();
         }
     }
 
@@ -182,4 +145,26 @@ public class PlayerController : MonoBehaviour
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
     }
 
+    // -------------------- Animator --------------------
+    private void UpdateAnimator()
+    {
+        if (animator == null) return;
+
+        animator.SetBool("IsGrounded", isGrounded);
+        animator.SetBool("IsJumping", !isGrounded && rb.linearVelocity.y > 0);
+        animator.SetBool("IsFalling", !isGrounded && rb.linearVelocity.y < 0);
+    }
+
+    // -------------------- Gizmos --------------------
+    private void OnDrawGizmos()
+    {
+        if (groundCheck != null)
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(rotationKillCheck.position, rotationKillCheckRadius);
+        }
+    }
 }

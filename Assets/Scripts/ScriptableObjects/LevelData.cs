@@ -21,6 +21,7 @@ public class LevelData : ScriptableObject
 
     [Header("Level Environment")]
     public float baseScrollSpeed;
+    public float scrollSpeedDecreaseRate;
     public float gravity = 9.81f;
 
     public ChunkSettings chunkSettings;
@@ -29,7 +30,11 @@ public class LevelData : ScriptableObject
     public GameObject proceduralChunkPrefab;
     public GameObject avalanchePrefab;
     public float avalancheSpawnX = -20f;
-    public float avalancheSpeed = 10f;
+    public float avalancheBaseSpeed = 1f;
+    public float avalancheSpeedStep = 1.5f;
+    public float avalancheDistanceStep = 100f;
+    public float avalancheWobbleFrequency = 0.1f;
+    public float avalancheWobbleAmplitude = 1f;
     public float fallThresholdY = -10f;
 
     public float speedIncreaseDistanceThreshold;

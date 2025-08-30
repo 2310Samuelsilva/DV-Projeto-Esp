@@ -1,80 +1,75 @@
-using UnityEditor;
 using UnityEngine;
+using UnityEditor;
 
 [ExecuteAlways]
 public class WorldManager : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField] private GameObject terrainLoaderPrefab;
     [SerializeField] private LevelData levelData;
     [SerializeField] private PlayerController playerController;
     [SerializeField] private GameObject avalanchePrefab;
-    [SerializeField] private AvalancheController avalancheController;
-    [SerializeField] private TerrainLoader terrainLoader;
-    [SerializeField] private float scrollSpeed; // MoveSpeed
+
+    private AvalancheController avalancheController;
+    private TerrainLoader terrainLoader;
+
+    [Header("Scrolling")]
+    [SerializeField] private float scrollSpeed;          // Current actual speed
+    private float targetScrollSpeed;                     // Normal speed we recover toward
+    [SerializeField] private float scrollSpeedRecoveryRate = 2f; // Units per second
+
     private float distanceTraveled;
     private float nextSpeedIncreaseDistance;
 
-
-    // Ability to preview in editor
+    // -------------------- Editor Preview --------------------
 #if UNITY_EDITOR
     private void OnValidate()
     {
         if (Application.isPlaying || levelData == null) return;
 
-        // Delay so Unity is not in the middle of rendering
         EditorApplication.delayCall += () =>
         {
-            if (this == null) return; // Object might be gone
+            if (this == null) return;
             Initialize(levelData, playerController);
         };
-
     }
 #endif
 
-
-
+    // -------------------- Initialization --------------------
     public void Initialize(LevelData levelData, PlayerController playerController)
     {
         this.levelData = levelData;
         this.playerController = playerController;
         this.avalanchePrefab = levelData.avalanchePrefab;
 
+        // Remove previous terrain loader in editor
+        if (terrainLoader != null && !Application.isPlaying)
+            DestroyImmediate(terrainLoader.gameObject);
 
-        // For editopr map vizualization
-        if (terrainLoader != null)
-        {
-            if (!Application.isPlaying)
-            {
-                DestroyImmediate(terrainLoader.gameObject);
-            }
-        }
-
-        // Place self position on camera left edge
+        // Place WorldManager at camera left edge
         float cameraLeftEdge = Camera.main.transform.position.x - (Camera.main.orthographicSize * Camera.main.aspect);
-        transform.position = new Vector3(cameraLeftEdge, 0, 0);
+        transform.position = new Vector3(cameraLeftEdge, 0f, 0f);
 
-
+        // Instantiate terrain loader
         GameObject tl = Instantiate(terrainLoaderPrefab, transform.position, Quaternion.identity, transform);
         terrainLoader = tl.GetComponent<TerrainLoader>();
         terrainLoader.Initialize(levelData);
 
+        // Instantiate avalanche
         GameObject avalanche = Instantiate(avalanchePrefab, transform.position, Quaternion.identity, transform);
         avalancheController = avalanche.GetComponent<AvalancheController>();
         avalancheController.Initialize(levelData);
 
         Reset();
-
         Debug.Log("WorldManager initialized");
     }
 
-    float CalculateScrollSpeed()
+    // -------------------- Scroll Speed Calculation --------------------
+    private float CalculateTargetScrollSpeed()
     {
-        float scrollSpeed = levelData.baseScrollSpeed;
-        scrollSpeed += playerController.MoveSpeed(); // Add player speed
-        Debug.Log("ScrollSpeed: " + scrollSpeed);
-        return scrollSpeed;
-        
-    } 
+        targetScrollSpeed = levelData.baseScrollSpeed + playerController.MoveSpeed();
+        return targetScrollSpeed;
+    }
 
     public void Reset()
     {
@@ -87,66 +82,68 @@ public class WorldManager : MonoBehaviour
             return;
         }
 
-
         avalancheController.Reset();
-        scrollSpeed = CalculateScrollSpeed();
+        scrollSpeed = CalculateTargetScrollSpeed();
         terrainLoader.InitializeChunks();
     }
 
-    private void Update()
+    // -------------------- Obstacle Interaction --------------------
+    public void DecreaseScrollSpeed()
     {
-        
-        if (Application.isPlaying)
-        {
-
-            CheckForLoss();
-
-            Debug.Log("Moving chunks, scrollSpeed: " + scrollSpeed);
-            distanceTraveled += scrollSpeed * Time.deltaTime;
-            terrainLoader.MoveChunks(scrollSpeed);
-            avalancheController.UpdateAvalanche(scrollSpeed);
-            IncreaseScrollSpeed();
-        }
-
-
+        float reduction = targetScrollSpeed * levelData.scrollSpeedDecreaseRate / 100f;
+        scrollSpeed = Mathf.Max(scrollSpeed - reduction, levelData.baseScrollSpeed/2f);// instant drop
     }
 
+    // -------------------- Update Loop --------------------
+    private void FixedUpdate()
+    {
+        if (!Application.isPlaying) return;
+
+        distanceTraveled += scrollSpeed * Time.deltaTime;
+
+        terrainLoader.MoveChunks(scrollSpeed);
+        avalancheController.UpdateAvalanche(distanceTraveled);
+
+        IncreaseScrollSpeed();
+        SmoothRecoverScrollSpeed();
+        CheckForLoss();
+    }
+
+    private void SmoothRecoverScrollSpeed()
+    {
+        if (scrollSpeed < targetScrollSpeed)
+        {
+            scrollSpeed += scrollSpeedRecoveryRate * Time.deltaTime;
+            if (scrollSpeed > targetScrollSpeed)
+                scrollSpeed = targetScrollSpeed;
+        }
+    }
+
+    private void IncreaseScrollSpeed()
+    {
+        if (distanceTraveled >= nextSpeedIncreaseDistance)
+        {
+            scrollSpeed += levelData.speedIncreaseRate * Time.deltaTime;
+            nextSpeedIncreaseDistance += levelData.speedIncreaseDistanceThreshold;
+        }
+    }
+
+    // -------------------- Loss Checks --------------------
     private void CheckForLoss()
     {
-        // Check if player fell off the map
         if (playerController.transform.position.y < levelData.fallThresholdY)
-        {
             LevelManager.Instance.EndLevel();
-        }
 
-        // Check avalanche
         if (HasAvalancheHitPlayer())
-        {
             LevelManager.Instance.EndLevel();
-        }
     }
 
     private bool HasAvalancheHitPlayer()
     {
         float avalancheX = avalancheController.GetAvalanchePosition();
-        if (avalancheX > playerController.transform.position.x)
-        {
-            return true;
-        }
-
-        return false;
+        return avalancheX > playerController.transform.position.x;
     }
 
-    public void IncreaseScrollSpeed()
-    {
-        if (DistanceTravelled() >= nextSpeedIncreaseDistance)
-        {
-            scrollSpeed += levelData.speedIncreaseRate * Time.deltaTime;
-            nextSpeedIncreaseDistance += levelData.speedIncreaseDistanceThreshold;
-        }
-
-    }
-
+    // -------------------- Distance Info --------------------
     public float DistanceTravelled() => distanceTraveled;
-    //public float ScrollSpeed() => scrollSpeed;
 }

@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
@@ -15,6 +16,7 @@ public class LevelManager : MonoBehaviour
 
     private GameObject playerInstance;
     private WorldManager worldManager;
+    
 
     private void Awake()
     {
@@ -26,11 +28,12 @@ public class LevelManager : MonoBehaviour
         Instance = this;
 
 
-        
+
     }
 
     public void Initialize(LevelData levelData, PlayerData playerData)
     {
+        Debug.Log("LevelManager: Initialize");
         this.levelData = levelData;
         this.playerData = playerData;
         this.transportData = playerData.selectedTransport;
@@ -55,10 +58,15 @@ public class LevelManager : MonoBehaviour
             transportData = playerData.selectedTransport; // fallback: use selected
         }
 
+        Debug.Log($"LevelManager: Loading {levelData.levelName} with {transportData.GetName()}");
+
         // --- Spawn Player ---
         playerInstance = Instantiate(transportData.GetPrefab(), playerSpawnPoint, Quaternion.identity);
         var playerController = playerInstance.GetComponent<PlayerController>();
         playerController.Initialize(transportData);
+
+        // set cinemachine tracking
+        //FindAnyObjectByType<CameraManager>().SetTarget(playerController.transform);
 
         // --- Spawn World ---
         GameObject wm = Instantiate(worldManagerPrefab, Vector3.zero, Quaternion.identity);
@@ -76,6 +84,12 @@ public class LevelManager : MonoBehaviour
         // Update UI
         float distance = worldManager.DistanceTravelled();
         UIGameplayManager.Instance.UpdateDistanceUI($"{distance:F0}m");
+    }
+
+
+    public void ObstacleHit()
+    {
+        this.worldManager.DecreaseScrollSpeed();
     }
 
     public void EndLevel()

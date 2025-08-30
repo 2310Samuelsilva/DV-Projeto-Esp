@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Level1
   m_EditorClassIdentifier: 
   levelName: Level 1
-  sceneName: scene_level1
+  sceneName: Level1
   levelNumber: 1
   isUnlocked: 1
   isCompleted: 0
@@ -22,6 +22,7 @@ MonoBehaviour:
   scoreToWin: 1200
   bestScore: 0
   baseScrollSpeed: 8
+  scrollSpeedDecreaseRate: 80
   gravity: 3
   chunkSettings: {fileID: 11400000, guid: add03a18e736941e78ac8c8890305d27, type: 2}
   seed: 0
@@ -29,7 +30,11 @@ MonoBehaviour:
   proceduralChunkPrefab: {fileID: 4520960633213358903, guid: 84d22dfc80ee742d487172a7fe63c751, type: 3}
   avalanchePrefab: {fileID: 632106669967204208, guid: 77d20f6ff5f2e401e9f014a3e8122f9a, type: 3}
   avalancheSpawnX: -20
-  avalancheSpeed: 1.5
+  avalancheBaseSpeed: 0.15
+  avalancheSpeedStep: 0.15
+  avalancheDistanceStep: 150
+  avalancheWobbleFrequency: 0.5
+  avalancheWobbleAmplitude: 1
   fallThresholdY: -10
   speedIncreaseDistanceThreshold: 50
   speedIncreaseRate: 4
