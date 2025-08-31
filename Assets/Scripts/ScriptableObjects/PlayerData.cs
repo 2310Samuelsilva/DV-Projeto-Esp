@@ -5,4 +5,6 @@ public class PlayerData : ScriptableObject
 {
     public PlayerTransportData selectedTransport;
     public float totalBalance;
+
+    public float GetTotalBalance() => totalBalance;
 }

@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6469e01bf345a4e49bca434f471a8b3b, type: 3}
-  m_Name: PlayerFoot
+  m_Name: SnowMobile
   m_EditorClassIdentifier: 
-  prefab: {fileID: 3410917964373414578, guid: 8ace9216a3e9e4b40a3af2284ba16b86, type: 3}
-  transportName: Foot
+  prefab: {fileID: 3410917964373414578, guid: 334418138bcaf499b98e34b476a6fa7e, type: 3}
+  transportName: SnowMobile
   level: 10
-  levelUpThreshold: 0
-  isUnlocked: 0
+  maxLevel: 10
+  isUnlocked: 1
   isSelected: 0
-  basePrice: 200
-  pricePerLevel: 100
-  moveSpeed: 5
+  basePrice: 500
+  pricePerLevel: 300
+  moveSpeed: 7
   maxRotationVelocity: 100
   rotationAcceleration: 2500
   jumpForce: 10

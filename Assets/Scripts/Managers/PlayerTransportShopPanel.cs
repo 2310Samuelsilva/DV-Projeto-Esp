@@ -7,10 +7,9 @@ public class PlayerTransportShopPanel : MonoBehaviour
     [Header("UI References")]
     [SerializeField] private TextMeshProUGUI titleText;
     [SerializeField] private TextMeshProUGUI levelText;
-    [SerializeField] private TextMeshProUGUI priceText;
-
     [SerializeField] private Button buttonAction;   // Buy/Upgrade button
     [SerializeField] private Button buttonSelect;   // Select button
+    [SerializeField] private Slider levelSlider;
 
     [Header("Data")]
     private PlayerTransportData playerTransportData;
@@ -19,7 +18,10 @@ public class PlayerTransportShopPanel : MonoBehaviour
     public void Setup(PlayerTransportData playerTransportData)
     {
         this.playerTransportData = playerTransportData;
-        this.playerData = GameManager.Instance.GetPlayerData();
+        if (this.playerData == null)
+        {
+            this.playerData = GameManager.Instance.GetPlayerData();
+        }
 
         // Clear previous listeners
         buttonAction.onClick.RemoveAllListeners();
@@ -37,32 +39,74 @@ public class PlayerTransportShopPanel : MonoBehaviour
 
         if (!playerTransportData.IsUnlocked())
         {
-            // Locked
+            // Locked state
             levelText.text = "Locked";
-            priceText.text = $"Buy: {playerTransportData.GetBasePrice()}";
-            buttonAction.GetComponentInChildren<TextMeshProUGUI>().text = "Buy";
+            SetButtonState(buttonAction, playerData.totalBalance >= playerTransportData.GetBasePrice(), 
+                           $"Buy: {playerTransportData.GetBasePrice()}");
+            SetButtonState(buttonSelect, false, "Locked");
 
-            buttonSelect.interactable = false;
-            buttonSelect.GetComponentInChildren<TextMeshProUGUI>().text = "Locked";
+            if (levelSlider != null)
+            {
+                levelSlider.gameObject.SetActive(false); // hide slider when locked
+            }
         }
         else
         {
-            // Unlocked
-            levelText.text = $"Level {playerTransportData.GetLevel()}";
-            priceText.text = $"Upgrade: {playerTransportData.GetUpgradePrice()}";
-            buttonAction.GetComponentInChildren<TextMeshProUGUI>().text = "Upgrade";
+            // Unlocked state
+            int currentLevel = playerTransportData.GetLevel();
+            int maxLevel = playerTransportData.GetMaxPossibleLevel();
+            int upgradePrice = playerTransportData.GetUpgradePrice();
 
-            if (playerData.selectedTransport == playerTransportData)
+            levelText.text = $"Level {currentLevel}";
+
+            // Handle Upgrade Button
+            if (currentLevel >= maxLevel)
             {
-                buttonSelect.interactable = false;
-                buttonSelect.GetComponentInChildren<TextMeshProUGUI>().text = "Selected";
+                SetButtonState(buttonAction, false, "Max Level");
             }
             else
             {
-                buttonSelect.interactable = true;
-                buttonSelect.GetComponentInChildren<TextMeshProUGUI>().text = "Select";
+                bool canUpgrade = playerData.totalBalance >= upgradePrice;
+                SetButtonState(buttonAction, canUpgrade, $"Upgrade: {upgradePrice}");
+            }
+
+            // Handle Select Button
+            if (playerData.selectedTransport == playerTransportData)
+            {
+                SetButtonState(buttonSelect, false, "Selected");
+            }
+            else
+            {
+                SetButtonState(buttonSelect, true, "Select");
+            }
+
+            // Handle Slider (current level progress to max)
+            if (levelSlider != null)
+            {
+                levelSlider.gameObject.SetActive(true);
+                levelSlider.minValue = 0;
+                levelSlider.maxValue = maxLevel;
+                levelSlider.value = Mathf.Clamp(currentLevel, 0, maxLevel);
             }
         }
+    }
+
+    private void SetButtonState(Button button, bool interactable, string overrideText = null)
+    {
+        button.interactable = interactable;
+
+        if (!string.IsNullOrEmpty(overrideText))
+        {
+            button.GetComponentInChildren<TextMeshProUGUI>().text = overrideText;
+        }
+
+        // Dim button visually when not interactable
+        var canvasGroup = button.GetComponent<CanvasGroup>();
+        if (canvasGroup == null)
+        {
+            canvasGroup = button.gameObject.AddComponent<CanvasGroup>();
+        }
+        canvasGroup.alpha = interactable ? 1f : 0.5f;
     }
 
     private void OnActionButtonPressed()
@@ -85,7 +129,10 @@ public class PlayerTransportShopPanel : MonoBehaviour
         {
             // Upgrade
             int upgradePrice = playerTransportData.GetUpgradePrice();
-            if (playerData.totalBalance >= upgradePrice)
+            int maxLevel = playerTransportData.GetMaxPossibleLevel();
+
+            if (playerTransportData.GetLevel() < maxLevel &&
+                playerData.totalBalance >= upgradePrice)
             {
                 playerData.totalBalance -= upgradePrice;
                 playerTransportData.IncreaseLevel();
@@ -93,11 +140,11 @@ public class PlayerTransportShopPanel : MonoBehaviour
             }
             else
             {
-                Debug.Log("Not enough currency to upgrade!");
+                Debug.Log("Cannot upgrade (max level or not enough balance).");
             }
         }
 
-        RefreshUI();
+        UITransportManager.Instance.RefreshAllPanels();
     }
 
     private void OnSelectButtonPressed()
@@ -105,7 +152,6 @@ public class PlayerTransportShopPanel : MonoBehaviour
         playerData.selectedTransport = playerTransportData;
         Debug.Log($"{playerTransportData.GetName()} selected!");
 
-        // Refresh all panels so only one is selected
-        UIShopManager.Instance.RefreshAllPanels();
+        UITransportManager.Instance.RefreshAllPanels();
     }
 }

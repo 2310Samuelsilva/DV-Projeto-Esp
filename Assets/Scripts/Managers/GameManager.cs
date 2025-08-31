@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         playerData = gameData.GetPlayerData();
+        Debug.Log($"Player name: {playerData.name}");
         playerTransportDatabase = gameData.GetPlayerTransportDatabase();
         levelList = gameData.GetLevelList();
         

@@ -1,3 +1,4 @@
+using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "TransportData", menuName = "Game/Transport Data")]
@@ -7,7 +8,7 @@ public class PlayerTransportData : ScriptableObject
     [SerializeField] private GameObject prefab;
     [SerializeField] private string transportName;
     [SerializeField] private int level = 1;             
-    [SerializeField] private int levelUpThreshold = 100;
+    [SerializeField] private int maxLevel = 1;             
     [SerializeField] private bool isUnlocked = false;
     [SerializeField] private bool isSelected = false;
     [SerializeField] private int basePrice = 200;
@@ -44,6 +45,7 @@ public class PlayerTransportData : ScriptableObject
     public int GetBasePrice() => basePrice;
     public int GetPricePerLevel() => pricePerLevel;
     public int GetUpgradePrice() => basePrice + (level * pricePerLevel);
+    public int GetMaxPossibleLevel() => maxLevel;
 
     // --- Static multipliers ---
     public float GetRotationDamp() => rotationDamp;

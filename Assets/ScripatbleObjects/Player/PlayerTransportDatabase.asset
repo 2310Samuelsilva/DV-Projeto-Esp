@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transports:
   - {fileID: 11400000, guid: 04a119263e1514a71ad069beae24f5ce, type: 2}
+  - {fileID: 11400000, guid: 7412c48a035a245dba74809959b9f7a0, type: 2}
