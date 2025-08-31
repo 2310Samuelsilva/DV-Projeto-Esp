@@ -17,6 +17,11 @@ public class MainMenuUI : MonoBehaviour
         GameManager.Instance.LoadSelectedLevel();
     }
 
+    public void UITransports()
+    {
+        GameManager.Instance.LoadTransports();
+    }
+
     public void QuitGame()
     {
         Debug.Log("Quit Game"); // Won’t quit in Editor

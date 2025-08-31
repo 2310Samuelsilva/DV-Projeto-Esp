@@ -28,14 +28,16 @@ public class GameManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
         Debug.Log("GameManager Awake: instance set, will survive scene loads.");
-    }
 
-    private void Start()
-    {
         playerData = gameData.GetPlayerData();
         Debug.Log($"Player name: {playerData.name}");
         playerTransportDatabase = gameData.GetPlayerTransportDatabase();
         levelList = gameData.GetLevelList();
+    }
+
+    private void Start()
+    {
+       
         
     }
 
@@ -103,6 +105,11 @@ public class GameManager : MonoBehaviour
     public void ReturnToMainMenu()
     {
         SceneLoader.Instance.LoadSceneByName("MainMenu");
+    }
+
+    public void LoadTransports()
+    {
+        SceneLoader.Instance.LoadSceneByName("UITransports");
     }
 
     public void EndGame()

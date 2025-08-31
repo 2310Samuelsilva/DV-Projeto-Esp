@@ -144,7 +144,7 @@ public class PlayerTransportShopPanel : MonoBehaviour
             }
         }
 
-        UITransportManager.Instance.RefreshAllPanels();
+        UITransports.Instance.RefreshAllPanels();
     }
 
     private void OnSelectButtonPressed()
@@ -152,6 +152,6 @@ public class PlayerTransportShopPanel : MonoBehaviour
         playerData.selectedTransport = playerTransportData;
         Debug.Log($"{playerTransportData.GetName()} selected!");
 
-        UITransportManager.Instance.RefreshAllPanels();
+        UITransports.Instance.RefreshAllPanels();
     }
 }

@@ -2,9 +2,9 @@ using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
 
-public class UITransportManager : MonoBehaviour
+public class UITransports : MonoBehaviour
 {
-    public static UITransportManager Instance { get; private set; }
+    public static UITransports Instance { get; private set; }
 
     [SerializeField] private GameObject transportPanelPrefab;
     [SerializeField] private Transform transportListContainer;
@@ -29,7 +29,7 @@ public class UITransportManager : MonoBehaviour
     }
 
     void Start()
-    {   
+    {
         this.playerData = GameManager.Instance.GetPlayerData();
         PopulateShop();
     }
@@ -39,7 +39,7 @@ public class UITransportManager : MonoBehaviour
         foreach (Transform child in transportListContainer)
             Destroy(child.gameObject); // Clear old panels
 
-        
+
         textBalance.text = $"{playerData.GetTotalBalance()}";
         panels.Clear();
 
@@ -59,5 +59,10 @@ public class UITransportManager : MonoBehaviour
         textBalance.text = $"{playerData.GetTotalBalance()}";
         foreach (var panel in panels)
             panel.RefreshUI(); // Call UI refresh
+    }
+    
+    public void ReturnToMainMenu()
+    {
+        GameManager.Instance.ReturnToMainMenu();
     }
 }

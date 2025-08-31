@@ -1,14 +1,15 @@
 using Unity.VisualScripting.Dependencies.Sqlite;
+using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "TransportData", menuName = "Game/Transport Data")]
-public class PlayerTransportData : ScriptableObject 
+public class PlayerTransportData : ScriptableObject
 {
     [Header("Transport Metadata")]
     [SerializeField] private GameObject prefab;
     [SerializeField] private string transportName;
-    [SerializeField] private int level = 1;             
-    [SerializeField] private int maxLevel = 1;             
+    [SerializeField] private int level = 1;
+    [SerializeField] private int maxLevel = 1;
     [SerializeField] private bool isUnlocked = false;
     [SerializeField] private bool isSelected = false;
     [SerializeField] private int basePrice = 200;
@@ -24,10 +25,10 @@ public class PlayerTransportData : ScriptableObject
     [SerializeField] private float lowJumpMultiplier = 2f;
 
     [Header("Upgrade Scaling (per level)")]
-    [Range(0f, 1f)] [SerializeField] private float moveSpeedPerLevel = 0.05f;
-    [Range(0f, 1f)] [SerializeField] private float rotationVelocityPerLevel = 0.05f;
-    [Range(0f, 1f)] [SerializeField] private float rotationAccelerationPerLevel = 0.05f;
-    [Range(0f, 1f)] [SerializeField] private float jumpForcePerLevel = 0.05f;
+    [Range(0f, 1f)][SerializeField] private float moveSpeedPerLevel = 0.05f;
+    [Range(0f, 1f)][SerializeField] private float rotationVelocityPerLevel = 0.05f;
+    [Range(0f, 1f)][SerializeField] private float rotationAccelerationPerLevel = 0.05f;
+    [Range(0f, 1f)][SerializeField] private float jumpForcePerLevel = 0.05f;
 
     // --- Metadata Getters ---
     public string GetName() => transportName;
@@ -57,4 +58,21 @@ public class PlayerTransportData : ScriptableObject
     public float GetMaxRotationVelocity() => maxRotationVelocity * (1f + rotationVelocityPerLevel * level);
     public float GetRotationAcceleration() => rotationAcceleration * (1f + rotationAccelerationPerLevel * level);
     public float GetJumpForce() => jumpForce * (1f + jumpForcePerLevel * level);
+
+    public void ResetData()
+    {
+        level = 1;
+        isUnlocked = false;
+        isSelected = false;
+    }
+    
+    #if UNITY_EDITOR
+    [ContextMenu("Reset Transport Data")]
+        private void ResetFromContextMenu()
+        {
+            ResetData();
+            EditorUtility.SetDirty(this); // Mark asset dirty so Unity saves changes
+            Debug.Log($"{name} reset to default state!");
+        }
+    #endif
 }

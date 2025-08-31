@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 3410917964373414578, guid: 8ace9216a3e9e4b40a3af2284ba16b86, type: 3}
   transportName: SnowBoard
-  level: 5
+  level: 1
   maxLevel: 5
   isUnlocked: 1
   isSelected: 0
   basePrice: 200
   pricePerLevel: 100
-  moveSpeed: 5
+  moveSpeed: 1
   maxRotationVelocity: 100
   rotationAcceleration: 2500
   jumpForce: 10

@@ -4,7 +4,8 @@ using UnityEngine;
 public class PlayerData : ScriptableObject
 {
     public PlayerTransportData selectedTransport;
-    public float totalBalance;
+    public int totalBalance;
 
-    public float GetTotalBalance() => totalBalance;
+    public int GetTotalBalance() => totalBalance;
+    public int AddTotalBalance(int amount) => totalBalance += amount;
 }
