@@ -72,6 +72,9 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("Hit obstacle! Decreasing scroll speed...");
             LevelManager.Instance.ObstacleHit();
+            EffectsManager.Instance.ObstacleHit(other.transform.position);
+
+            Destroy(other.gameObject, 0.5f);
         }
     }
     

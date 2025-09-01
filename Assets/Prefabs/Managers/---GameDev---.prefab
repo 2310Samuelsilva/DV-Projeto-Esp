@@ -262,18 +262,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba62d69afcdbd4f09a8c34c0d4c76172, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wobbleAmplitude: 0.2
-  wobbleFrequency: 2
-  maxCatchUpBonus: 0.4
-  catchUpStrength: 0.15
-  growthOverTime: 0.002
-  maxScale: 5
-  minScale: 1
-  maxDistance: 30
-  breathingAmplitude: 0.05
-  breathingFrequency: 1.5
   levelData: {fileID: 11400000, guid: ffaf79f9218bd46c6adb41aa433acec6, type: 2}
   snowParticles: {fileID: 6096069667166755112}
+  currentSpeed: 0
 --- !u!1 &4616841718661166198
 GameObject:
   m_ObjectHideFlags: 0
@@ -5271,18 +5262,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba62d69afcdbd4f09a8c34c0d4c76172, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wobbleAmplitude: 0.2
-  wobbleFrequency: 2
-  maxCatchUpBonus: 0.4
-  catchUpStrength: 0.15
-  growthOverTime: 0.002
-  maxScale: 5
-  minScale: 1
-  maxDistance: 30
-  breathingAmplitude: 0.05
-  breathingFrequency: 1.5
   levelData: {fileID: 11400000, guid: ffaf79f9218bd46c6adb41aa433acec6, type: 2}
   snowParticles: {fileID: 7811332365091040734}
+  currentSpeed: 0
 --- !u!1 &7308078138168619263
 GameObject:
   m_ObjectHideFlags: 0
@@ -10218,18 +10200,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba62d69afcdbd4f09a8c34c0d4c76172, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wobbleAmplitude: 0.2
-  wobbleFrequency: 2
-  maxCatchUpBonus: 0.4
-  catchUpStrength: 0.15
-  growthOverTime: 0.002
-  maxScale: 5
-  minScale: 1
-  maxDistance: 30
-  breathingAmplitude: 0.05
-  breathingFrequency: 1.5
   levelData: {fileID: 11400000, guid: ffaf79f9218bd46c6adb41aa433acec6, type: 2}
   snowParticles: {fileID: 7307865248571978698}
+  currentSpeed: 0
 --- !u!1 &9186226308330863157
 GameObject:
   m_ObjectHideFlags: 0
@@ -15146,7 +15119,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2119435567528069003, guid: ccb0ef9181e974b039e07fc765aa66af, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -17.777779
+      value: -4.2222223
       objectReference: {fileID: 0}
     - target: {fileID: 2119435567528069003, guid: ccb0ef9181e974b039e07fc765aa66af, type: 3}
       propertyPath: m_LocalPosition.y

@@ -20,5 +20,5 @@ MonoBehaviour:
   seed: 0
   obstaclePool:
   - {fileID: 11400000, guid: 6aadbb4204d254821970af6aeb722080, type: 2}
-  obstacleSpawnChance: 0.178
-  obstacleFrequency: 100
+  obstacleSpawnChance: 0.3
+  obstacleFrequency: 20

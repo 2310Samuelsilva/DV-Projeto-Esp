@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: PlayerData
   m_EditorClassIdentifier: 
   selectedTransport: {fileID: 11400000, guid: 04a119263e1514a71ad069beae24f5ce, type: 2}
-  totalBalance: 994000
+  totalBalance: 978854

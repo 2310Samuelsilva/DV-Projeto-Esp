@@ -73,7 +73,7 @@ public class LevelManager : MonoBehaviour
         playerController.Initialize(transportData);
 
         // Set Cinemachine target
-        cameraManager?.SetTarget(playerController.transform);
+        //cameraManager?.SetTarget(playerController.transform);
     }
 
     /// <summary>Instantiate world manager and initialize it.</summary>
@@ -116,7 +116,7 @@ public class LevelManager : MonoBehaviour
         playerData.AddTotalBalance(coinsEarned);
 
         ShowLevelEndUI();
-        UILevelEndManager.Instance.PopulateUI("{distance:F0}m", coinsEarned);
+        UILevelEndManager.Instance.PopulateUI($"{distance:F0}m", coinsEarned);
 
         Debug.Log($"Level ended. Distance: {distance:F0}, Coins Earned: {coinsEarned}");
     }
