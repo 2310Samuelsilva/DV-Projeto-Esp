@@ -102,7 +102,7 @@ public class WorldManager : MonoBehaviour
         distanceTraveled += scrollSpeed * Time.deltaTime;
 
         terrainLoader.MoveChunks(scrollSpeed);
-        avalancheController.UpdateAvalanche(distanceTraveled);
+        avalancheController.UpdateAvalanche(scrollSpeed,distanceTraveled);
 
         IncreaseScrollSpeed();
         SmoothRecoverScrollSpeed();
