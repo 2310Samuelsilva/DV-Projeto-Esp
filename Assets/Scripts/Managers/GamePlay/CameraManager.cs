@@ -47,6 +47,7 @@ public class CameraManager : MonoBehaviour
             Debug.LogError("No Noise assigned in CameraManager!");
         }
         
+        Debug.Log($"Shaking camera for {duration} seconds with amplitude {amplitude} and frequency {frequency}");
         StartCoroutine(DoShake(amplitude, frequency, duration));
     }
 

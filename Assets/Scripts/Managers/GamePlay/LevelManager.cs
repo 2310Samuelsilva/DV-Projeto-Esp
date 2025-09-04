@@ -14,6 +14,7 @@ public class LevelManager : MonoBehaviour
     [Header("Scene References")]
     [SerializeField] private GameObject worldManagerPrefab;
     [SerializeField] private Vector3 playerSpawnPoint = Vector3.zero;
+    [SerializeField] private bool hasHit;
 
     private PlayerTransportData transportData;
     private GameObject playerInstance;
@@ -21,6 +22,7 @@ public class LevelManager : MonoBehaviour
     private CameraManager cameraManager;
 
     [SerializeField] protected GameObject levelEndUI;
+
 
     private void Awake()
     {
@@ -102,7 +104,9 @@ public class LevelManager : MonoBehaviour
     /// <summary>Called when player hits an obstacle.</summary>
     public void ObstacleHit()
     {
-        worldManager?.DecreaseScrollSpeed();
+
+        worldManager.ObstacleHit();
+
     }
 
     /// <summary>End the level, calculate rewards, and show LevelEnd UI.</summary>
@@ -148,4 +152,5 @@ public class LevelManager : MonoBehaviour
     // -------------------- Public Accessors --------------------
     public LevelData GetLevelData() => levelData;
     public PlayerTransportData GetTransportData() => transportData;
+    public Vector3 GetPlayerSpawnPoint() => playerSpawnPoint;
 }

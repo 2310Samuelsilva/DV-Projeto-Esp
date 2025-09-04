@@ -18,15 +18,21 @@ public class EffectsManager : MonoBehaviour
         }
         Instance = this;
     }
+    
+    public void ShakeCamera(float amplitude, float frequency, float duration)
+    {
+        CameraManager.Instance.ShakeCamera(amplitude, frequency, duration);
+    }
 
     public void ObstacleHit(Vector3 position)
     {
         // Camera shake
-        CameraManager.Instance.ShakeCamera(amplitude, frequency, 0.25f);
+        //ShakeCamera(amplitude, frequency, 0.25f);
 
         // VFX
-        if (obstacleHitVFXPrefab != null) { };
-            //Instantiate(obstacleHitVFXPrefab, position, Quaternion.identity);
+        if (obstacleHitVFXPrefab != null) { }
+        ;
+        //Instantiate(obstacleHitVFXPrefab, position, Quaternion.identity);
 
         // TODO: add SFX if you want
     }

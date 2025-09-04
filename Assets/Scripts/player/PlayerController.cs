@@ -20,8 +20,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform rotationKillCheck;
     [SerializeField] private float rotationKillCheckRadius = 0.2f;
 
-    [Header("Respawn Settings")]
-    [SerializeField] private float fallThresholdY = -10f;
 
     // Components
     private Rigidbody2D rb;
@@ -70,7 +68,6 @@ public class PlayerController : MonoBehaviour
     {
         if (other.CompareTag("Obstacle"))
         {
-            Debug.Log("Hit obstacle! Decreasing scroll speed...");
             LevelManager.Instance.ObstacleHit();
             EffectsManager.Instance.ObstacleHit(other.transform.position);
 

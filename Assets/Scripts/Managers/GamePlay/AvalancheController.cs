@@ -3,96 +3,88 @@ using UnityEngine;
 public class AvalancheController : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private LevelData levelData;          // Holds base speeds, thresholds, scales
-    [SerializeField] private Transform snowParticles;      // Optional visual particles
+    [SerializeField] private LevelData levelData;
+    [SerializeField] private ParticleSystem particleSystem;
+    [SerializeField] private Transform snowParticles;
 
-    [Header("Catch-up Settings")]
-    [SerializeField] private float catchUpStrength = 2f;  // How fast avalanche reacts
-    [SerializeField] private float maxCatchUpDistance = 20f; // Distance where it hits max speed
+    [Header("Scaling & Effects")]
+    [SerializeField] private float baseScale = 1f;
+    [SerializeField] private float scalePerHit = 0.5f;
+    [SerializeField] private float maxScale = 3f;
+
+    [Header("Particles")]
+    [SerializeField] private int baseEmissionRate = 10;
+    [SerializeField] private int emissionPerHit = 5;
+    [SerializeField] private int maxEmissionRate = 50;
+
+    [Header("Movement")]
+    [SerializeField] private float moveLerpSpeed = 2f;   // Smoothness of catch-up
+    [SerializeField] private float wobbleAmplitude = 0.2f;
+    [SerializeField] private float wobbleFrequency = 2f;
 
     private float currentX;
+    private float targetX;
     private float baseY;
-    private float nextSpeedThreshold;
-    private float currentBaseSpeed;
+    private Vector3 playerPosition;
 
-    /// <summary>
-    /// Initialize avalanche
-    /// </summary>
     public void Initialize(LevelData levelData)
     {
         this.levelData = levelData;
+        this.playerPosition = LevelManager.Instance.GetPlayerSpawnPoint();
         baseY = transform.position.y;
-
-        currentBaseSpeed = levelData.avalancheBaseSpeed;
-        nextSpeedThreshold = levelData.avalancheDistanceStep;
-
         Reset();
     }
 
-    /// <summary>Reset avalanche to starting position</summary>
     public void Reset()
     {
         if (levelData == null) return;
 
-        currentX = levelData.avalancheSpawnX; // Usually behind player
+        currentX = levelData.avalancheSpawnX; // Start behind player
+        targetX = currentX;
+        SetClose(0);
         UpdateAvalanchePosition();
     }
 
-    /// <summary>Update avalanche based on world scroll speed and distance travelled</summary>
-    public void UpdateAvalanche(float worldScrollSpeed, float distanceTraveled)
+    /// <summary>
+    /// Set how "close" the avalanche appears based on hit count
+    /// </summary>
+    public void SetClose(int hitCount)
     {
-        if (levelData == null) return;
+        // --- Scale ---
+        float scale = baseScale + hitCount * scalePerHit;
+        scale = Mathf.Min(scale, maxScale);
+        transform.localScale = Vector3.one * scale;
 
-        // ---- Threshold speed increase ----
-        if (distanceTraveled >= nextSpeedThreshold)
+        if (snowParticles != null)
+            snowParticles.localScale = Vector3.one * scale;
+
+        if (particleSystem != null)
         {
-            currentBaseSpeed += levelData.avalancheSpeedStep;
-            nextSpeedThreshold += levelData.avalancheDistanceStep;
+            particleSystem.transform.localScale = Vector3.one * scale;
+
+            // --- Adjust emission intensity ---
+            var emission = particleSystem.emission;
+            int rate = baseEmissionRate + hitCount * emissionPerHit;
+            rate = Mathf.Min(rate, maxEmissionRate);
+            emission.rateOverTime = rate;
         }
 
-        // ---- Distance to player (X = 0) ----
-        float distanceToPlayer = -currentX; // Player is at X = 0
+        // --- Set new target position closer to player ---
+        targetX = Mathf.Lerp(currentX, playerPosition.x, (float)hitCount / levelData.avalancheMaxHits);
+    }
 
-        // ---- Catch-up speed ----
-        float catchUpFactor = Mathf.Clamp01(distanceToPlayer / maxCatchUpDistance);
-        float targetSpeed = currentBaseSpeed + worldScrollSpeed * catchUpFactor;
-
-        // Smoothly move avalanche forward
-        currentX += Mathf.Lerp(0f, targetSpeed, catchUpStrength * Time.deltaTime);
-
+    public void UpdateAvalanche(float worldScrollSpeed, float distanceTraveled)
+    {
+        // Smoothly move toward targetX
+        currentX = Mathf.Lerp(currentX, targetX, moveLerpSpeed * Time.deltaTime);
         UpdateAvalanchePosition();
-        //UpdateSnowParticles(distanceToPlayer);
     }
 
     private void UpdateAvalanchePosition()
     {
-        // Wobble for realism
-        float wobble = Mathf.Sin(Time.time * levelData.avalancheWobbleFrequency) * levelData.avalancheWobbleAmplitude;
+        float wobble = Mathf.Sin(Time.time * wobbleFrequency) * wobbleAmplitude;
         transform.position = new Vector3(currentX, baseY + wobble, transform.position.z);
     }
 
-    // private void UpdateSnowParticles(float distanceToPlayer)
-    // {
-    //     if (snowParticles == null) return;
-
-    //     // Static scale settings
-    //     float minScale = 1f;
-    //     float maxScale = 5f;
-    //     float breathingAmplitude = 0.1f;
-    //     float breathingFrequency = 1.5f;
-
-    //     // Scale avalanche visually based on distance to player
-    //     float t = Mathf.Clamp01(distanceToPlayer / 2f); // distance normalization
-    //     t = Mathf.Pow(1f - t, 2f); // exponential falloff
-
-    //     float scale = Mathf.Lerp(minScale, maxScale, t);
-    //     scale += Mathf.Sin(Time.time * breathingFrequency) * breathingAmplitude;
-
-    //     snowParticles.localScale = Vector3.one * scale;
-
-    //     // Position particles slightly behind avalanche
-    //     snowParticles.position = new Vector3(currentX - 1f, transform.position.y, snowParticles.position.z);
-    // }
-    /// <summary>Returns current avalanche X position</summary>
     public float GetAvalanchePosition() => currentX;
 }

@@ -30,9 +30,8 @@ MonoBehaviour:
   proceduralChunkPrefab: {fileID: 4520960633213358903, guid: 84d22dfc80ee742d487172a7fe63c751, type: 3}
   avalanchePrefab: {fileID: 632106669967204208, guid: 77d20f6ff5f2e401e9f014a3e8122f9a, type: 3}
   avalancheSpawnX: -20
-  avalancheBaseSpeed: 0.15
-  avalancheSpeedStep: 0.15
-  avalancheDistanceStep: 150
+  avalancheMaxHits: 3
+  avalancheCloseDuration: 5
   avalancheWobbleFrequency: 0.5
   avalancheWobbleAmplitude: 1
   fallThresholdY: -10
