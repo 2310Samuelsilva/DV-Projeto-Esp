@@ -42,5 +42,8 @@ public class LevelData : ScriptableObject
     public float avalancheWobbleFrequency = 0.1f;
     public float avalancheWobbleAmplitude = 1f;
 
+
+    [Header("Sounds")]
+    public AudioClip obstacleHitSFX;
 }
 

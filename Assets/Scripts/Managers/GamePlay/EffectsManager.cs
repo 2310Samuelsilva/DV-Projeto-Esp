@@ -19,21 +19,29 @@ public class EffectsManager : MonoBehaviour
         Instance = this;
     }
     
-    public void ShakeCamera(float amplitude, float frequency, float duration)
+    public void ShakeCamera(string shakeId, float amplitude, float frequency, float duration)
     {
-        CameraManager.Instance.ShakeCamera(amplitude, frequency, duration);
+        CameraManager.Instance.ShakeCamera(shakeId, amplitude, frequency, duration);
     }
 
     public void ObstacleHit(Vector3 position)
     {
-        // Camera shake
-        //ShakeCamera(amplitude, frequency, 0.25f);
+        
+
 
         // VFX
-        if (obstacleHitVFXPrefab != null) { }
-        ;
+        if (obstacleHitVFXPrefab != null)
+        {
+            GameObject vfxInstance = Instantiate(obstacleHitVFXPrefab, position, Quaternion.identity);
+            Destroy(vfxInstance, 0.5f);
+        }
+        
+        ShakeCamera("obstacle", amplitude, frequency, 0.25f);
+        
+
         //Instantiate(obstacleHitVFXPrefab, position, Quaternion.identity);
 
         // TODO: add SFX if you want
+        AudioManager.Instance.PlaySFX(LevelManager.Instance.GetLevelData().obstacleHitSFX, 0.5f);
     }
 }

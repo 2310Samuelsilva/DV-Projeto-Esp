@@ -63,6 +63,7 @@ public class LevelManager : MonoBehaviour
         SpawnWorld();
         HideLevelEndUI();
         UnPauseGame();
+        AudioManager.Instance.StartMusic();
     }
 
     /// <summary>Spawn the player prefab and initialize controller.</summary>

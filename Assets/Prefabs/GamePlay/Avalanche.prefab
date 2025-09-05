@@ -104,9 +104,9 @@ MonoBehaviour:
   levelData: {fileID: 0}
   particleSystem: {fileID: 4959284522142165260}
   snowParticles: {fileID: 8708186247470232756}
-  baseScale: 1
-  scalePerHit: 1
-  maxScale: 5
+  baseScale: 0.7
+  scalePerHit: 0.5
+  maxScale: 2
   baseEmissionRate: 10
   emissionPerHit: 50
   maxEmissionRate: 300
@@ -183,11 +183,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5958478975733516079, guid: 24fa55c4f1386e04ea2800527f88c4e1, type: 3}
       propertyPath: ShapeModule.radius.value
-      value: 0.3
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 5958478975733516079, guid: 24fa55c4f1386e04ea2800527f88c4e1, type: 3}
       propertyPath: InitialModule.maxNumParticles
-      value: 20
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 5958478975733516079, guid: 24fa55c4f1386e04ea2800527f88c4e1, type: 3}
       propertyPath: InitialModule.startColor.maxColor.b
@@ -203,7 +203,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5958478975733516079, guid: 24fa55c4f1386e04ea2800527f88c4e1, type: 3}
       propertyPath: InitialModule.gravityModifier.scalar
-      value: 0.02
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 5958478975733516079, guid: 24fa55c4f1386e04ea2800527f88c4e1, type: 3}
       propertyPath: startDelay.maxCurve.m_Curve.Array.data[0].value
@@ -223,11 +223,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5959315613782194469, guid: 24fa55c4f1386e04ea2800527f88c4e1, type: 3}
       propertyPath: m_SortingLayer
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5959315613782194469, guid: 24fa55c4f1386e04ea2800527f88c4e1, type: 3}
       propertyPath: m_SortingLayerID
-      value: 1324324307
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

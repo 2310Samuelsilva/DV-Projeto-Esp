@@ -119,7 +119,7 @@ public class WorldManager : MonoBehaviour
         // Camera shake
         float amplitude = 1f * currentHits;
         float frequency = 1f * currentHits;
-        EffectsManager.Instance.ShakeCamera(amplitude, frequency, remainingAvalancheTime);
+        EffectsManager.Instance.ShakeCamera("avalanche", amplitude, frequency, remainingAvalancheTime);
 
         // Start coroutine if not running
         if (avalancheCoroutine == null)

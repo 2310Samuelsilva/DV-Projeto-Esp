@@ -13,12 +13,17 @@ public class PlayerController : MonoBehaviour
 
     [Header("Ground Check")]
     [SerializeField] private Transform groundCheck;
-    [SerializeField] private float groundCheckRadius = 0.2f;
+    [SerializeField] private Vector2 groundCheckSize = new Vector2(0.5f, 0.2f); // width, height
     [SerializeField] private LayerMask groundLayer;
 
     [Header("Rotation Kill Check")]
     [SerializeField] private Transform rotationKillCheck;
     [SerializeField] private float rotationKillCheckRadius = 0.2f;
+    [SerializeField] private AudioSource movementAudio;
+    [SerializeField] private float audioVolume = 0.5f;
+    [SerializeField] private float fadeDuration = 2f; // units per second
+    [SerializeField] private ParticleSystem movementParticles;
+
 
 
     // Components
@@ -57,6 +62,8 @@ public class PlayerController : MonoBehaviour
         HandleInput();
         CheckRotationKill();
         UpdateAnimator();
+        UpdateAudio();
+        UpdateParticles();
     }
 
     private void FixedUpdate()
@@ -71,7 +78,7 @@ public class PlayerController : MonoBehaviour
             LevelManager.Instance.ObstacleHit();
             EffectsManager.Instance.ObstacleHit(other.transform.position);
 
-            Destroy(other.gameObject, 0.5f);
+            Destroy(other.gameObject, 0.1f);
         }
     }
     
@@ -130,6 +137,41 @@ public class PlayerController : MonoBehaviour
             rb.linearVelocity += Vector2.up * Physics2D.gravity.y * (playerTransportData.GetLowJumpMultiplier() - 1) * Time.fixedDeltaTime * Vector2.up;
     }
 
+    // -------------------- Audio --------------------
+    private void UpdateAudio()
+    {
+        bool shouldPlay = isGrounded;
+
+        float targetVolume = shouldPlay ? audioVolume : 0f;
+        movementAudio.volume = Mathf.MoveTowards(movementAudio.volume, targetVolume, fadeDuration * Time.deltaTime);
+        // Play if volume > 0 and not already playing
+        if (movementAudio.volume > 0f && !movementAudio.isPlaying)
+            movementAudio.Play();
+        
+        // Stop if volume reaches 0
+        if (movementAudio.volume <= 0f && movementAudio.isPlaying)
+            movementAudio.Stop();
+        }
+
+    // -------------------- Particles --------------------
+    private void UpdateParticles()
+    {
+        if (movementParticles == null) return;
+
+        if (isGrounded)
+        {
+            if (!movementParticles.isPlaying)
+                movementParticles.Play();
+        }
+        else
+        {
+            if (movementParticles.isPlaying)
+            {
+                movementParticles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            }
+        }
+    }
+
     // -------------------- Checks --------------------
     private void CheckRotationKill()
     {
@@ -142,7 +184,13 @@ public class PlayerController : MonoBehaviour
 
     private void CheckGrounded()
     {
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+        isGrounded = Physics2D.OverlapCapsule(
+            groundCheck.position,
+            groundCheckSize,
+            CapsuleDirection2D.Horizontal, // can be Horizontal or Vertical
+            0f, // rotation in degrees
+            groundLayer
+        );
     }
 
     // -------------------- Animator --------------------
@@ -161,7 +209,7 @@ public class PlayerController : MonoBehaviour
         if (groundCheck != null)
         {
             Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+            Gizmos.DrawWireCube(groundCheck.position, groundCheckSize);
 
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(rotationKillCheck.position, rotationKillCheckRadius);

@@ -8,17 +8,17 @@ public class AvalancheController : MonoBehaviour
     [SerializeField] private Transform snowParticles;
 
     [Header("Scaling & Effects")]
-    [SerializeField] private float baseScale = 1f;
-    [SerializeField] private float scalePerHit = 0.5f;
-    [SerializeField] private float maxScale = 3f;
+    [SerializeField] private float baseScale = 0.2f;
+    [SerializeField] private float scalePerHit = 0.05f;
+    [SerializeField] private float maxScale = 1.5f;
 
     [Header("Particles")]
-    [SerializeField] private int baseEmissionRate = 10;
-    [SerializeField] private int emissionPerHit = 5;
-    [SerializeField] private int maxEmissionRate = 50;
+    [SerializeField] private int baseEmissionRate = 200;
+    [SerializeField] private int emissionPerHit = 50;
+    [SerializeField] private int maxEmissionRate = 400;
 
     [Header("Movement")]
-    [SerializeField] private float moveLerpSpeed = 2f;   // Smoothness of catch-up
+    [SerializeField] private float moveLerpSpeed = 3f;   // Smoothness of catch-up
     [SerializeField] private float wobbleAmplitude = 0.2f;
     [SerializeField] private float wobbleFrequency = 2f;
 
@@ -62,7 +62,6 @@ public class AvalancheController : MonoBehaviour
         {
             particleSystem.transform.localScale = Vector3.one * scale;
 
-            // --- Adjust emission intensity ---
             var emission = particleSystem.emission;
             int rate = baseEmissionRate + hitCount * emissionPerHit;
             rate = Mathf.Min(rate, maxEmissionRate);
@@ -70,12 +69,13 @@ public class AvalancheController : MonoBehaviour
         }
 
         // --- Set new target position closer to player ---
-        targetX = Mathf.Lerp(currentX, playerPosition.x, (float)hitCount / levelData.avalancheMaxHits);
+        float cameraLeftEdge = Camera.main.transform.position.x - (Camera.main.orthographicSize * Camera.main.aspect);
+        targetX = cameraLeftEdge + 0.5f; // 0.5f offset from camera
     }
 
     public void UpdateAvalanche(float worldScrollSpeed, float distanceTraveled)
     {
-        // Smoothly move toward targetX
+        // Smoothly move currentX toward targetX
         currentX = Mathf.Lerp(currentX, targetX, moveLerpSpeed * Time.deltaTime);
         UpdateAvalanchePosition();
     }

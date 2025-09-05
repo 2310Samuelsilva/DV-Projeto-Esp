@@ -44,4 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fb7559cb769b4bb38ce50880c300cda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  obstacleHitVFXPrefab: {fileID: 0}
+  amplitude: 4
+  frequency: 4
+  obstacleHitVFXPrefab: {fileID: 1629757185126704788, guid: 57bffc92a2db84b9fa2b4719c69334fa, type: 3}
