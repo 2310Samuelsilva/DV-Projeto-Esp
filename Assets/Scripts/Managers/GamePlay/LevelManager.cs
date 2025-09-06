@@ -122,7 +122,7 @@ public class LevelManager : MonoBehaviour
 
         ShowLevelEndUI();
         UILevelEndManager.Instance.PopulateUI($"{distance:F0}m", coinsEarned);
-
+        GameManager.Instance.EndGame(distance);
         Debug.Log($"Level ended. Distance: {distance:F0}, Coins Earned: {coinsEarned}");
     }
 

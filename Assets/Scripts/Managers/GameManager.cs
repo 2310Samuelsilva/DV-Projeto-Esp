@@ -112,11 +112,17 @@ public class GameManager : MonoBehaviour
         SceneLoader.Instance.LoadSceneByName("UITransports");
     }
 
-    public void EndGame()
+    public void EndGame(float distance)
     {
+
+        // Unlock Levels
+        levelList.CheckUnlockLevel(distance);
         Debug.Log("Game Over");
+
         SceneLoader.Instance.LoadSceneByName("GameWin");
     }
+
+    
 
 
     // --- Public API ---

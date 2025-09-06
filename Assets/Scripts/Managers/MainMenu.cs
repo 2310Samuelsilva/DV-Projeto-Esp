@@ -22,6 +22,16 @@ public class MainMenuUI : MonoBehaviour
         GameManager.Instance.LoadTransports();
     }
 
+    public void UIOptions()
+    {
+        SceneLoader.Instance.LoadSceneByName("UIOptions");
+    }
+
+    public void UIInstructions()
+    {
+        SceneLoader.Instance.LoadSceneByName("UIInstructions");
+    }
+
     public void QuitGame()
     {
         Debug.Log("Quit Game"); // Won’t quit in Editor

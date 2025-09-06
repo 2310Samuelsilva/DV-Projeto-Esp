@@ -30,6 +30,15 @@ public class LevelList : ScriptableObject
         selectedLevel = levelData;
     }
 
+    public void CheckUnlockLevel(float distance)
+    {
+        LevelData nextLevel = levels[levels.IndexOf(selectedLevel) + 1];
+        if (nextLevel != null && !nextLevel.isUnlocked && distance >= nextLevel.scoreToUnlock)
+        {
+            nextLevel.isUnlocked = true;
+        }
+    }
+
     public LevelData GetSelectedLevel() => selectedLevel;
 
 }
