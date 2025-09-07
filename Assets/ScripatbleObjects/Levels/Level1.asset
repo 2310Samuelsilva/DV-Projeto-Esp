@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Level1
   m_EditorClassIdentifier: 
   levelName: Level 1
+  icon: {fileID: 21300000, guid: 7f02699200773493ea3dfae2e1dfce17, type: 3}
   sceneName: Level1
   levelNumber: 1
   isUnlocked: 1
@@ -20,20 +21,21 @@ MonoBehaviour:
   scoreToUnlock: 500
   scoreToComplete: 1000
   scoreToWin: 1200
-  bestScore: 0
-  baseScrollSpeed: 8
-  scrollSpeedDecreaseRate: 80
-  gravity: 3
+  bestScore: 61
   chunkSettings: {fileID: 11400000, guid: add03a18e736941e78ac8c8890305d27, type: 2}
   seed: 0
   activeChunksAmount: 2
   proceduralChunkPrefab: {fileID: 4520960633213358903, guid: 84d22dfc80ee742d487172a7fe63c751, type: 3}
   avalanchePrefab: {fileID: 632106669967204208, guid: 77d20f6ff5f2e401e9f014a3e8122f9a, type: 3}
-  avalancheSpawnX: -20
-  avalancheMaxHits: 3
-  avalancheCloseDuration: 5
-  avalancheWobbleFrequency: 0.5
-  avalancheWobbleAmplitude: 1
-  fallThresholdY: -10
+  gravity: 3
+  baseScrollSpeed: 8
+  scrollSpeedDecreaseRate: 80
   speedIncreaseDistanceThreshold: 50
   speedIncreaseRate: 4
+  fallThresholdY: -10
+  avalancheMaxHits: 3
+  avalancheCloseDuration: 5
+  avalancheSpawnX: -20
+  avalancheWobbleFrequency: 0.5
+  avalancheWobbleAmplitude: 1
+  obstacleHitSFX: {fileID: 0}

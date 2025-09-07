@@ -23,6 +23,7 @@ public class LevelManager : MonoBehaviour
 
     [SerializeField] protected GameObject levelEndUI;
     [SerializeField] protected GameObject pauseUI;
+    [SerializeField] protected GameObject optionsUI;
     bool isPaused = false;
 
     private AudioSource[] allAudioSources;
@@ -137,7 +138,7 @@ public class LevelManager : MonoBehaviour
     }
 
     /// <summary>Calculate coins earned based on distance traveled.</summary>
-    private int CalculateCoinsEarned(float distance) => Mathf.FloorToInt(distance / 100f);
+    private int CalculateCoinsEarned(float distance) => Mathf.FloorToInt(distance * levelData.coinsPerMeter);
 
     /// <summary>Respawn player at spawn point.</summary>
     private void Respawn()
@@ -187,6 +188,9 @@ public class LevelManager : MonoBehaviour
     public void HidePauseUI() => pauseUI.SetActive(false);
     public void ShowLevelEndUI() => levelEndUI.SetActive(true);
     public void HideLevelEndUI() => levelEndUI.SetActive(false);
+
+    public void ShowUIOptions() => optionsUI.SetActive(true);
+    public void HideUIOptions() => optionsUI.SetActive(false);
 
     // -------------------- Public Accessors --------------------
     public LevelData GetLevelData() => levelData;

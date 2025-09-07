@@ -10,7 +10,10 @@ public class UIPauseManager : MonoBehaviour
     {
     }
 
-    
+    public void Options()
+    {
+        LevelManager.Instance.ShowUIOptions();
+    }
 
     public void ReturnToGame()
     {

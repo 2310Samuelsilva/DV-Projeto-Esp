@@ -13,6 +13,7 @@ public class LevelData : ScriptableObject
     [SerializeField] public int levelNumber;
     [SerializeField] public bool isUnlocked;
     [SerializeField] public bool isCompleted;
+    [SerializeField] public float coinsPerMeter = 0.3f;
 
     [Header("Level achievements")]
     [SerializeField] public int scoreToUnlock;

@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEditor;
+using UnityEngine.U2D.IK;
 
 [ExecuteAlways]
 public class WorldManager : MonoBehaviour
@@ -155,6 +156,7 @@ public class WorldManager : MonoBehaviour
         Debug.Log("Avalanche reset");
         avalancheController.Reset();
         currentHits = 0;
+        UIGameplayManager.Instance.UpdateHistsUI(maxHits.ToString());
         avalancheCoroutine = null;
     }
 
