@@ -25,6 +25,8 @@ public class LevelManager : MonoBehaviour
     [SerializeField] protected GameObject pauseUI;
     bool isPaused = false;
 
+    private AudioSource[] allAudioSources;
+
 
     private void Awake()
     {
@@ -46,7 +48,7 @@ public class LevelManager : MonoBehaviour
         this.levelData = levelData;
         this.playerData = playerData;
         transportData = playerData?.selectedTransport;
-
+        
         LoadLevel();
     }
 
@@ -60,7 +62,7 @@ public class LevelManager : MonoBehaviour
         }
 
         Debug.Log($"LevelManager: Loading {levelData.levelName} with {transportData.GetName()}");
-
+        allAudioSources = FindObjectsByType<AudioSource>(FindObjectsSortMode.None);
         SpawnPlayer();
         SpawnWorld();
         HideLevelEndUI();
@@ -122,10 +124,11 @@ public class LevelManager : MonoBehaviour
     {
         if (worldManager == null) return;
 
-        PauseGame();
+        PauseGame(false);
         float distance = worldManager.DistanceTravelled();
         int coinsEarned = CalculateCoinsEarned(distance);
         playerData.AddTotalBalance(coinsEarned);
+        levelData.CheckRecord(distance);
 
         ShowLevelEndUI();
         UILevelEndManager.Instance.PopulateUI($"{distance:F0}m", coinsEarned);
@@ -152,19 +155,31 @@ public class LevelManager : MonoBehaviour
 
     // -------------------- UI --------------------
 
-    public void PauseGame()
+    public void PauseGame(bool showUI = true)
     {
         isPaused = true;
         Time.timeScale = 0;
-        AudioListener.pause = true;
-        ShowPauseUI();
+        foreach (var a in allAudioSources)
+        {
+            if (a != null && a.isPlaying)
+                a.Pause();
+        }
+
+        if (showUI)
+        { 
+            
+            ShowPauseUI();
+        }
     }
 
     public void UnPauseGame()
     {
         isPaused = false;
         Time.timeScale = 1;
-        AudioListener.pause = false;
+        foreach (var a in allAudioSources)
+        {
+            a.UnPause();
+        }
         HidePauseUI();
     }
 

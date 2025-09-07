@@ -7,13 +7,17 @@ public class PlayerTransportData : ScriptableObject
 {
     [Header("Transport Metadata")]
     [SerializeField] private GameObject prefab;
-    [SerializeField] private string transportName;
+    
     [SerializeField] private int level = 1;
     [SerializeField] private int maxLevel = 1;
     [SerializeField] private bool isUnlocked = false;
     [SerializeField] private bool isSelected = false;
     [SerializeField] private int basePrice = 200;
     [SerializeField] private int pricePerLevel = 100;
+
+    [Header("Transport UI")]
+    [SerializeField] private string transportName;
+    [SerializeField] private Sprite icon;
 
     [Header("Transport Stats (Base)")]
     [SerializeField] private float moveSpeed = 5f;
@@ -31,6 +35,7 @@ public class PlayerTransportData : ScriptableObject
     [Range(0f, 1f)][SerializeField] private float jumpForcePerLevel = 0.05f;
 
     // --- Metadata Getters ---
+    public Sprite GetIcon() => icon;
     public string GetName() => transportName;
     public GameObject GetPrefab() => prefab;
 
@@ -59,18 +64,18 @@ public class PlayerTransportData : ScriptableObject
     public float GetRotationAcceleration() => rotationAcceleration * (1f + rotationAccelerationPerLevel * level);
     public float GetJumpForce() => jumpForce * (1f + jumpForcePerLevel * level);
 
-    public void ResetData()
+    public void Reset()
     {
         level = 1;
-        isUnlocked = false;
-        isSelected = false;
+        isUnlocked = this.transportName == "Snowboard" ? true : false;
+        isSelected = this.transportName == "Snowboard" ? true : false;
     }
     
     #if UNITY_EDITOR
     [ContextMenu("Reset Transport Data")]
         private void ResetFromContextMenu()
         {
-            ResetData();
+            Reset();
             EditorUtility.SetDirty(this); // Mark asset dirty so Unity saves changes
             Debug.Log($"{name} reset to default state!");
         }

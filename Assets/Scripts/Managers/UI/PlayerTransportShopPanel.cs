@@ -9,6 +9,7 @@ public class PlayerTransportShopPanel : MonoBehaviour
     [SerializeField] private TextMeshProUGUI levelText;
     [SerializeField] private Button buttonAction;   // Buy/Upgrade button
     [SerializeField] private Button buttonSelect;   // Select button
+    [SerializeField] private Image transportImage;
     [SerializeField] private Slider levelSlider;
 
     [Header("Data")]
@@ -36,12 +37,13 @@ public class PlayerTransportShopPanel : MonoBehaviour
     public void RefreshUI()
     {
         titleText.text = playerTransportData.GetName();
+        transportImage.sprite = playerTransportData.GetIcon();
 
         if (!playerTransportData.IsUnlocked())
         {
             // Locked state
             levelText.text = "Locked";
-            SetButtonState(buttonAction, playerData.totalBalance >= playerTransportData.GetBasePrice(), 
+            SetButtonState(buttonAction, playerData.totalBalance >= playerTransportData.GetBasePrice(),
                            $"Buy: {playerTransportData.GetBasePrice()}");
             SetButtonState(buttonSelect, false, "Locked");
 

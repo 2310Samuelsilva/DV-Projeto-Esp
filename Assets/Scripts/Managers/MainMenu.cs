@@ -15,7 +15,7 @@ public class MainMenuUI : MonoBehaviour
 
     public void PlayGame()
     {
-        GameManager.Instance.LoadSelectedLevel();
+        SceneLoader.Instance.LoadSceneByName("UILevelSelect");
     }
 
     public void UITransports()

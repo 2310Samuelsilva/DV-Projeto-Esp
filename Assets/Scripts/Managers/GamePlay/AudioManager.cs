@@ -64,7 +64,7 @@ public class AudioManager : MonoBehaviour
     private void Update()
     {
         // Switch to loop music once intro finishes
-        if (calledStart && !musicSource.isPlaying && !hasSwitchedToLoop)
+        if (calledStart && !musicSource.isPlaying && !hasSwitchedToLoop && !LevelManager.Instance.IsPaused())
         {
             PlayMusicLoop();
         }

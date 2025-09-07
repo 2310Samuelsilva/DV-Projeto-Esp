@@ -13,13 +13,14 @@ MonoBehaviour:
   m_Name: SnowMobile
   m_EditorClassIdentifier: 
   prefab: {fileID: 3410917964373414578, guid: 334418138bcaf499b98e34b476a6fa7e, type: 3}
-  transportName: SnowMobile
   level: 1
   maxLevel: 10
   isUnlocked: 0
   isSelected: 0
   basePrice: 500
   pricePerLevel: 300
+  transportName: SnowMobile
+  icon: {fileID: 2312598409899334397, guid: 2cd5dc1b2696e44049b3ce199012ef47, type: 3}
   moveSpeed: 7
   maxRotationVelocity: 100
   rotationAcceleration: 2500

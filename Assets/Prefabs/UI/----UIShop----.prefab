@@ -485,7 +485,7 @@ GameObject:
   - component: {fileID: 883137639909943237}
   - component: {fileID: 3194100179733257011}
   m_Layer: 0
-  m_Name: ----UITransports----
+  m_Name: ----UIShop----
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

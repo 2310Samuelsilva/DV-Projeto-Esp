@@ -58,6 +58,12 @@ public class CameraManager : MonoBehaviour
 
     private void Update()
     {
+
+        if(LevelManager.Instance.IsPaused())
+        {
+            return;
+        }
+
         if (activeShakes.Count == 0)
         {
             noise.AmplitudeGain = 0f;

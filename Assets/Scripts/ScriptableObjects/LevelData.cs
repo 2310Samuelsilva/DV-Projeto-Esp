@@ -6,44 +6,64 @@ public class LevelData : ScriptableObject
 {
 
     [Header("Level Settings")]
-    public string levelName;
-    public string sceneName;
-    public int levelNumber;
-    public bool isUnlocked;
-    public bool isCompleted;
-    
+    [SerializeField] public string levelName;
+    [SerializeField] private Sprite icon;
+
+    [SerializeField] public string sceneName;
+    [SerializeField] public int levelNumber;
+    [SerializeField] public bool isUnlocked;
+    [SerializeField] public bool isCompleted;
+
     [Header("Level achievements")]
-    public int scoreToUnlock;
-    public int scoreToComplete;
-    public int scoreToWin;
-    public int bestScore;
+    [SerializeField] public int scoreToUnlock;
+    [SerializeField] public int scoreToComplete;
+    [SerializeField] public int scoreToWin;
+    [SerializeField] public int bestScore;
 
 
     [Header("Level Environment")]
-    public ChunkSettings chunkSettings;
-    public int seed;
-    public int activeChunksAmount;
-    public GameObject proceduralChunkPrefab;
-    public GameObject avalanchePrefab;
+    [SerializeField] public ChunkSettings chunkSettings;
+    [SerializeField] public int seed;
+    [SerializeField] public int activeChunksAmount;
+    [SerializeField] public GameObject proceduralChunkPrefab;
+    [SerializeField] public GameObject avalanchePrefab;
 
     [Header("Movement Settings")]
 
-    public float gravity = 9.81f;
-    public float baseScrollSpeed;
-    public float scrollSpeedDecreaseRate;
-    public float speedIncreaseDistanceThreshold = 10f;
-    public float speedIncreaseRate = 5f;
-    public float fallThresholdY = -10f;
+    [SerializeField] public float gravity = 9.81f;
+    [SerializeField] public float baseScrollSpeed;
+    [SerializeField] public float scrollSpeedDecreaseRate;
+    [SerializeField] public float speedIncreaseDistanceThreshold = 10f;
+    [SerializeField] public float speedIncreaseRate = 5f;
+    [SerializeField] public float fallThresholdY = -10f;
 
     [Header("Avalanche Settings")]
-    public int avalancheMaxHits = 3;
-    public float avalancheCloseDuration = 5f;
-    public float avalancheSpawnX = -5f;
-    public float avalancheWobbleFrequency = 0.1f;
-    public float avalancheWobbleAmplitude = 1f;
+    [SerializeField] public int avalancheMaxHits = 3;
+    [SerializeField] public float avalancheCloseDuration = 5f;
+    [SerializeField] public float avalancheSpawnX = -5f;
+    [SerializeField] public float avalancheWobbleFrequency = 0.1f;
+    [SerializeField] public float avalancheWobbleAmplitude = 1f;
 
 
     [Header("Sounds")]
-    public AudioClip obstacleHitSFX;
+    [SerializeField] public AudioClip obstacleHitSFX;
+
+    public Sprite GetIcon() => icon;
+
+    public void CheckRecord(float distance)
+    {
+        if (distance > bestScore)
+        {
+            bestScore = (int)distance;
+        }
+    }
+
+    public void Reset()
+    {
+        bestScore = 0;
+        isUnlocked = false;
+        isCompleted = false;
+
+    }
 }
 

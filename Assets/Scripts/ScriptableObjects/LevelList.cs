@@ -32,6 +32,9 @@ public class LevelList : ScriptableObject
 
     public void CheckUnlockLevel(float distance)
     {
+        // check if there is a next level
+        if (levels.IndexOf(selectedLevel) + 1 >= levels.Count) return;
+        
         LevelData nextLevel = levels[levels.IndexOf(selectedLevel) + 1];
         if (nextLevel != null && !nextLevel.isUnlocked && distance >= nextLevel.scoreToUnlock)
         {

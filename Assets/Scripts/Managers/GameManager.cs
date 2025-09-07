@@ -42,6 +42,12 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public void LoadLevel(string levelName)
+    {
+        LevelData levelData = levelList.GetLevelData(levelName);
+        LoadLevel(levelData);
+    }
+
     public void LoadLevel(LevelData levelData)
     {
 
@@ -68,6 +74,7 @@ public class GameManager : MonoBehaviour
             return;
         }
 
+        levelList.SetSelectedLevel(levelData);
         string sceneName = levelData.sceneName;
         Debug.Log($"Loading level {levelData.name}");
 
@@ -95,6 +102,7 @@ public class GameManager : MonoBehaviour
     public void SelectLevel(string levelName)
     {
         LevelData levelData = levelList.GetLevelData(levelName);
+        Debug.Log($"Selected level: {levelData.levelName}");
         levelList.SetSelectedLevel(levelData);
     }
 
@@ -128,5 +136,7 @@ public class GameManager : MonoBehaviour
     // --- Public API ---
     public PlayerData GetPlayerData() => playerData;
     public GameOptions GetGameOptions() => gameOptions;
+    public LevelData GetSelectedLevel() => levelList.GetSelectedLevel();
+    public LevelList GetLevelList() => levelList;
 
 }
