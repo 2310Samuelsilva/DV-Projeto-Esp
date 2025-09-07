@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     private PlayerData playerData;
     private PlayerTransportDatabase playerTransportDatabase;
     LevelList levelList;
+    [SerializeField] GameOptions gameOptions;
 
 
 
@@ -37,8 +38,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-       
-        
+
+
     }
 
     public void LoadLevel(LevelData levelData)
@@ -51,18 +52,18 @@ public class GameManager : MonoBehaviour
             return;
         }
         if (levelList == null)
-        { 
+        {
             Debug.LogError("LevelManager: Missing LevelList!");
             return;
         }
         if (levelList.LevelExists(levelData) == false)
-        { 
+        {
             Debug.LogError("LevelManager: Level does not exist!");
             return;
         }
 
         if (levelData.isUnlocked == false)
-        { 
+        {
             Debug.LogError("LevelManager: Level is not unlocked!");
             return;
         }
@@ -119,13 +120,13 @@ public class GameManager : MonoBehaviour
         levelList.CheckUnlockLevel(distance);
         Debug.Log("Game Over");
 
-        SceneLoader.Instance.LoadSceneByName("GameWin");
     }
 
-    
+
 
 
     // --- Public API ---
     public PlayerData GetPlayerData() => playerData;
+    public GameOptions GetGameOptions() => gameOptions;
 
 }

@@ -9,6 +9,7 @@ public class UIGameplayManager : MonoBehaviour
 
     [Header("Level Info")]
     [SerializeField] private TMP_Text distanceText;
+    [SerializeField] private TMP_Text histsValue;
     // [SerializeField] private TMP_Text levelTtimer;
 
     // [Header("Charge UI")]
@@ -44,9 +45,9 @@ public class UIGameplayManager : MonoBehaviour
         distanceText.text = distance;
     }
 
-    
-    // public void PauseGame()
-    // {
-    //     BaseLevelController.Instance.PauseGame();
-    // }
+    public void UpdateHistsUI(string hists)
+    {
+        histsValue.text = hists;
+    }
+
 }

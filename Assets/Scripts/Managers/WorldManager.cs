@@ -104,17 +104,26 @@ public class WorldManager : MonoBehaviour
     // -------------------- Obstacle Interaction --------------------
     public void ObstacleHit()
     {
-        // Decrease speed immediately
-        DecreaseScrollSpeed();
+
+        if (currentHits >= maxHits)
+        {
+            LevelManager.Instance.EndLevel();
+            return;
+        }
+
 
         // Increase hits (max cap)
         currentHits = Mathf.Min(currentHits + 1, maxHits);
+
+
+        UIGameplayManager.Instance.UpdateHistsUI((maxHits - currentHits).ToString());
 
         // Extend avalanche close duration
         remainingAvalancheTime += avalancheCloseDuration;
 
         // Make avalanche appear close
         avalancheController.SetClose(currentHits);
+        DecreaseScrollSpeed();
 
         // Camera shake
         float amplitude = 1f * currentHits;
@@ -152,7 +161,7 @@ public class WorldManager : MonoBehaviour
     // -------------------- Update Loop --------------------
     private void FixedUpdate()
     {
-        if (!Application.isPlaying) return;
+        if (!Application.isPlaying || LevelManager.Instance.IsPaused()) return;
 
         distanceTraveled += scrollSpeed * Time.deltaTime;
 
@@ -188,15 +197,6 @@ public class WorldManager : MonoBehaviour
     {
         if (playerController.transform.position.y < levelData.fallThresholdY)
             LevelManager.Instance.EndLevel();
-
-        if (HasAvalancheHitPlayer())
-            LevelManager.Instance.EndLevel();
-    }
-
-    private bool HasAvalancheHitPlayer()
-    {
-        float avalancheX = avalancheController.GetAvalanchePosition();
-        return avalancheX > playerController.transform.position.x;
     }
 
     // -------------------- Distance Info --------------------

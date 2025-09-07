@@ -43,7 +43,17 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        
+        GameOptions gameOptions = GameManager.Instance.GetGameOptions();
+
+        if (gameOptions == null)
+        {
+            Debug.LogError("GameOptions not found!");
+            return;
+        }
+
+
+        musicSource.volume = gameOptions.MusicVolume;
+        sfxSource.volume = gameOptions.SFXVolume;
     }
 
     public void StartMusic(){

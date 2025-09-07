@@ -22,6 +22,8 @@ public class LevelManager : MonoBehaviour
     private CameraManager cameraManager;
 
     [SerializeField] protected GameObject levelEndUI;
+    [SerializeField] protected GameObject pauseUI;
+    bool isPaused = false;
 
 
     private void Awake()
@@ -97,9 +99,14 @@ public class LevelManager : MonoBehaviour
         float distance = worldManager.DistanceTravelled();
         UIGameplayManager.Instance.UpdateDistanceUI($"{distance:F0}m");
 
-        // Check Escape key to return to main menu
+        // Check Escape key to toggle pause
         if (Input.GetKeyDown(KeyCode.Escape))
-            GameManager.Instance.ReturnToMainMenu();
+        {
+            if (isPaused)
+                UnPauseGame();
+            else
+                PauseGame();
+        }
     }
 
     /// <summary>Called when player hits an obstacle.</summary>
@@ -145,8 +152,24 @@ public class LevelManager : MonoBehaviour
 
     // -------------------- UI --------------------
 
-    public void PauseGame() => Time.timeScale = 0;
-    public void UnPauseGame() => Time.timeScale = 1;
+    public void PauseGame()
+    {
+        isPaused = true;
+        Time.timeScale = 0;
+        AudioListener.pause = true;
+        ShowPauseUI();
+    }
+
+    public void UnPauseGame()
+    {
+        isPaused = false;
+        Time.timeScale = 1;
+        AudioListener.pause = false;
+        HidePauseUI();
+    }
+
+    public void ShowPauseUI() => pauseUI.SetActive(true);
+    public void HidePauseUI() => pauseUI.SetActive(false);
     public void ShowLevelEndUI() => levelEndUI.SetActive(true);
     public void HideLevelEndUI() => levelEndUI.SetActive(false);
 
@@ -154,4 +177,5 @@ public class LevelManager : MonoBehaviour
     public LevelData GetLevelData() => levelData;
     public PlayerTransportData GetTransportData() => transportData;
     public Vector3 GetPlayerSpawnPoint() => playerSpawnPoint;
+    public bool IsPaused() => isPaused;   
 }

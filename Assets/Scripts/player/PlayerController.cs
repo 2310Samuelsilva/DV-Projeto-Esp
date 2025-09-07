@@ -20,12 +20,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform rotationKillCheck;
     [SerializeField] private float rotationKillCheckRadius = 0.2f;
     [SerializeField] private AudioSource movementAudio;
-    [SerializeField] private float audioVolume = 0.5f;
     [SerializeField] private float fadeDuration = 2f; // units per second
     [SerializeField] private ParticleSystem movementParticles;
 
-
-
+    private GameOptions gameOptions;
     // Components
     private Rigidbody2D rb;
     private Animator animator;
@@ -54,10 +52,21 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        //movementAudio = GetComponent<AudioSource>();
+
+        gameOptions = GameManager.Instance.GetGameOptions();
+        movementAudio.volume = gameOptions.SFXVolume;
+
+        if (gameOptions == null)
+        {
+            Debug.LogError("GameOptions not found!");
+            return;
+        }        
     }
 
     private void Update()
     {
+        if(LevelManager.Instance.IsPaused()){ return; }
         CheckGrounded();
         HandleInput();
         CheckRotationKill();
@@ -68,6 +77,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if(LevelManager.Instance.IsPaused()){ return; }
         ApplyMovementPhysics();
     }
 
@@ -142,7 +152,7 @@ public class PlayerController : MonoBehaviour
     {
         bool shouldPlay = isGrounded;
 
-        float targetVolume = shouldPlay ? audioVolume : 0f;
+        float targetVolume = shouldPlay ? gameOptions.SFXVolume : 0f;
         movementAudio.volume = Mathf.MoveTowards(movementAudio.volume, targetVolume, fadeDuration * Time.deltaTime);
         // Play if volume > 0 and not already playing
         if (movementAudio.volume > 0f && !movementAudio.isPlaying)

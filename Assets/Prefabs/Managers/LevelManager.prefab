@@ -45,6 +45,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelData: {fileID: 11400000, guid: 00a791304646348228cddf543e797439, type: 2}
-  transportData: {fileID: 11400000, guid: 04a119263e1514a71ad069beae24f5ce, type: 2}
-  playerSpawnPoint: {fileID: 2263801233288393941, guid: 26d8711425f8547e3b393d630cecf765, type: 3}
+  playerData: {fileID: 0}
   worldManagerPrefab: {fileID: 8395568786315701586, guid: ccb0ef9181e974b039e07fc765aa66af, type: 3}
+  playerSpawnPoint: {x: 0, y: 0, z: 0}
+  hasHit: 0
+  levelEndUI: {fileID: 262206939372194667, guid: f5a93f86abd564bb6b634dcf5f481804, type: 3}
+  pauseUI: {fileID: 262206939372194667, guid: 22330ce6f88b8453395352c4f9921b84, type: 3}
