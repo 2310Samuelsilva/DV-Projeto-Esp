@@ -3,7 +3,9 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "LevelData", menuName = "Game/Level Data")]
 public class LevelData : ScriptableObject
-{
+{   
+    [SerializeField] private string id;
+    public string Id => id;
 
     [Header("Level Settings")]
     [SerializeField] public string levelName;

@@ -22,6 +22,8 @@ public class UILevelEndManager : MonoBehaviour
 
     }
 
+   
+
     public void PopulateUI(string distance, int coins)
     {
         distanceText.text = distance;

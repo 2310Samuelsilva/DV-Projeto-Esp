@@ -38,8 +38,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-
-
+        SaveManager.Instance.LoadGame();
     }
 
     public void LoadLevel(string levelName)
@@ -127,6 +126,7 @@ public class GameManager : MonoBehaviour
         // Unlock Levels
         levelList.CheckUnlockLevel(distance);
         Debug.Log("Game Over");
+        SaveManager.Instance.SaveGame();
 
     }
 

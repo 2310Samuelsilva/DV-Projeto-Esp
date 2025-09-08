@@ -263,8 +263,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelData: {fileID: 11400000, guid: ffaf79f9218bd46c6adb41aa433acec6, type: 2}
+  particleSystem: {fileID: 0}
   snowParticles: {fileID: 6096069667166755112}
-  currentSpeed: 0
+  baseScale: 0.2
+  scalePerHit: 0.05
+  maxScale: 1.5
+  baseEmissionRate: 200
+  emissionPerHit: 50
+  maxEmissionRate: 400
+  moveLerpSpeed: 3
+  wobbleAmplitude: 0.2
+  wobbleFrequency: 2
 --- !u!1 &4616841718661166198
 GameObject:
   m_ObjectHideFlags: 0
@@ -5263,8 +5272,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelData: {fileID: 11400000, guid: ffaf79f9218bd46c6adb41aa433acec6, type: 2}
+  particleSystem: {fileID: 0}
   snowParticles: {fileID: 7811332365091040734}
-  currentSpeed: 0
+  baseScale: 0.2
+  scalePerHit: 0.05
+  maxScale: 1.5
+  baseEmissionRate: 200
+  emissionPerHit: 50
+  maxEmissionRate: 400
+  moveLerpSpeed: 3
+  wobbleAmplitude: 0.2
+  wobbleFrequency: 2
 --- !u!1 &7308078138168619263
 GameObject:
   m_ObjectHideFlags: 0
@@ -10201,8 +10219,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelData: {fileID: 11400000, guid: ffaf79f9218bd46c6adb41aa433acec6, type: 2}
+  particleSystem: {fileID: 0}
   snowParticles: {fileID: 7307865248571978698}
-  currentSpeed: 0
+  baseScale: 0.2
+  scalePerHit: 0.05
+  maxScale: 1.5
+  baseEmissionRate: 200
+  emissionPerHit: 50
+  maxEmissionRate: 400
+  moveLerpSpeed: 3
+  wobbleAmplitude: 0.2
+  wobbleFrequency: 2
 --- !u!1 &9186226308330863157
 GameObject:
   m_ObjectHideFlags: 0
@@ -15119,7 +15146,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2119435567528069003, guid: ccb0ef9181e974b039e07fc765aa66af, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.2222223
+      value: -8.888889
       objectReference: {fileID: 0}
     - target: {fileID: 2119435567528069003, guid: ccb0ef9181e974b039e07fc765aa66af, type: 3}
       propertyPath: m_LocalPosition.y
@@ -15181,6 +15208,10 @@ PrefabInstance:
       propertyPath: avalancheController
       value: 
       objectReference: {fileID: 1591129158344474173}
+    - target: {fileID: 3662421178375847261, guid: ccb0ef9181e974b039e07fc765aa66af, type: 3}
+      propertyPath: avalancheCloseDuration
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 8395568786315701586, guid: ccb0ef9181e974b039e07fc765aa66af, type: 3}
       propertyPath: m_Name
       value: WorldManager

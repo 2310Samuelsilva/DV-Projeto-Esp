@@ -5,6 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "TransportData", menuName = "Game/Transport Data")]
 public class PlayerTransportData : ScriptableObject
 {
+    [SerializeField] private string id;
+    public string Id => id;
+
     [Header("Transport Metadata")]
     [SerializeField] private GameObject prefab;
     
@@ -40,10 +43,12 @@ public class PlayerTransportData : ScriptableObject
     public GameObject GetPrefab() => prefab;
 
     public int GetLevel() => level;
+    public void SetLevel(int level) => this.level = level;
     public void IncreaseLevel() => level++;
 
     public bool IsUnlocked() => isUnlocked;
     public void Unlock() => isUnlocked = true;
+    public void SetUnlocked(bool unlocked) => isUnlocked = unlocked;
 
     public bool IsSelected() => isSelected;
     public void SetSelected(bool selected) => isSelected = selected;
@@ -67,8 +72,8 @@ public class PlayerTransportData : ScriptableObject
     public void Reset()
     {
         level = 1;
-        isUnlocked = this.transportName == "Snowboard" ? true : false;
-        isSelected = this.transportName == "Snowboard" ? true : false;
+        isUnlocked = id == "1";
+        isSelected = id == "1";
     }
     
     #if UNITY_EDITOR

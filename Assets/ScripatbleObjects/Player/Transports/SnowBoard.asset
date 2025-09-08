@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6469e01bf345a4e49bca434f471a8b3b, type: 3}
   m_Name: SnowBoard
   m_EditorClassIdentifier: 
+  id: 1
   prefab: {fileID: 3410917964373414578, guid: 8ace9216a3e9e4b40a3af2284ba16b86, type: 3}
-  level: 1
+  level: 4
   maxLevel: 5
   isUnlocked: 1
-  isSelected: 0
+  isSelected: 1
   basePrice: 200
   pricePerLevel: 100
   transportName: SnowBoard

@@ -749,7 +749,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2476776012604968550, guid: 665d8bbd7df08864c9c6271fadfc49ae, type: 3}
       propertyPath: m_Name
-      value: BlueBtn
+      value: MainMenuBtn
       objectReference: {fileID: 0}
     - target: {fileID: 3067196312505493971, guid: 665d8bbd7df08864c9c6271fadfc49ae, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -764,6 +764,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3067196312505493971, guid: 665d8bbd7df08864c9c6271fadfc49ae, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 6454811661766415391}
+    - target: {fileID: 3067196312505493971, guid: 665d8bbd7df08864c9c6271fadfc49ae, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
@@ -777,7 +781,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3067196312505493971, guid: 665d8bbd7df08864c9c6271fadfc49ae, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: UITransports, Assembly-CSharp
+      value: UILevelSelect, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 3067196312505493971, guid: 665d8bbd7df08864c9c6271fadfc49ae, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName

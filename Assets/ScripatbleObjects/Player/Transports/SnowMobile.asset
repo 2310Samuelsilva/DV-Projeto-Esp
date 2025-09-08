@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6469e01bf345a4e49bca434f471a8b3b, type: 3}
   m_Name: SnowMobile
   m_EditorClassIdentifier: 
+  id: 2
   prefab: {fileID: 3410917964373414578, guid: 334418138bcaf499b98e34b476a6fa7e, type: 3}
   level: 1
   maxLevel: 10
