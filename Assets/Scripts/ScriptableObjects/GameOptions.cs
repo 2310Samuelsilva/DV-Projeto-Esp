@@ -4,6 +4,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "GameOptions", menuName = "Game/Options")]
 public class GameOptions : ScriptableObject
 {
+    [SerializeField] private string id;
+    public string Id => id;
+    
     [Header("Volume Settings")]
     [Range(0f, 1f)] [SerializeField] private float masterVolume = 1f;
     [Range(0f, 1f)] [SerializeField] private float musicVolume = 1f;

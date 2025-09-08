@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 1
   prefab: {fileID: 3410917964373414578, guid: 8ace9216a3e9e4b40a3af2284ba16b86, type: 3}
-  level: 4
+  level: 1
   maxLevel: 5
   isUnlocked: 1
   isSelected: 1

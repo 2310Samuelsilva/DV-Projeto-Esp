@@ -1,6 +1,23 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Settings;
+using UnityEngine.Localization.Tables;
+
+// private string GetLocalizedString(string key)
+// {
+//     var table = LocalizationSettings.StringDatabase.GetTable("UI_Texts");
+//     if (table != null && table.TryGetEntry(key, out var entry))
+//     {
+//         return entry.GetLocalizedString();
+//     }
+//     else
+//     {
+//         Debug.LogWarning("Missing localized string: " + key);
+//         return key; // fallback
+//     }
+// }
 
 public class LevelSelectPanel : MonoBehaviour
 {
@@ -33,17 +50,18 @@ public class LevelSelectPanel : MonoBehaviour
         {
             // Locked state
             recordText.text = "Unlock at: " + levelData.scoreToUnlock.ToString() + "m";
-            SetButtonState(buttonSelect, false, "Locked");
+            SetButtonState(buttonSelect, false, ("menu.locked"));
 
         }
         else
         {
             // Unlocked state
-            
 
-            recordText.text = $"Record: {levelData.bestScore}m\n";
+
+            recordText.text = $"{levelData.bestScore}m\n";
 
             // Handle Upgrade Button
+            //SetButtonState(buttonSelect, true, GetLocalizedString("menu.play"));
             SetButtonState(buttonSelect, true, "Play");
         }
     }

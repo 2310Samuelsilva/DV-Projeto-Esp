@@ -13,6 +13,7 @@ public class SaveManager : MonoBehaviour
     public LevelList levelsList;
     public PlayerTransportDatabase transports;
     public PlayerData playerData;
+    public GameOptions gameOptions;
 
     // Save
 
@@ -62,6 +63,11 @@ public class SaveManager : MonoBehaviour
             data.transportLevels.Add(new DictionaryStringInt { key = transport.Id, value = transport.GetLevel() });
             data.transportSelected.Add(new DictionaryStringBool { key = transport.Id, value = transport.IsSelected() });
         }
+
+
+        data.gameOptionsVolume.Add(new DictionaryStringFloat { key = "Master", value = gameOptions.MasterVolume });
+        data.gameOptionsVolume.Add(new DictionaryStringFloat { key = "Music", value = gameOptions.MusicVolumeRaw });
+        data.gameOptionsVolume.Add(new DictionaryStringFloat { key = "SFX", value = gameOptions.SFXVolumeRaw });
 
         // Balance
         data.playerBalance = playerData.totalBalance;
@@ -115,6 +121,11 @@ public class SaveManager : MonoBehaviour
             var transport = transports.transports.Find(t => t.Id == pair.key);
             if (transport != null) transport.SetSelected(pair.value);
         }
+
+        // Game options
+        gameOptions.MasterVolume = data.gameOptionsVolume.Find(v => v.key == "Master").value;
+        gameOptions.MusicVolumeRaw = data.gameOptionsVolume.Find(v => v.key == "Music").value;
+        gameOptions.SFXVolumeRaw = data.gameOptionsVolume.Find(v => v.key == "SFX").value;
 
         // Balance
         playerData.totalBalance = data.playerBalance;
