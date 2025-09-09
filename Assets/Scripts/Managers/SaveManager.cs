@@ -2,6 +2,8 @@ using System.IO;
 using UnityEngine;
 using System.Collections.Generic;
 using System;
+using UnityEngine.Localization.Settings;
+using UnityEditor.Localization.Plugins.XLIFF.V12;
 
 public class SaveManager : MonoBehaviour
 {
@@ -72,6 +74,9 @@ public class SaveManager : MonoBehaviour
         // Balance
         data.playerBalance = playerData.totalBalance;
 
+        // Language
+        data.selectedLanguage = gameOptions.Language;
+
         // Write file
         string json = JsonUtility.ToJson(data, true);
         File.WriteAllText(savePath, json);
@@ -129,6 +134,17 @@ public class SaveManager : MonoBehaviour
 
         // Balance
         playerData.totalBalance = data.playerBalance;
+
+        // Language
+        if (!string.IsNullOrEmpty(data.selectedLanguage))
+        {
+            gameOptions.Language = data.selectedLanguage;
+
+        } else
+        {
+            gameOptions.Language = "en";
+        }
+
         Debug.Log("Game loaded from: " + savePath);
 
         // Write history

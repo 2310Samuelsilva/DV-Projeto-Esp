@@ -14,4 +14,10 @@ public class PlayerData : ScriptableObject
 
     public int GetTotalBalance() => totalBalance;
     public int AddTotalBalance(int amount) => totalBalance += amount;
+
+    public void Reset()
+    {
+        totalBalance = 0;
+        selectedTransport = null;
+    }
 }

@@ -38,4 +38,6 @@ public class SaveData
 
     public List<DictionaryStringFloat> gameOptionsVolume = new List<DictionaryStringFloat>();
     public int playerBalance;
+    public string selectedLanguage = "en";
+
 }

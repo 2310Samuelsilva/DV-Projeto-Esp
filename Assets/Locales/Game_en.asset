@@ -9,116 +9,127 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
-  m_Name: Menu Labels Shared Data
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Game_en
   m_EditorClassIdentifier: 
-  m_TableCollectionName: Menu Labels
-  m_TableCollectionNameGuidString: 1a9da8e620ec24029a2ec521bba7e147
-  m_Entries:
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: 1a9da8e620ec24029a2ec521bba7e147, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
   - m_Id: 51890872320
-    m_Key: menu.play
+    m_Localized: Play
     m_Metadata:
       m_Items: []
   - m_Id: 286096613376
-    m_Key: menu.shop
+    m_Localized: Shop
     m_Metadata:
       m_Items: []
   - m_Id: 360197382144
-    m_Key: menu.instructions
+    m_Localized: Instructions
     m_Metadata:
       m_Items: []
   - m_Id: 432700121088
-    m_Key: menu.options
+    m_Localized: Options
     m_Metadata:
       m_Items: []
   - m_Id: 495648235520
-    m_Key: menu.quit
+    m_Localized: Quit
     m_Metadata:
       m_Items: []
   - m_Id: 532415504384
-    m_Key: menu.select
+    m_Localized: Select
     m_Metadata:
       m_Items: []
   - m_Id: 622995693568
-    m_Key: menu.locked
+    m_Localized: Locked
     m_Metadata:
       m_Items: []
   - m_Id: 4393960202240
-    m_Key: menu.returnMainMenu
+    m_Localized: Main Menu
     m_Metadata:
       m_Items: []
   - m_Id: 4481231085568
-    m_Key: record
+    m_Localized: 'Record: '
     m_Metadata:
       m_Items: []
   - m_Id: 4547316539392
-    m_Key: options.soundEffect
+    m_Localized: Sound Effects
     m_Metadata:
       m_Items: []
   - m_Id: 4768213753856
-    m_Key: options.music
+    m_Localized: Music
     m_Metadata:
       m_Items: []
   - m_Id: 4818897723392
-    m_Key: "options.masterVolume\t"
+    m_Localized: Master Volume
     m_Metadata:
       m_Items: []
   - m_Id: 5791368077312
-    m_Key: levels
+    m_Localized: Levels
     m_Metadata:
       m_Items: []
   - m_Id: 6396950077440
-    m_Key: "options.resetMessage\x03"
+    m_Localized: Reset all progress (irreversible)
     m_Metadata:
       m_Items: []
   - m_Id: 6518157074432
-    m_Key: options.language
+    m_Localized: Language
     m_Metadata:
       m_Items: []
   - m_Id: 6586255794176
-    m_Key: options.reset
+    m_Localized: Reset Data
     m_Metadata:
       m_Items: []
   - m_Id: 7318946177024
-    m_Key: shop.balancce
+    m_Localized: Coins
     m_Metadata:
       m_Items: []
   - m_Id: 7371957985280
-    m_Key: shop.earned
+    m_Localized: 'Coins Earned: '
     m_Metadata:
       m_Items: []
   - m_Id: 8644501430272
-    m_Key: game.hits
+    m_Localized: Hits
     m_Metadata:
       m_Items: []
   - m_Id: 8804128251904
-    m_Key: game.totalDistance
+    m_Localized: Total Distance
     m_Metadata:
       m_Items: []
   - m_Id: 8952296235008
-    m_Key: gameOver
+    m_Localized: Game Over
     m_Metadata:
       m_Items: []
   - m_Id: 9212204670976
-    m_Key: menu.playAgain
+    m_Localized: Play Again
     m_Metadata:
       m_Items: []
   - m_Id: 9300146642944
-    m_Key: menu.pause
+    m_Localized: Pause
     m_Metadata:
       m_Items: []
   - m_Id: 9355075248128
-    m_Key: menu.resume
+    m_Localized: Resume
     m_Metadata:
       m_Items: []
-  m_Metadata:
-    m_Items: []
-  m_KeyGenerator:
-    rid: 5811747087000797485
+  - m_Id: 347999375974400
+    m_Localized: Buy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 348450964103168
+    m_Localized: Max
+    m_Metadata:
+      m_Items: []
+  - m_Id: 348488364711936
+    m_Localized: Upgrade
+    m_Metadata:
+      m_Items: []
+  - m_Id: 348637472219136
+    m_Localized: Selected
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
-    RefIds:
-    - rid: 5811747087000797485
-      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
-      data:
-        m_CustomEpoch: 1757371154004
+    RefIds: []

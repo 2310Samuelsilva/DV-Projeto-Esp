@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7e4f591cd57c495f80e08c576f974ca, type: 3}
+  m_Name: ChunkData2
+  m_EditorClassIdentifier: 
+  resolution: 150
+  width: 100
+  baseHeight: 5
+  amplitude: 9
+  noiseScale: 0.08
+  seed: 0
+  obstaclePool:
+  - {fileID: 11400000, guid: 6aadbb4204d254821970af6aeb722080, type: 2}
+  obstacleSpawnChance: 1
+  obstacleFrequency: 20

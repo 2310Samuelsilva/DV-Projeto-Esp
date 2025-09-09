@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Localization.Settings;
 using UnityEngine.UI;
 
 public class PlayerTransportShopPanel : MonoBehaviour
@@ -43,9 +44,13 @@ public class PlayerTransportShopPanel : MonoBehaviour
         {
             // Locked state
             levelText.text = "Locked";
+
+            var text = LocalizationSettings.StringDatabase.GetLocalizedString("Game", "menu.buy");
             SetButtonState(buttonAction, playerData.totalBalance >= playerTransportData.GetBasePrice(),
-                           $"Buy: {playerTransportData.GetBasePrice()}");
-            SetButtonState(buttonSelect, false, "Locked");
+                           $"{text}: {playerTransportData.GetBasePrice()}");
+
+            text = LocalizationSettings.StringDatabase.GetLocalizedString("Game", "menu.locked");
+            SetButtonState(buttonSelect, false, text);
 
             if (levelSlider != null)
             {
@@ -64,22 +69,26 @@ public class PlayerTransportShopPanel : MonoBehaviour
             // Handle Upgrade Button
             if (currentLevel >= maxLevel)
             {
-                SetButtonState(buttonAction, false, "Max Level");
+                var text = LocalizationSettings.StringDatabase.GetLocalizedString("Game", "game.max");
+                SetButtonState(buttonAction, false, text);
             }
             else
             {
+                var text = LocalizationSettings.StringDatabase.GetLocalizedString("Game", "game.upgrade");
                 bool canUpgrade = playerData.totalBalance >= upgradePrice;
-                SetButtonState(buttonAction, canUpgrade, $"Upgrade: {upgradePrice}");
+                SetButtonState(buttonAction, canUpgrade, $"{text}: {upgradePrice}");
             }
 
             // Handle Select Button
             if (playerData.selectedTransport == playerTransportData)
             {
-                SetButtonState(buttonSelect, false, "Selected");
+                var text = LocalizationSettings.StringDatabase.GetLocalizedString("Game", "game.selected");
+                SetButtonState(buttonSelect, false, text);
             }
             else
             {
-                SetButtonState(buttonSelect, true, "Select");
+                var text = LocalizationSettings.StringDatabase.GetLocalizedString("Game", "menu.select");
+                SetButtonState(buttonSelect, true, text);
             }
 
             // Handle Slider (current level progress to max)

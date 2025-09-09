@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
         Debug.Log($"Player name: {playerData.name}");
         playerTransportDatabase = gameData.GetPlayerTransportDatabase();
         levelList = gameData.GetLevelList();
+        gameOptions.ApplySavedLanguage();
     }
 
     private void Start()
@@ -130,7 +131,12 @@ public class GameManager : MonoBehaviour
 
     }
 
-
+    public void ResetProgress()
+    {
+        gameData.Reset();
+        SaveManager.Instance.SaveGame();
+        
+    }
 
 
     // --- Public API ---

@@ -10,7 +10,9 @@ public class CameraManager : MonoBehaviour
     public static CameraManager Instance;
 
     [SerializeField] private CinemachineCamera cinemachineCamera;
+    [SerializeField] private PolygonCollider2D confinerCollider;
     private CinemachineBasicMultiChannelPerlin noise;
+    private CinemachineConfiner2D confiner;
 
     private class ShakeRequest
     {
@@ -39,13 +41,27 @@ public class CameraManager : MonoBehaviour
 
         if (cinemachineCamera == null) cinemachineCamera = Camera.main.GetComponent<CinemachineCamera>();
         noise = cinemachineCamera.GetComponent<CinemachineBasicMultiChannelPerlin>();
+
+        // if (confiner != null)
+        // {
+        //     confiner.BoundingShape2D = confinerCollider;
+        // }
+    }
+
+    public void SetTarget(Transform target)
+    {
+        cinemachineCamera.Follow = target;
+        cinemachineCamera.LookAt = target;
+        
+        // if (confiner != null)
+        //     confiner.InvalidateBoundingShapeCache();
     }
 
     public void ShakeCamera(string shakeId, float amplitude, float frequency, float timeLeft)
     {
 
         if (activeShakes.ContainsKey(shakeId))
-        { 
+        {
             activeShakes[shakeId].amplitude = amplitude;
             activeShakes[shakeId].frequency = frequency;
             activeShakes[shakeId].timeLeft = timeLeft;

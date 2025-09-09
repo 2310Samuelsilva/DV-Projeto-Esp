@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5be51871efa6c3e4eae1703925c8f5ac, type: 3}
-  m_Name: Menu Labels
+  m_Name: Game
   m_EditorClassIdentifier: 
   m_SharedTableData: {fileID: 11400000, guid: 1a9da8e620ec24029a2ec521bba7e147, type: 2}
   m_Tables:

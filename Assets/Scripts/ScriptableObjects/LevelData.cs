@@ -64,8 +64,9 @@ public class LevelData : ScriptableObject
     public void Reset()
     {
         bestScore = 0;
-        isUnlocked = false;
-        isCompleted = false;
+
+        isUnlocked = id == "1";
+        isCompleted = id == "1";
 
     }
 }

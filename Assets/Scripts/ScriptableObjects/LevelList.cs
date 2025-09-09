@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "LevelList", menuName = "Game/LevelList")]
@@ -43,5 +44,9 @@ public class LevelList : ScriptableObject
     }
 
     public LevelData GetSelectedLevel() => selectedLevel;
-
+    public void Reset()
+    {
+        foreach (var level in levels)
+            level.Reset();
+    }
 }

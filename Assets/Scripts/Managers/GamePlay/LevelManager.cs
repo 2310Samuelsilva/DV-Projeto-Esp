@@ -13,7 +13,7 @@ public class LevelManager : MonoBehaviour
 
     [Header("Scene References")]
     [SerializeField] private GameObject worldManagerPrefab;
-    [SerializeField] private Vector3 playerSpawnPoint = Vector3.zero;
+    [SerializeField] private Vector3 playerSpawnPoint = new Vector3(0, 30, 0);
     [SerializeField] private bool hasHit;
 
     private PlayerTransportData transportData;
@@ -53,15 +53,28 @@ public class LevelManager : MonoBehaviour
         LoadLevel();
     }
 
-    /// <summary>Load the level: spawn player, world, and hide LevelEnd UI.</summary>
+    /// <summary> Load the level: spawn player, world, and hide LevelEnd UI.</summary>
     private void LoadLevel()
     {
-        if (levelData == null || playerData == null || transportData == null)
+        if (levelData == null ) 
         {
-            Debug.LogError("LevelManager: Missing required data to load level.");
+            Debug.LogError("LevelManager: Missing levelData to load level.");
             return;
         }
 
+        if (transportData == null)
+        {
+            Debug.LogError("LevelManager: Missing transport data to load level.");
+            return;
+        }
+
+        if (playerData == null)
+        {
+            Debug.LogError("LevelManager: Missing player data to load level.");
+            return;
+        }
+
+        Physics2D.gravity = Vector2.down * levelData.gravity;
         Debug.Log($"LevelManager: Loading {levelData.levelName} with {transportData.GetName()}");
         allAudioSources = FindObjectsByType<AudioSource>(FindObjectsSortMode.None);
         SpawnPlayer();

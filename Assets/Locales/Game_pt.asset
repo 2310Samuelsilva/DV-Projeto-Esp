@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
-  m_Name: Menu Labels_pt
+  m_Name: Game_pt
   m_EditorClassIdentifier: 
   m_LocaleId:
     m_Code: pt
@@ -112,6 +112,22 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 9355075248128
     m_Localized: Resumir
+    m_Metadata:
+      m_Items: []
+  - m_Id: 347999375974400
+    m_Localized: Comprar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 348450964103168
+    m_Localized: Max
+    m_Metadata:
+      m_Items: []
+  - m_Id: 348488364711936
+    m_Localized: Melhorar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 348637472219136
+    m_Localized: Selecionado
     m_Metadata:
       m_Items: []
   references:

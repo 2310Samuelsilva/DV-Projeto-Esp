@@ -37,6 +37,7 @@ public class TerrainLoader : MonoBehaviour
         }
     }
 
+
     private float GetCameraLeftEdge()
     {
         return mainCamera.transform.position.x - (mainCamera.orthographicSize * mainCamera.aspect);
@@ -47,6 +48,7 @@ public class TerrainLoader : MonoBehaviour
         Debug.Log("ClearExistingChunks activeChunks.Count: " + activeChunks.Count);
         foreach (var chunk in activeChunks)
         {
+
             if (chunk != null)
             {
                 if (Application.isPlaying)

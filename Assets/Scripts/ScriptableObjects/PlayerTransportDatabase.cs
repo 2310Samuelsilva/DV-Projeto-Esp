@@ -5,4 +5,15 @@ using UnityEngine;
 public class PlayerTransportDatabase : ScriptableObject
 {
     public List<PlayerTransportData> transports;
+
+    public void Reset()
+    {
+        foreach (var transport in transports)
+            transport.Reset();
+    }
+
+    public PlayerTransportData GetSelectedTransport()
+    {
+        return transports.Find(t => t.IsSelected());
+    }
 }

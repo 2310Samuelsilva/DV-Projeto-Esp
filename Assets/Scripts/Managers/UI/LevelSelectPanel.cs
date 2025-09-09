@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
 using UnityEngine.Localization.Tables;
+using UnityEngine.Localization.Components;
 
 // private string GetLocalizedString(string key)
 // {
@@ -62,17 +63,18 @@ public class LevelSelectPanel : MonoBehaviour
 
             // Handle Upgrade Button
             //SetButtonState(buttonSelect, true, GetLocalizedString("menu.play"));
-            SetButtonState(buttonSelect, true, "Play");
+            SetButtonState(buttonSelect, true, "menu.play");
         }
     }
 
-    private void SetButtonState(Button button, bool interactable, string overrideText = null)
+    private void SetButtonState(Button button, bool interactable, string key = null)
     {
         button.interactable = interactable;
 
-        if (!string.IsNullOrEmpty(overrideText))
+        if (!string.IsNullOrEmpty(key))
         {
-            button.GetComponentInChildren<TextMeshProUGUI>().text = overrideText;
+            var text = LocalizationSettings.StringDatabase.GetLocalizedString("Game", key);
+            button.GetComponentInChildren<TextMeshProUGUI>().text = text;
         }
 
         // Dim button visually when not interactable
