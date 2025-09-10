@@ -1,3 +1,5 @@
+using System;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class AvalancheController : MonoBehaviour
@@ -11,6 +13,7 @@ public class AvalancheController : MonoBehaviour
     [SerializeField] private float baseScale = 0.2f;
     [SerializeField] private float scalePerHit = 0.05f;
     [SerializeField] private float maxScale = 1.5f;
+    [SerializeField] private float offsetX = 3f;
 
     [Header("Particles")]
     [SerializeField] private int baseEmissionRate = 200;
@@ -51,6 +54,13 @@ public class AvalancheController : MonoBehaviour
     public void SetClose(int hitCount)
     {
         // --- Scale ---
+
+        if (hitCount == 0)
+        {
+            transform.localScale = Vector3.zero;
+            return;
+        }
+
         float scale = baseScale + hitCount * scalePerHit;
         scale = Mathf.Min(scale, maxScale);
         transform.localScale = Vector3.one * scale;
@@ -70,7 +80,7 @@ public class AvalancheController : MonoBehaviour
 
         // --- Set new target position closer to player ---
         float cameraLeftEdge = Camera.main.transform.position.x - (Camera.main.orthographicSize * Camera.main.aspect);
-        targetX = cameraLeftEdge + 0.5f; // 0.5f offset from camera
+        targetX = cameraLeftEdge; // 0.5f offset from camera
     }
 
     public void UpdateAvalanche(float worldScrollSpeed, float distanceTraveled)

@@ -127,6 +127,22 @@ MonoBehaviour:
     m_Key: game.selected
     m_Metadata:
       m_Items: []
+  - m_Id: 716149560958976
+    m_Key: game.description
+    m_Metadata:
+      m_Items: []
+  - m_Id: 716199439622144
+    m_Key: game.description.title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 716403547037696
+    m_Key: game.controlsTitle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 716432185745408
+    m_Key: game.controls
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

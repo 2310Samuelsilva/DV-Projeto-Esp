@@ -43,9 +43,11 @@ public class PlayerTransportShopPanel : MonoBehaviour
         if (!playerTransportData.IsUnlocked())
         {
             // Locked state
-            levelText.text = "Locked";
 
-            var text = LocalizationSettings.StringDatabase.GetLocalizedString("Game", "menu.buy");
+            var text = LocalizationSettings.StringDatabase.GetLocalizedString("Game", "menu.locked");
+            levelText.text = text;
+
+            text = LocalizationSettings.StringDatabase.GetLocalizedString("Game", "menu.buy");
             SetButtonState(buttonAction, playerData.totalBalance >= playerTransportData.GetBasePrice(),
                            $"{text}: {playerTransportData.GetBasePrice()}");
 

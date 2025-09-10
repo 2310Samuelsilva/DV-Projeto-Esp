@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SnowMobile
   m_EditorClassIdentifier: 
   id: 2
-  prefab: {fileID: 3410917964373414578, guid: 334418138bcaf499b98e34b476a6fa7e, type: 3}
+  prefab: {fileID: 3410917964373414578, guid: 2d39c75f0d7da41e69b0cd6f30033037, type: 3}
   level: 1
   maxLevel: 10
   isUnlocked: 0
@@ -21,15 +21,15 @@ MonoBehaviour:
   basePrice: 500
   pricePerLevel: 300
   transportName: SnowMobile
-  icon: {fileID: 2312598409899334397, guid: 2cd5dc1b2696e44049b3ce199012ef47, type: 3}
-  moveSpeed: 7
+  icon: {fileID: 21300000, guid: e8eab199ce3ee42efb865686046d15d8, type: 3}
+  moveSpeed: 3
   maxRotationVelocity: 100
   rotationAcceleration: 2500
   jumpForce: 10
-  fallMultiplier: 2
+  fallMultiplier: 5
   rotationDamp: 5
   lowJumpMultiplier: 2
   moveSpeedPerLevel: 0.1
-  rotationVelocityPerLevel: 0.1
+  rotationVelocityPerLevel: 1
   rotationAccelerationPerLevel: 0.1
   jumpForcePerLevel: 0.005

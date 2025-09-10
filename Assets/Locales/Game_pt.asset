@@ -130,6 +130,28 @@ MonoBehaviour:
     m_Localized: Selecionado
     m_Metadata:
       m_Items: []
+  - m_Id: 716199439622144
+    m_Localized: "Descri\xE7\xE3o"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 716149560958976
+    m_Localized: "Foge da avalanche, salta os obst\xE1culos e supera os teus limites!\n\t\u2022\tO
+      objetivo \xE9 simples: sobrevive o m\xE1ximo de tempo poss\xEDvel enquanto
+      o jogo acelera cada vez mais.\n\t\u2022\tAten\xE7\xE3o! Se bateres em demasiados
+      obst\xE1culos em pouco tempo, a avalanche apanha-te.\n\t\u2022\tMas n\xE3o
+      desesperes \u2014 se conseguires evitar novos erros, as falhas s\xE3o reiniciadas.\n\t\u2022\tVisita
+      a Loja para melhorar e desbloquear novos Transportes e ir ainda mais longe!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 716432185745408
+    m_Localized: "Rodar Esquerda - A\nRodar Direita      - D\nSaltar                 
+      - Espa\xE7o"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 716403547037696
+    m_Localized: Controlos
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

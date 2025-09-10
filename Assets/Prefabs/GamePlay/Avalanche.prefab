@@ -104,9 +104,10 @@ MonoBehaviour:
   levelData: {fileID: 0}
   particleSystem: {fileID: 4959284522142165260}
   snowParticles: {fileID: 8708186247470232756}
-  baseScale: 0.7
+  baseScale: 0.8
   scalePerHit: 0.5
-  maxScale: 2
+  maxScale: 2.5
+  offsetX: 5
   baseEmissionRate: 10
   emissionPerHit: 50
   maxEmissionRate: 300
