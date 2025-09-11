@@ -1,4 +1,3 @@
-using JetBrains.Annotations;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "LevelData", menuName = "Game/Level Data")]

@@ -4,7 +4,6 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine.Localization.Settings;
 using UnityEngine.Localization;
-using UnityEngine.SocialPlatforms;
 
 public class UIOptions : MonoBehaviour
 {
@@ -135,6 +134,7 @@ public class UIOptions : MonoBehaviour
     {
         // Assuming you already have a reference to LocalizationSettings.AvailableLocales.Locales
         Locale locale = LocalizationSettings.AvailableLocales.Locales[index];
+        Debug.Log($"Language changed to {locale.LocaleName} ({locale.Identifier.Code})");
         gameOptions.Language = locale.Identifier.Code;
         StartCoroutine(SetLanguageCoroutine(locale));
     }

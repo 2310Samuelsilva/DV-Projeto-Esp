@@ -23,7 +23,7 @@ MonoBehaviour:
   scoreToUnlock: 0
   scoreToComplete: 0
   scoreToWin: 0
-  bestScore: 50
+  bestScore: 347
   chunkSettings: {fileID: 11400000, guid: add03a18e736941e78ac8c8890305d27, type: 2}
   seed: 0
   activeChunksAmount: 2
@@ -33,7 +33,7 @@ MonoBehaviour:
   baseScrollSpeed: 8
   scrollSpeedDecreaseRate: 80
   speedIncreaseDistanceThreshold: 50
-  speedIncreaseRate: 4
+  speedIncreaseRate: 10
   fallThresholdY: -10
   avalancheMaxHits: 3
   avalancheCloseDuration: 5

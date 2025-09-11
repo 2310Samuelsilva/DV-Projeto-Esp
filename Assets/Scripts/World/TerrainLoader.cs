@@ -52,13 +52,15 @@ public class TerrainLoader : MonoBehaviour
             if (chunk != null)
             {
                 if (Application.isPlaying)
-                    Destroy(chunk.gameObject);
+                {
+                    Destroy(chunk.gameObject); // Runtime safe
+                }
                 else
-                    UnityEditor.EditorApplication.delayCall += () =>
-                    {
-                        if (chunk == null) return;
-                        DestroyImmediate(chunk.gameObject);
-                    };
+                {
+#if UNITY_EDITOR
+                    DestroyImmediate(chunk.gameObject); // Editor safe
+#endif
+                }
             }
         }
 

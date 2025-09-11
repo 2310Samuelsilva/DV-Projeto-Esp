@@ -1,10 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
-using UnityEngine.Localization.Tables;
-using UnityEngine.Localization.Components;
 
 // private string GetLocalizedString(string key)
 // {
@@ -59,7 +56,7 @@ public class LevelSelectPanel : MonoBehaviour
             // Unlocked state
 
 
-            recordText.text = $"{levelData.bestScore}m\n";
+            recordText.text = $"Record: {levelData.bestScore}m\n";
 
             // Handle Upgrade Button
             //SetButtonState(buttonSelect, true, GetLocalizedString("menu.play"));

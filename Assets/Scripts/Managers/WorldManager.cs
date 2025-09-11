@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEditor;
-using UnityEngine.U2D.IK;
+
 
 [ExecuteAlways]
 public class WorldManager : MonoBehaviour
@@ -161,7 +161,7 @@ public class WorldManager : MonoBehaviour
     }
 
     // -------------------- Update Loop --------------------
-    private void FixedUpdate()
+    private void Update()
     {
         if (!Application.isPlaying || LevelManager.Instance.IsPaused()) return;
 
@@ -173,6 +173,8 @@ public class WorldManager : MonoBehaviour
         IncreaseScrollSpeed();
         SmoothRecoverScrollSpeed();
         CheckForLoss();
+
+        Debug.Log($"Distance Traveled: {distanceTraveled}, Scroll Speed: {scrollSpeed}");
     }
 
     private void SmoothRecoverScrollSpeed()
@@ -189,7 +191,7 @@ public class WorldManager : MonoBehaviour
     {
         if (distanceTraveled >= nextSpeedIncreaseDistance)
         {
-            scrollSpeed += levelData.speedIncreaseRate * Time.deltaTime;
+            targetScrollSpeed += levelData.speedIncreaseRate * Time.deltaTime;
             nextSpeedIncreaseDistance += levelData.speedIncreaseDistanceThreshold;
         }
     }

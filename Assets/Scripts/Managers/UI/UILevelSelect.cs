@@ -1,7 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
-using TMPro;
-using Microsoft.Unity.VisualStudio.Editor;
+using UnityEngine.UI;
 
 public class UILevelSelect : MonoBehaviour
 {

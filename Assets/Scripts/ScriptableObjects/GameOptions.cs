@@ -26,10 +26,7 @@ public class GameOptions : ScriptableObject
         get => language;
         set
         {
-            if (availableLanguages.Contains(value))
-                language = value;
-            else
-                Debug.LogWarning($"Language '{value}' is not in the available languages list.");
+            language = value;
         }
     }
     public List<string> AvailableLanguages => availableLanguages;

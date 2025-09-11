@@ -1,8 +1,7 @@
 using UnityEngine;
 using Unity.Cinemachine;
-using System.Collections;
 using System.Collections.Generic;
-using NUnit.Framework.Constraints;
+
 
 
 public class CameraManager : MonoBehaviour
@@ -84,11 +83,11 @@ public class CameraManager : MonoBehaviour
         {
             noise.AmplitudeGain = 0f;
             noise.FrequencyGain = 0f;
-            Debug.Log("No active shakes");
+            //Debug.Log("No active shakes");
             return;
         }
 
-        Debug.Log($"Active shakes: {activeShakes.Count}");
+        //Debug.Log($"Active shakes: {activeShakes.Count}");
 
         float totalAmplitude = 0f;
         float totalFrequency = 0f;

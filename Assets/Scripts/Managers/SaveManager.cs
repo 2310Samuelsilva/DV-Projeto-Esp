@@ -1,9 +1,8 @@
 using System.IO;
 using UnityEngine;
-using System.Collections.Generic;
 using System;
-using UnityEngine.Localization.Settings;
-using UnityEditor.Localization.Plugins.XLIFF.V12;
+
+
 
 public class SaveManager : MonoBehaviour
 {
@@ -92,6 +91,7 @@ public class SaveManager : MonoBehaviour
         if (!File.Exists(savePath))
         {
             Debug.LogWarning("No save file found at: " + savePath);
+            GameManager.Instance.ResetProgress();
             return;
         }
 

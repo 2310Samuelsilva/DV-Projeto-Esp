@@ -26,10 +26,10 @@ MonoBehaviour:
   maxRotationVelocity: 100
   rotationAcceleration: 2500
   jumpForce: 10
-  fallMultiplier: 5
+  fallMultiplier: 4
   rotationDamp: 5
-  lowJumpMultiplier: 2
+  lowJumpMultiplier: 3
   moveSpeedPerLevel: 0.1
-  rotationVelocityPerLevel: 1
+  rotationVelocityPerLevel: 0.1
   rotationAccelerationPerLevel: 0.1
-  jumpForcePerLevel: 0.005
+  jumpForcePerLevel: 0.05

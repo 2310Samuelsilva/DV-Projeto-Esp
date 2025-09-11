@@ -54,7 +54,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerTransportData: {fileID: 0}
   groundCheck: {fileID: 5315643639792220386}
-  groundCheckSize: {x: 2.94, y: 0.4}
+  groundCheckSize: {x: 3.4, y: 0.4}
   groundLayer:
     serializedVersion: 2
     m_Bits: 512
@@ -124,7 +124,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.0078048706, y: -0.60243815}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -134,7 +134,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.9053538, y: 0.8751236}
   m_EdgeRadius: 0
 --- !u!95 &6467942025294229040
 Animator:
@@ -238,7 +238,7 @@ Transform:
   m_GameObject: {fileID: 3913618370875033648}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.068, y: -0.902, z: 0}
+  m_LocalPosition: {x: 0.07, y: -0.93, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
